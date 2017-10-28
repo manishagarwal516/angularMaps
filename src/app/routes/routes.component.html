@@ -1,0 +1,65 @@
+Please Select Phone Numbers <ss-multiselect-dropdown [options]="myOptions" [(ngModel)]="optionsModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+<input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)" />
+<button (click)="showRouteTable()">Add</button>
+<div class="container" [hidden]="mapView">
+	<div class="row grid-container">
+		<div class="col-md-10">
+			<div class="table">
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>	
+							<th>Accuracy</th>
+				            <th>Imei</th>
+				            <th>Direction</th>
+				            <th>Speed</th>
+				            <th>Distance</th>
+				            <th>Route_number</th>
+				            <th>Phone_number</th>
+				            <th>Date_Time</th>
+				     		<th>Source</th>
+				     		<th>Destination</th>   
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let route of routes">
+							<td>{{route.Accuracy}}</td>
+				            <td>{{route.Imei}}</td>
+				            <td>{{route.Direction}}</td>
+				            <td>{{route.Speed}}</td>
+				            <td>{{route.Distance}}</td>
+				            <td>{{route.Route_number}}</td>
+				            <td>{{route.Phone_number}}</td>
+				            <td>{{route.Date_time}}</td>
+				            <td>{{route.source}}</td>
+				            <td>{{route.destination}}</td>
+							<td><a [routerLink]="['/route',route.id]">View Map</a></td>
+						</tr>
+						<tr *ngIf="!routes.length">
+								<td>&nbsp;</td>
+								<td colspan="7">No Records Found</td>
+						</tr>
+						<tr></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <div [hidden]="mapView">
+	<div *ngIf="singleRoute">
+	  <div class="row">
+	    <div class="col-md-10">
+	      <h4>    
+	          {{ singleRoute.source  }} To {{ singleRoute.destination }}&nbsp;          
+	      </h4>
+	    </div>
+	  </div>    
+	  <br /><br />
+	  <div class="row">
+	    <div class="col-md-12">
+	      <app-route-map [hidden]="!mapView" 
+	           ></app-route-map>
+	    </div>
+	  </div>
+	</div>     
+</div> -->
