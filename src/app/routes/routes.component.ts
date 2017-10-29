@@ -14,6 +14,7 @@ export class RoutesComponent implements OnInit {
 	routes = [];
 	singleRoute = {};
 	mapView = true;
+	mapSingleView = true;
 	id = 0;
 	optionsModel: number[];
 	myOptions: IMultiSelectOption[];
@@ -71,7 +72,7 @@ export class RoutesComponent implements OnInit {
 	}
 
 	getRoute(id){
-		this.mapView = true;
+		this.mapSingleView = false;
 		this.singleRoute = {
 			"id":1,
 			"source":"Baner",
