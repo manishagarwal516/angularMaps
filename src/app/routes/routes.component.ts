@@ -85,7 +85,7 @@ export class RoutesComponent implements OnInit {
 		
 	}
 
-	onChange() {
+	onChange($event) {
         console.log(this.optionsModel);
     }
 

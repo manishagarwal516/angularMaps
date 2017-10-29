@@ -58,7 +58,7 @@ export class LiveLocationComponent implements OnInit {
     }
   }
 
-  	onChange() {
+  	onChange($event) {
         console.log(this.optionsModel);
     }
 
