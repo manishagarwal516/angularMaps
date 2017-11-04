@@ -8,6 +8,7 @@ import { RoutesComponent } from './routes/routes.component';
 import { RouteMapComponent } from './route-map/route-map.component';
 import { LiveLocationComponent } from './live-location/live-location.component';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { FormsModule } from '@angular/forms';
 import { DataService } from './data.service';
 import { HttpModule } from "@angular/http";
@@ -25,6 +26,7 @@ import { Daterangepicker } from 'ng2-daterangepicker';
     BrowserModule,
     AppRoutingModule,
     MultiselectDropdownModule,
+    AngularMultiSelectModule,
     FormsModule,
     HttpModule,
     Daterangepicker

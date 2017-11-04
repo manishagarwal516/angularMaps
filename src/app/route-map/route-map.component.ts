@@ -104,13 +104,17 @@ export class RouteMapComponent implements OnInit {
 
 	}
 	ngOnInit() {
-			this.initMap();
+        (<any>window).googleMapsReady=this.initMap.bind(this);
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        document.getElementsByTagName("head")[0].appendChild(script);
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&callback=googleMapsReady";
 				// var mapProp = {
 				//     center: new google.maps.LatLng(51.508742, -0.120850),
 				//     zoom: 5,
 				//     mapTypeId: google.maps.MapTypeId.ROADMAP
 				// };
 				// var map = new google.maps.Map(document.getElementById("map-canvas"), mapProp);
-		}
+	}
 
 }

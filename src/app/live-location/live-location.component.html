@@ -1,8 +1,11 @@
-Please Select Phone Numbers <ss-multiselect-dropdown [options]="myOptions" [(ngModel)]="optionsModel"(ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
-<button (click)="showMarker()">Add</button>
-<div 
-*ngIf="showMap">
-	
-<div  id="map-canvas" style="width:100%;height:400px;"></div>
+<angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"></angular2-multiselect>
+<br/>
+<button [disabled]="selectedItems.length === 0" (click)="showMarker()">Add</button>
+<br/>
+<div *ngIf="showMap">
+	<div  id="map-canvas" style="width:100%;height:400px;"></div>
+</div>
+<div *ngIf="!showMap">
+	<div  id="show-india" style="width:100%;height:400px;"></div>
 </div>
 
