@@ -48,7 +48,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
    //  ];
    console.log(this.routes);
     var map = new google.maps.Map(document.getElementById('map-canvas'), {
-      zoom: 2,
+      zoom: 7,
       center: new google.maps.LatLng(this.routes[0].Location.Lat, this.routes[0].Location.Long),
       mapTypeControl: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -73,7 +73,12 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
         }
       })(marker, i));
     }
-    map.fitBounds(bounds);
+
+    if (locations.length === 1) {
+      map.setZoom(16);
+    } else {
+       map.fitBounds(bounds);
+    } 
   }
 
   onMapsReady(){
