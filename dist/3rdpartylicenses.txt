@@ -45,7 +45,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-angular-2-dropdown-multiselect@1.6.0 MIT
+angular-2-dropdown-multiselect@1.6.2 MIT
 The MIT License (MIT)
 
 Copyright (c) 2016 
@@ -79,8 +79,8 @@ ng2-daterangepicker@2.0.10 MIT
 
 bootstrap-daterangepicker@2.1.25 MIT
 
-jquery@3.2.1 MIT
-Copyright JS Foundation and other contributors, https://js.foundation/
+jquery@2.2.4 MIT
+Copyright jQuery Foundation and other contributors, https://jquery.org/
 
 This software consists of voluntary contributions made by many
 individuals. For exact contribution history, see the revision history

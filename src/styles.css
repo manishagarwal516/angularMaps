@@ -157,3 +157,20 @@ a:hover, a:focus {
   text-decoration: none;
 }
 
+.dropdown-list{
+    width: 17% !important;
+}
+
+.selected-list{
+    width: 17% !important;
+}
+
+.c-token{
+    margin-top:3px !important;
+}
+
+.dropdown-button {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+}

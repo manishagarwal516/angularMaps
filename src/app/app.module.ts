@@ -14,6 +14,7 @@ import { DataService } from './data.service';
 import { HttpModule } from "@angular/http";
 import { Daterangepicker } from 'ng2-daterangepicker';
 
+
 @NgModule({
   declarations: [
     AppComponent,
