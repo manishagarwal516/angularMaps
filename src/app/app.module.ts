@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { DataService } from './data.service';
 import { HttpModule } from "@angular/http";
 import { Daterangepicker } from 'ng2-daterangepicker';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 
 
 @NgModule({
@@ -32,7 +34,7 @@ import { Daterangepicker } from 'ng2-daterangepicker';
     HttpModule,
     Daterangepicker
   ],
-  providers: [DataService],
+  providers: [DataService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
