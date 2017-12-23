@@ -213,7 +213,7 @@ var DataService = (function () {
     function DataService(http) {
         this.http = http;
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json' });
-        this.heroesUrl = 'http://localhost:3000/routes?Phone_number='; // URL to web api
+        this.heroesUrl = 'http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes?Phone_number='; // URL to web api
     }
     DataService.prototype.getRoutes = function (phone_numbers, dates) {
         return this.http.get(this.heroesUrl + phone_numbers + "&Date_time=" + dates, {})
@@ -221,17 +221,17 @@ var DataService = (function () {
             .then(function (response) { return response.json()['json']; });
     };
     DataService.prototype.getLiveLocations = function (phone_numbers) {
-        return this.http.get("http://localhost:3000/routes/live?Phone_number=" + phone_numbers, {})
+        return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/live?Phone_number=" + phone_numbers, {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
     DataService.prototype.getDistinctPhoneNumber = function () {
-        return this.http.get("http://localhost:3000/routes/getDistinctPhoneNumber", {})
+        return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/getDistinctPhoneNumber", {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
     DataService.prototype.getCordinates = function (routeId) {
-        return this.http.get("http://localhost:3000/routes/codinates/" + routeId, {})
+        return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/codinates/" + routeId, {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
