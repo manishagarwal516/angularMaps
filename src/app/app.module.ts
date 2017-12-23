@@ -14,6 +14,8 @@ import { DataService } from './data.service';
 import { HttpModule } from "@angular/http";
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { NgDatepickerModule } from 'ng2-datepicker';
+
 
 
 
@@ -32,7 +34,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AngularMultiSelectModule,
     FormsModule,
     HttpModule,
-    Daterangepicker
+    Daterangepicker,
+    NgDatepickerModule
   ],
   providers: [DataService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]

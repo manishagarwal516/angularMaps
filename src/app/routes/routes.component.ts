@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DataService }         from '../data.service';
-import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
+
 
 declare var google: any;
 
@@ -15,13 +15,20 @@ export class RoutesComponent implements OnInit {
 	singleRoute = {};
 	mapView = true;
 	mapSingleView = true;
+	coordinates;
 	id = 0;
-	optionsModel: number[];
-	myOptions: IMultiSelectOption[];
+
+	dropdownList = [];
+	selectedItems = [];
+	dropdownSettings = {};
 	public daterange: any = {};
 
+	
+
 	constructor(private route: ActivatedRoute, 
-				private DataService: DataService) { }
+				private DataService: DataService) { 
+				
+	}
 
 	getRoutes(phone_numbers,dates){
 		this.mapView = false;
@@ -72,27 +79,36 @@ export class RoutesComponent implements OnInit {
 	}
 
 	getRoute(id){
-		this.mapSingleView = false;
-		this.singleRoute = {
-			"id":1,
-			"source":"Baner",
-			"destination":"Anudh",
-			"date":"2nd Oct 2017",
-			"directions":[{
-				"longitude":"",
-				"latitude":""
-			}]
-		}
-		
+		console.log("hjhjhjh");
+		this.DataService.getCordinates(id)
+            .then((coordinates) => {
+            	console.log(coordinates),
+             	this.coordinates = coordinates;
+				this.mapSingleView = false;
+				console.log(this.coordinates[0]);
+				this.singleRoute = {
+					"id":id,
+					"source":"Baner",
+					"destination":"Anudh",
+					"directions": this.coordinates[0].Location
+				}
+				console.log(this.singleRoute);
+            })
+				// console.log(this.coordinates[0].Location);
+            // });
 	}
 
 	onChange($event) {
-        console.log(this.optionsModel);
+        console.log(this.selectedItems);
     }
 
     public options: any = {
+    	singleDatePicker: true,
         locale: { format: 'MM-DD-YYYY' },
-        alwaysShowCalendars: false,
+        alwaysShowCalendars: true,
+        showDropdowns: true,
+        maxDate: new Date(),
+        minDate: new Date(new Date().setFullYear(new Date().getFullYear() - 10))
     };
 
     public selectedDate(value: any, datepicker?: any) {
@@ -110,19 +126,24 @@ export class RoutesComponent implements OnInit {
     }
 
     showRouteTable(){
-    	var dates = this.daterange.start.format("MM-DD-YYYY") + ","+ this.daterange.end.format("MM-DD-YYYY")
+    	var dates = this.daterange.start.format("MM-DD-YYYY") + ","+ this.daterange.end.format("MM-DD-YYYY HH:mm:ss")
     	console.log(this.daterange.start.format("MM-DD-YYYY"), this.daterange.end.format("MM-DD-YYYY"));
-		this.getRoutes(this.optionsModel.join(","),dates);
+    	var locationLists = [];
+
+		this.selectedItems.forEach(function(list) {
+			locationLists.push(list.id)
+		})
+		this.getRoutes(locationLists.join(","),dates);
     }
 
     setMyOptions(options){
     	var temp_options = [];
-    	options.forEach(function(option) {
-    		temp_options.push({
-    			 id: option, name: option
-    		})
-    	});
-    	this.myOptions = temp_options;
+		options.forEach(function(option) {
+			temp_options.push({
+				 id: option, itemName: option
+			})
+		});
+		this.dropdownList = temp_options;
     }
 	ngOnInit() {
 		this.DataService.getDistinctPhoneNumber()
@@ -133,6 +154,15 @@ export class RoutesComponent implements OnInit {
 			if(this.id)
 				this.getRoute(this.id);
 		});
+
+		this.dropdownSettings = { 
+				singleSelection: false, 
+				text:"Select Phone Numbers",
+				selectAllText:'Select All',
+				unSelectAllText:'UnSelect All',
+				enableSearchFilter: true,
+				badgeShowLimit: 1
+			};  
 	}
 
 }
