@@ -40,7 +40,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 		var bounds = new google.maps.LatLngBounds();
 		console.log(this.routes);
 		this.routes.forEach(function(route, key) {
-			var temp_array = [route.Phone_number, route.Location.Lat, route.Location.Long, key]
+			var temp_array = [route.Imei, route.Location.Lat, route.Location.Long, key]
 			locations.push(temp_array)
 		})
 
@@ -55,7 +55,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 				position: position,
 				map: this.map
 			});
-			console.log(locations[i][0]);
+			console.log(locations[i]);
 			// //console.log(marker);
 			var temp_hash = {
 				number: locations[i][0],
@@ -175,7 +175,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 		this.sub = this.timer.subscribe((t) => this.onTimeOut());
 		this.dropdownSettings = { 
 				singleSelection: false, 
-				text:"Select Phone Numbers",
+				text:"Select Imei Number",
 				selectAllText:'Select All',
 				unSelectAllText:'UnSelect All',
 				enableSearchFilter: true,

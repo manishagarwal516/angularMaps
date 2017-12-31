@@ -19,18 +19,13 @@
 		</div>
 	</div>
 	<div class="row grid-container" [hidden]="tableView">
-		<div class="col-md-10">
+		<div class="col-md-12">
 			<div class="table">
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>	
-							<th>Accuracy</th>
 				            <th>Imei</th>
-				            <th>Direction</th>
-				            <th>Speed</th>
-				            <th>Distance</th>
 				            <th>Route_number</th>
-				            <th>Phone_number</th>
 				            <th>Date_Time</th>
 				     		<th>Source</th>
 				     		<th>Destination</th>   
@@ -38,13 +33,8 @@
 					</thead>
 					<tbody>
 						<tr *ngFor="let route of routes">
-							<td>{{route.Accuracy}}</td>
 				            <td>{{route.Imei}}</td>
-				            <td>{{route.Direction}}</td>
-				            <td>{{route.Speed}}</td>
-				            <td>{{route.Distance}}</td>
 				            <td>{{route.Route_number}}</td>
-				            <td>{{route.Phone_number}}</td>
 				            <td>{{route.Date_time}}</td>
 				            <td>{{route.source}}</td>
 				            <td>{{route.destination}}</td>
@@ -66,7 +56,7 @@
 	  <div class="row">
 	    <div class="col-md-10">
 	      <h4>    
-	        Route Number  {{ singleRoute.id  }}         
+	        Route Number  {{ singleRoute.id  }} for Imei {{singleRoute.imei}}
 	      </h4>
 	    </div>
 	  </div>    

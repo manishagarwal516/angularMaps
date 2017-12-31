@@ -213,25 +213,25 @@ var DataService = (function () {
     function DataService(http) {
         this.http = http;
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json' });
-        this.heroesUrl = 'http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes?Phone_number='; // URL to web api
+        this.heroesUrl = 'http://localhost:3000/routes?Imei='; // URL to web api
     }
-    DataService.prototype.getRoutes = function (phone_numbers, dates) {
-        return this.http.get(this.heroesUrl + phone_numbers + "&Date_time=" + dates, {})
+    DataService.prototype.getRoutes = function (imei_numbers, dates) {
+        return this.http.get(this.heroesUrl + imei_numbers + "&Date_time=" + dates, {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
-    DataService.prototype.getLiveLocations = function (phone_numbers) {
-        return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/live?Phone_number=" + phone_numbers, {})
+    DataService.prototype.getLiveLocations = function (imei) {
+        return this.http.get("http://localhost:3000/routes/live?Imei=" + imei, {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
     DataService.prototype.getDistinctPhoneNumber = function () {
-        return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/getDistinctPhoneNumber", {})
+        return this.http.get("http://localhost:3000/routes/getDistinctPhoneNumber", {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
     DataService.prototype.getCordinates = function (routeId) {
-        return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/codinates/" + routeId, {})
+        return this.http.get("http://localhost:3000/routes/codinates/" + routeId, {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
@@ -309,7 +309,7 @@ var LiveLocationComponent = (function () {
         var bounds = new google.maps.LatLngBounds();
         console.log(this.routes);
         this.routes.forEach(function (route, key) {
-            var temp_array = [route.Phone_number, route.Location.Lat, route.Location.Long, key];
+            var temp_array = [route.Imei, route.Location.Lat, route.Location.Long, key];
             locations.push(temp_array);
         });
         var infowindow = new google.maps.InfoWindow();
@@ -321,7 +321,7 @@ var LiveLocationComponent = (function () {
                 position: position,
                 map: this.map
             });
-            console.log(locations[i][0]);
+            console.log(locations[i]);
             // //console.log(marker);
             var temp_hash = {
                 number: locations[i][0],
@@ -435,7 +435,7 @@ var LiveLocationComponent = (function () {
         this.sub = this.timer.subscribe(function (t) { return _this.onTimeOut(); });
         this.dropdownSettings = {
             singleSelection: false,
-            text: "Select Phone Numbers",
+            text: "Select Imei Number",
             selectAllText: 'Select All',
             unSelectAllText: 'UnSelect All',
             enableSearchFilter: true,
@@ -521,7 +521,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inner navbar-fixed-top\">\n\t<div class=\"container\">\n\t\t<div class=\"navbar-header\" style=\"\">\n\t\t\t<a class=\"navbar-brand\" routerLink=\"/routes\">\n\t\t\t\t<img src=\"assets/images/people.png\" alt=\"logo\" />\n\t\t\t\t<span class=\"app-title\">Right Track</span>\n\t\t\t</a>\n\t\t\t<span class=\"navbar-collapse\">\n\t\t\t\t<ul class=\"nav navbar-nav nav-pills navBarPadding\">\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Locations</a></li>\n\t\t\t\t</ul>\n\t\t\t</span>\n\t\t</div>\n\t</div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-inner navbar-fixed-top\">\n\t<div class=\"container\">\n\t\t<div class=\"navbar-header\" style=\"\">\n\t\t\t<span class=\"navbar-collapse\">\n\t\t\t\t<ul class=\"nav navbar-nav nav-pills navBarPadding\">\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Locations</a></li>\n\t\t\t\t</ul>\n\t\t\t</span>\n\t\t</div>\n\t\t<div style=\"text-align: center;\">\n\t\t\t<a  routerLink=\"/routes\">\n\t\t\t\t<img src=\"assets/images/logo.png\" class=\"nav-logo\" alt=\"logo\" />\n\t\t\t\t\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</nav>"
 
 /***/ }),
 
@@ -582,7 +582,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/route-map/route-map.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"map-canvas\" style=\"width:100%;height:400px;\"></div>\n\n"
+module.exports = "<div #map style=\"width:100%;height:440px;margin-top: 5px;\"></div>"
 
 /***/ }),
 
@@ -612,47 +612,16 @@ var RouteMapComponent = (function () {
         this.route = route;
     }
     RouteMapComponent.prototype.initMap = function () {
+        console.log("initMap");
         var stations = [];
         var service = new google.maps.DirectionsService;
-        var map = new google.maps.Map(document.getElementById('map-canvas'));
+        var map = new google.maps.Map(this.mapDiv.nativeElement);
         this.mapRoute.directions.map(function (direction) {
             stations.push({ lat: parseFloat(direction.Lat), lng: parseFloat(direction.Long) });
         });
         stations[0].name = "Source";
+        var infowindow = new google.maps.InfoWindow();
         stations[stations.length - 1].name = "Destination";
-        // list of points
-        // var stations1 = [
-        //     {lat: 48.9812840, lng: 21.2171920, name: 'Source'},
-        //     {lat: 48.9832841, lng: 21.2176398, },
-        //     {lat: 48.9856443, lng: 21.2209088, },
-        //     {lat: 48.9861461, lng: 21.2261563, },
-        //     {lat: 48.9874682, lng: 21.2294855, },
-        //     {lat: 48.9909244, lng: 21.2295512, },
-        //     {lat: 48.9928871, lng: 21.2292352, },
-        //     {lat: 48.9921334, lng: 21.2246742, },
-        //     {lat: 48.9943196, lng: 21.2234792, },
-        //     {lat: 48.9966345, lng: 21.2221262, },
-        //     {lat: 48.9981191, lng: 21.2271386, },
-        //     {lat: 49.0009168, lng: 21.2359527, },
-        //     {lat: 49.0017950, lng: 21.2392890, },
-        //     {lat: 48.9991912, lng: 21.2398272, },
-        //     {lat: 48.9959850, lng: 21.2418410, },
-        //     {lat: 48.9931772, lng: 21.2453901, },
-        //     {lat: 48.9963512, lng: 21.2525850, },
-        //     {lat: 48.9985134, lng: 21.2508423, },
-        //     {lat: 49.0085000, lng: 21.2508000, },
-        //     {lat: 49.0093000, lng: 21.2528000, },
-        //     {lat: 49.0103000, lng: 21.2560000, },
-        //     {lat: 49.0112000, lng: 21.2590000, },
-        //     {lat: 49.0124000, lng: 21.2620000, },
-        //     {lat: 49.0135000, lng: 21.2650000, },
-        //     {lat: 49.0149000, lng: 21.2680000, },
-        //     {lat: 49.0171000, lng: 21.2710000, },
-        //     {lat: 49.0198000, lng: 21.2740000, },
-        //     {lat: 49.0305000, lng: 21.3000000, name: 'Destination'},
-        // ];
-        //var stations = this.mapRoute.directions;
-        // Zoom and center map automatically by stations (each station will be in visible map area)
         var lngs = stations.map(function (station) { return station.lng; });
         var lats = stations.map(function (station) { return station.lat; });
         map.fitBounds({
@@ -665,10 +634,16 @@ var RouteMapComponent = (function () {
         for (var i = 0; i < stations.length; i++) {
             if (!stations[i]['name'])
                 continue;
-            new google.maps.Marker({
+            var marker = new google.maps.Marker({
                 position: stations[i],
                 map: map
             });
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infowindow.setContent(stations[i]['name']);
+                    infowindow.open(this.map, marker);
+                };
+            })(marker, i));
         }
         // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
         for (var i = 0, parts = [], max = 25 - 1; i < stations.length; i = i + max)
@@ -680,13 +655,12 @@ var RouteMapComponent = (function () {
                 return;
             }
             var renderer = new google.maps.DirectionsRenderer;
+            //map.setZoom(15);
             renderer.setMap(map);
             renderer.setOptions({ suppressMarkers: true, preserveViewport: true });
             renderer.setDirections(response);
         };
-        // Send requests to service to get route (for stations count <= 25 only one request will be sent)
         for (var i = 0; i < parts.length; i++) {
-            // Waypoints does not include first station (origin) and last station (destination)
             var waypoints = [];
             for (var j = 1; j < parts[i].length - 1; j++)
                 waypoints.push({ location: parts[i][j], stopover: false });
@@ -701,14 +675,49 @@ var RouteMapComponent = (function () {
             service.route(service_options, service_callback);
         }
     };
-    RouteMapComponent.prototype.ngAfterViewInit = function () {
+    RouteMapComponent.prototype.ensureScript = function () {
+        var _this = this;
+        var document = this.mapDiv.nativeElement.ownerDocument;
+        var script = document.querySelector('script[id="googlemaps"]');
+        if (script) {
+            this.initMap();
+        }
+        else {
+            var script_1 = document.createElement('script');
+            script_1.id = 'googlemaps';
+            script_1.type = 'text/javascript';
+            script_1.async = true;
+            script_1.defer = true;
+            script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
+            script_1.onload = function () {
+                _this.initMap();
+            };
+            document.body.appendChild(script_1);
+        }
+    };
+    RouteMapComponent.prototype.ngOnChanges = function (changes) {
+        var _this = this;
+        var _loop_1 = function (propName) {
+            var chng = changes[propName];
+            var cur = JSON.stringify(chng.currentValue);
+            var prev = JSON.stringify(chng.previousValue);
+            setTimeout(function () {
+                if (cur && prev) {
+                    _this.ensureScript();
+                }
+            }, 200);
+            //this.changeLog.push(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+        };
+        for (var propName in changes) {
+            _loop_1(propName);
+        }
     };
     RouteMapComponent.prototype.ngOnInit = function () {
-        window.googleMapsReady = this.initMap.bind(this);
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        document.getElementsByTagName("head")[0].appendChild(script);
-        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&callback=googleMapsReady";
+        var _this = this;
+        setTimeout(function () {
+            console.log("dsdds");
+            _this.ensureScript();
+        }, 200);
     };
     return RouteMapComponent;
 }());
@@ -720,16 +729,20 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
     __metadata("design:type", Object)
 ], RouteMapComponent.prototype, "routes", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('map'),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _a || Object)
+], RouteMapComponent.prototype, "mapDiv", void 0);
 RouteMapComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-route-map',
         template: __webpack_require__("../../../../../src/app/route-map/route-map.component.html"),
         styles: [__webpack_require__("../../../../../src/app/route-map/route-map.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__data_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__data_service__["a" /* DataService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__data_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__data_service__["a" /* DataService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object])
 ], RouteMapComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=route-map.component.js.map
 
 /***/ }),
@@ -755,7 +768,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routes/routes.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" >\n\t<div class=\"row\" style=\"margin-top: 7px\">\n\t\t<div class=\"col-md-2\" [hidden]=\"!showDropdowns\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\"></angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-4\" [hidden]=\"!showDropdowns\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button (click)=\"showRouteTable()\">Add</button>\t\n\t\t</div>\n\t\t<div class=\"col-md-6\" [hidden]=\"showDropdowns\">\n\t\t\t<div class=\"dropdown\">\n\t\t\t  <button class=\"btn btn-primary\">Routes List</button>\n\t\t\t  <div class=\"dropdown-content\">\n\t\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t\t  \t\t{{route.Route_number}}\n\t\t\t  \t</a>\n\t\t\t  </div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"row grid-container\" [hidden]=\"tableView\">\n\t\t<div class=\"col-md-10\">\n\t\t\t<div class=\"table\">\n\t\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\t\n\t\t\t\t\t\t\t<th>Accuracy</th>\n\t\t\t\t            <th>Imei</th>\n\t\t\t\t            <th>Direction</th>\n\t\t\t\t            <th>Speed</th>\n\t\t\t\t            <th>Distance</th>\n\t\t\t\t            <th>Route_number</th>\n\t\t\t\t            <th>Phone_number</th>\n\t\t\t\t            <th>Date_Time</th>\n\t\t\t\t     \t\t<th>Source</th>\n\t\t\t\t     \t\t<th>Destination</th>   \n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody>\n\t\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t\t\t\t\t<td>{{route.Accuracy}}</td>\n\t\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t\t            <td>{{route.Direction}}</td>\n\t\t\t\t            <td>{{route.Speed}}</td>\n\t\t\t\t            <td>{{route.Distance}}</td>\n\t\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t\t            <td>{{route.Phone_number}}</td>\n\t\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t            <td>{{route.source}}</td>\n\t\t\t\t            <td>{{route.destination}}</td>\n\t\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Map</a></td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr></tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n<div [hidden]=\"mapView\">\n\t<div *ngIf=\"singleRoute\">\n\t  <div class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }}         \n\t      </h4>\n\t    </div>\n\t  </div>    \n\t  <br /><br />\n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" \n\t      [hidden]=\"mapSingleView\" \n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
+module.exports = "<div class=\"container\" >\n\t<div class=\"row\" style=\"margin-top: 7px\">\n\t\t<div class=\"col-md-2\" [hidden]=\"!showDropdowns\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\"></angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-4\" [hidden]=\"!showDropdowns\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button (click)=\"showRouteTable()\">Add</button>\t\n\t\t</div>\n\t\t<div class=\"col-md-6\" [hidden]=\"showDropdowns\">\n\t\t\t<div class=\"dropdown\">\n\t\t\t  <button class=\"btn btn-primary\">Routes List</button>\n\t\t\t  <div class=\"dropdown-content\">\n\t\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t\t  \t\t{{route.Route_number}}\n\t\t\t  \t</a>\n\t\t\t  </div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"row grid-container\" [hidden]=\"tableView\">\n\t\t<div class=\"col-md-12\">\n\t\t\t<div class=\"table\">\n\t\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\t\n\t\t\t\t            <th>Imei</th>\n\t\t\t\t            <th>Route_number</th>\n\t\t\t\t            <th>Date_Time</th>\n\t\t\t\t     \t\t<th>Source</th>\n\t\t\t\t     \t\t<th>Destination</th>   \n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody>\n\t\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t            <td>{{route.source}}</td>\n\t\t\t\t            <td>{{route.destination}}</td>\n\t\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Map</a></td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr></tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n<div [hidden]=\"mapView\">\n\t<div *ngIf=\"singleRoute\">\n\t  <div class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }} for Imei {{singleRoute.imei}}\n\t      </h4>\n\t    </div>\n\t  </div>    \n\t  <br /><br />\n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" \n\t      [hidden]=\"mapSingleView\" \n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
 
 /***/ }),
 
@@ -802,12 +815,11 @@ var RoutesComponent = (function () {
             minDate: new Date(new Date().setFullYear(new Date().getFullYear() - 10))
         };
     }
-    RoutesComponent.prototype.getRoutes = function (phone_numbers, dates) {
+    RoutesComponent.prototype.getRoutes = function (imei_numbers, dates) {
         var _this = this;
         this.tableView = false;
-        this.DataService.getRoutes(phone_numbers, dates)
+        this.DataService.getRoutes(imei_numbers, dates)
             .then(function (routes) {
-            localStorage.setItem('routes', JSON.stringify(routes));
             _this.updateTheRoute(routes);
         });
     };
@@ -817,6 +829,7 @@ var RoutesComponent = (function () {
         var destinationPromises = this.getAddress(routes, "destination");
         Promise.all(destinationPromises);
         this.routes = routes;
+        localStorage.setItem('routes', JSON.stringify(this.routes));
         console.log(this.routes);
     };
     RoutesComponent.prototype.getAddress = function (routes, key) {
@@ -856,10 +869,10 @@ var RoutesComponent = (function () {
             _this.coordinates = coordinates;
             _this.mapView = false;
             console.log(_this.routes);
+            var selectedRoute = _this.routes.filter(function (route) { return route.Route_number === id; });
             _this.singleRoute = {
                 "id": id,
-                "source": "Baner",
-                "destination": "Anudh",
+                "imei": selectedRoute[0].Imei,
                 "directions": _this.coordinates[0].Location
             };
             console.log(_this.singleRoute);
@@ -871,9 +884,6 @@ var RoutesComponent = (function () {
         console.log(this.selectedItems);
     };
     RoutesComponent.prototype.selectedDate = function (value, datepicker) {
-        // this is the date the iser selected
-        console.log(value);
-        // any object can be passed to the selected event and it will be passed back here
         datepicker.start = value.start;
         datepicker.end = value.end;
         // or manupulat your own internal property
@@ -883,7 +893,6 @@ var RoutesComponent = (function () {
     };
     RoutesComponent.prototype.showRouteTable = function () {
         var dates = this.daterange.start.format("MM-DD-YYYY") + "," + this.daterange.end.format("MM-DD-YYYY HH:mm:ss");
-        console.log(this.daterange.start.format("MM-DD-YYYY"), this.daterange.end.format("MM-DD-YYYY"));
         var locationLists = [];
         this.selectedItems.forEach(function (list) {
             locationLists.push(list.id);
@@ -912,7 +921,7 @@ var RoutesComponent = (function () {
         });
         this.dropdownSettings = {
             singleSelection: false,
-            text: "Select Phone Numbers",
+            text: "Select Imei Number",
             selectAllText: 'Select All',
             unSelectAllText: 'UnSelect All',
             enableSearchFilter: true,

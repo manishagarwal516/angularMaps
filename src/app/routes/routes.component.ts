@@ -31,11 +31,10 @@ export class RoutesComponent implements OnInit {
 				
 	}
 
-	getRoutes(phone_numbers,dates){
+	getRoutes(imei_numbers,dates){
 		this.tableView = false;
-		this.DataService.getRoutes(phone_numbers,dates)
+		this.DataService.getRoutes(imei_numbers,dates)
 		.then((routes) => {
-			localStorage.setItem('routes', JSON.stringify(routes));
 			this.updateTheRoute(routes);
 		});
 	}
@@ -46,6 +45,7 @@ export class RoutesComponent implements OnInit {
 		var destinationPromises = this.getAddress(routes, "destination");
 		Promise.all(destinationPromises);
 		this.routes = routes;
+		localStorage.setItem('routes', JSON.stringify(this.routes));
 		console.log(this.routes);
 	}
 
@@ -88,11 +88,13 @@ export class RoutesComponent implements OnInit {
             	this.showDropdowns = false;
              	this.coordinates = coordinates;
 				this.mapView = false;
+
 				console.log(this.routes);
+				let selectedRoute = this.routes.filter(route => route.Route_number === id);
+
 				this.singleRoute = {
 					"id":id,
-					"source":"Baner",
-					"destination":"Anudh",
+					"imei" : selectedRoute[0].Imei,
 					"directions": this.coordinates[0].Location
 				}
 				console.log(this.singleRoute);
@@ -115,10 +117,6 @@ export class RoutesComponent implements OnInit {
     };
 
     public selectedDate(value: any, datepicker?: any) {
-        // this is the date the iser selected
-        console.log(value);
-
-        // any object can be passed to the selected event and it will be passed back here
         datepicker.start = value.start;
         datepicker.end = value.end;
 
@@ -130,7 +128,6 @@ export class RoutesComponent implements OnInit {
 
     showRouteTable(){
     	var dates = this.daterange.start.format("MM-DD-YYYY") + ","+ this.daterange.end.format("MM-DD-YYYY HH:mm:ss")
-    	console.log(this.daterange.start.format("MM-DD-YYYY"), this.daterange.end.format("MM-DD-YYYY"));
     	var locationLists = [];
 
 		this.selectedItems.forEach(function(list) {
@@ -164,7 +161,7 @@ export class RoutesComponent implements OnInit {
 
 		this.dropdownSettings = { 
 			singleSelection: false, 
-			text:"Select Phone Numbers",
+			text:"Select Imei Number",
 			selectAllText:'Select All',
 			unSelectAllText:'UnSelect All',
 			enableSearchFilter: true,
