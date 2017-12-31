@@ -521,7 +521,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inner navbar-fixed-top\">\n\t<div class=\"container\">\n\t\t<div class=\"navbar-header\" style=\"\">\n\t\t\t<span class=\"navbar-collapse\">\n\t\t\t\t<ul class=\"nav navbar-nav nav-pills navBarPadding\">\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Locations</a></li>\n\t\t\t\t</ul>\n\t\t\t</span>\n\t\t</div>\n\t\t<div style=\"text-align: center;\">\n\t\t\t<a  routerLink=\"/routes\">\n\t\t\t\t<img src=\"assets/images/logo.png\" class=\"nav-logo\" alt=\"logo\" />\n\t\t\t\t\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-inner navbar-fixed-top\">\n\t<div class=\"container\">\n\t\t<div class=\"navbar-header\" style=\"\">\n\t\t\t<span class=\"navbar-collapse\">\n\t\t\t\t<ul class=\"nav navbar-nav nav-pills navBarPadding\">\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Tracking</a></li>\n\t\t\t\t</ul>\n\t\t\t</span>\n\t\t</div>\n\t\t<div style=\"text-align: center;\">\n\t\t\t<a  routerLink=\"/routes\">\n\t\t\t\t<img src=\"assets/images/logo.png\" class=\"nav-logo\" alt=\"logo\" />\n\t\t\t\t\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</nav>"
 
 /***/ }),
 
