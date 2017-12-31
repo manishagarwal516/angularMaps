@@ -13,8 +13,9 @@ declare var google: any;
 export class RoutesComponent implements OnInit {
 	routes = [];
 	singleRoute = {};
+	tableView = true;
 	mapView = true;
-	mapSingleView = true;
+	showDropdowns = true;
 	coordinates;
 	id = 0;
 
@@ -25,15 +26,18 @@ export class RoutesComponent implements OnInit {
 
 	
 
-	constructor(private route: ActivatedRoute, 
+	constructor(private routeParams: ActivatedRoute, 
 				private DataService: DataService) { 
 				
 	}
 
 	getRoutes(phone_numbers,dates){
-		this.mapView = false;
+		this.tableView = false;
 		this.DataService.getRoutes(phone_numbers,dates)
-		.then(routes => this.updateTheRoute(routes));
+		.then((routes) => {
+			localStorage.setItem('routes', JSON.stringify(routes));
+			this.updateTheRoute(routes);
+		});
 	}
 
 	updateTheRoute(routes){
@@ -79,13 +83,12 @@ export class RoutesComponent implements OnInit {
 	}
 
 	getRoute(id){
-		console.log("hjhjhjh");
 		this.DataService.getCordinates(id)
             .then((coordinates) => {
-            	console.log(coordinates),
+            	this.showDropdowns = false;
              	this.coordinates = coordinates;
-				this.mapSingleView = false;
-				console.log(this.coordinates[0]);
+				this.mapView = false;
+				console.log(this.routes);
 				this.singleRoute = {
 					"id":id,
 					"source":"Baner",
@@ -145,24 +148,28 @@ export class RoutesComponent implements OnInit {
 		});
 		this.dropdownList = temp_options;
     }
+
+
 	ngOnInit() {
 		this.DataService.getDistinctPhoneNumber()
 		.then(options => this.setMyOptions(options));
 
-		this.route.params.subscribe((params: Params) => {
+		this.routeParams.params.subscribe((params: Params) => {
 			this.id = +params['id'];
-			if(this.id)
+			if(this.id){
+				this.routes = JSON.parse(localStorage.getItem('routes'));
 				this.getRoute(this.id);
+			}
 		});
 
 		this.dropdownSettings = { 
-				singleSelection: false, 
-				text:"Select Phone Numbers",
-				selectAllText:'Select All',
-				unSelectAllText:'UnSelect All',
-				enableSearchFilter: true,
-				badgeShowLimit: 1
-			};  
+			singleSelection: false, 
+			text:"Select Phone Numbers",
+			selectAllText:'Select All',
+			unSelectAllText:'UnSelect All',
+			enableSearchFilter: true,
+			badgeShowLimit: 1
+		};  
 	}
 
 }

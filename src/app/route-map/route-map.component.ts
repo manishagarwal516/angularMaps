@@ -11,6 +11,7 @@ declare var google: any;
 })
 export class RouteMapComponent implements OnInit {
     @Input('map-route') mapRoute;
+    @Input() routes;
 
 	constructor(private DataService: DataService,
         private route: ActivatedRoute) { 

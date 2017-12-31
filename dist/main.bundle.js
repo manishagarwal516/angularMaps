@@ -716,6 +716,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('map-route'),
     __metadata("design:type", Object)
 ], RouteMapComponent.prototype, "mapRoute", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], RouteMapComponent.prototype, "routes", void 0);
 RouteMapComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-route-map',
@@ -738,7 +742,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".dropbtn {\n    background-color: #4CAF50;\n    color: white;\n    padding: 16px;\n    font-size: 16px;\n    border: none;\n    cursor: pointer;\n}\n\n.dropdown {\n    position: relative;\n    display: inline-block;\n}\n\n.dropdown-content {\n    display: none;\n    position: absolute;\n    background-color: #f9f9f9;\n    min-width: 160px;\n    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);\n    z-index: 1;\n}\n\n.dropdown-content a {\n    color: black;\n    padding: 12px 16px;\n    text-decoration: none;\n    display: block;\n}\n\n.dropdown-content a:hover {background-color: #f1f1f1}\n\n.dropdown:hover .dropdown-content {\n    display: block;\n}\n\n.dropdown:hover .dropbtn {\n    background-color: #3e8e41;\n}", ""]);
 
 // exports
 
@@ -751,7 +755,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routes/routes.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\" style=\"margin-top: 7px\">\n\t<div class=\"col-md-2\">\n\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\"></angular2-multiselect>\n\t\t`\n\t</div>\n\t<div class=\"col-md-10\">\t\n\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t<button (click)=\"showRouteTable()\">Add</button>\t\n\t</div>\n</div>\n<div class=\"container\" [hidden]=\"mapView\">\n\t<div class=\"row grid-container\">\n\t\t<div class=\"col-md-10\">\n\t\t\t<div class=\"table\">\n\t\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\t\n\t\t\t\t\t\t\t<th>Accuracy</th>\n\t\t\t\t            <th>Imei</th>\n\t\t\t\t            <th>Direction</th>\n\t\t\t\t            <th>Speed</th>\n\t\t\t\t            <th>Distance</th>\n\t\t\t\t            <th>Route_number</th>\n\t\t\t\t            <th>Phone_number</th>\n\t\t\t\t            <th>Date_Time</th>\n\t\t\t\t     \t\t<th>Source</th>\n\t\t\t\t     \t\t<th>Destination</th>   \n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody>\n\t\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t\t\t\t\t<td>{{route.Accuracy}}</td>\n\t\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t\t            <td>{{route.Direction}}</td>\n\t\t\t\t            <td>{{route.Speed}}</td>\n\t\t\t\t            <td>{{route.Distance}}</td>\n\t\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t\t            <td>{{route.Phone_number}}</td>\n\t\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t            <td>{{route.source}}</td>\n\t\t\t\t            <td>{{route.destination}}</td>\n\t\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Map</a></td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr></tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n<div [hidden]=\"mapSingleView\">\n\t<div *ngIf=\"singleRoute\">\n\t  <div class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }}         \n\t      </h4>\n\t    </div>\n\t  </div>    \n\t  <br /><br />\n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [map-route]=\"singleRoute\" \n\t      [hidden]=\"mapSingleView\" \n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
+module.exports = "<div class=\"container\" >\n\t<div class=\"row\" style=\"margin-top: 7px\">\n\t\t<div class=\"col-md-2\" [hidden]=\"!showDropdowns\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\"></angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-4\" [hidden]=\"!showDropdowns\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button (click)=\"showRouteTable()\">Add</button>\t\n\t\t</div>\n\t\t<div class=\"col-md-6\" [hidden]=\"showDropdowns\">\n\t\t\t<div class=\"dropdown\">\n\t\t\t  <button class=\"btn btn-primary\">Routes List</button>\n\t\t\t  <div class=\"dropdown-content\">\n\t\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t\t  \t\t{{route.Route_number}}\n\t\t\t  \t</a>\n\t\t\t  </div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"row grid-container\" [hidden]=\"tableView\">\n\t\t<div class=\"col-md-10\">\n\t\t\t<div class=\"table\">\n\t\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\t\n\t\t\t\t\t\t\t<th>Accuracy</th>\n\t\t\t\t            <th>Imei</th>\n\t\t\t\t            <th>Direction</th>\n\t\t\t\t            <th>Speed</th>\n\t\t\t\t            <th>Distance</th>\n\t\t\t\t            <th>Route_number</th>\n\t\t\t\t            <th>Phone_number</th>\n\t\t\t\t            <th>Date_Time</th>\n\t\t\t\t     \t\t<th>Source</th>\n\t\t\t\t     \t\t<th>Destination</th>   \n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody>\n\t\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t\t\t\t\t<td>{{route.Accuracy}}</td>\n\t\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t\t            <td>{{route.Direction}}</td>\n\t\t\t\t            <td>{{route.Speed}}</td>\n\t\t\t\t            <td>{{route.Distance}}</td>\n\t\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t\t            <td>{{route.Phone_number}}</td>\n\t\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t            <td>{{route.source}}</td>\n\t\t\t\t            <td>{{route.destination}}</td>\n\t\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Map</a></td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr></tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n<div [hidden]=\"mapView\">\n\t<div *ngIf=\"singleRoute\">\n\t  <div class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }}         \n\t      </h4>\n\t    </div>\n\t  </div>    \n\t  <br /><br />\n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" \n\t      [hidden]=\"mapSingleView\" \n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
 
 /***/ }),
 
@@ -776,13 +780,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var RoutesComponent = (function () {
-    function RoutesComponent(route, DataService) {
-        this.route = route;
+    function RoutesComponent(routeParams, DataService) {
+        this.routeParams = routeParams;
         this.DataService = DataService;
         this.routes = [];
         this.singleRoute = {};
+        this.tableView = true;
         this.mapView = true;
-        this.mapSingleView = true;
+        this.showDropdowns = true;
         this.id = 0;
         this.dropdownList = [];
         this.selectedItems = [];
@@ -799,9 +804,12 @@ var RoutesComponent = (function () {
     }
     RoutesComponent.prototype.getRoutes = function (phone_numbers, dates) {
         var _this = this;
-        this.mapView = false;
+        this.tableView = false;
         this.DataService.getRoutes(phone_numbers, dates)
-            .then(function (routes) { return _this.updateTheRoute(routes); });
+            .then(function (routes) {
+            localStorage.setItem('routes', JSON.stringify(routes));
+            _this.updateTheRoute(routes);
+        });
     };
     RoutesComponent.prototype.updateTheRoute = function (routes) {
         var sourcePromises = this.getAddress(routes, "source");
@@ -842,13 +850,12 @@ var RoutesComponent = (function () {
     };
     RoutesComponent.prototype.getRoute = function (id) {
         var _this = this;
-        console.log("hjhjhjh");
         this.DataService.getCordinates(id)
             .then(function (coordinates) {
-            console.log(coordinates),
-                _this.coordinates = coordinates;
-            _this.mapSingleView = false;
-            console.log(_this.coordinates[0]);
+            _this.showDropdowns = false;
+            _this.coordinates = coordinates;
+            _this.mapView = false;
+            console.log(_this.routes);
             _this.singleRoute = {
                 "id": id,
                 "source": "Baner",
@@ -896,10 +903,12 @@ var RoutesComponent = (function () {
         var _this = this;
         this.DataService.getDistinctPhoneNumber()
             .then(function (options) { return _this.setMyOptions(options); });
-        this.route.params.subscribe(function (params) {
+        this.routeParams.params.subscribe(function (params) {
             _this.id = +params['id'];
-            if (_this.id)
+            if (_this.id) {
+                _this.routes = JSON.parse(localStorage.getItem('routes'));
                 _this.getRoute(_this.id);
+            }
         });
         this.dropdownSettings = {
             singleSelection: false,
