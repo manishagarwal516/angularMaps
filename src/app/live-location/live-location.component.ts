@@ -188,7 +188,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 		var locations = [];
 		if(this.markers.length > 0){
 			this.routes.forEach(function(route, key) {
-				var temp_array = [route.Phone_number, route.Location.Lat, route.Location.Long, key]
+				var temp_array = [route.Imei, route.Location.Lat, route.Location.Long, key]
 				locations.push(temp_array)
 			})
 
@@ -198,6 +198,8 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 		//	this.map.setCenter(new google.maps.LatLng(this.routes[0].Location.Lat, this.routes[0].Location.Long));
 			
 			for (i = 0; i < locations.length; i++) {  
+				console.log(locations);
+				console.log(this.markers);
 				var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
 				var markerObj = this.markers.find(function (obj) { return obj.number === locations[i][0]; });
 
