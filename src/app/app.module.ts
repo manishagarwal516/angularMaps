@@ -15,6 +15,7 @@ import { HttpModule } from "@angular/http";
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgDatepickerModule } from 'ng2-datepicker';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -25,7 +26,8 @@ import { NgDatepickerModule } from 'ng2-datepicker';
     NavbarComponent,
     RoutesComponent,
     RouteMapComponent,
-    LiveLocationComponent
+    LiveLocationComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

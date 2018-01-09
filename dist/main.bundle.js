@@ -21,7 +21,8 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes_routes_component__ = __webpack_require__("../../../../../src/app/routes/routes.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__live_location_live_location_component__ = __webpack_require__("../../../../../src/app/live-location/live-location.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_home_component__ = __webpack_require__("../../../../../src/app/home/home.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__live_location_live_location_component__ = __webpack_require__("../../../../../src/app/live-location/live-location.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -32,11 +33,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var routes = [
-    { path: '', redirectTo: '/routes', pathMatch: 'full' },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home', component: __WEBPACK_IMPORTED_MODULE_3__home_home_component__["a" /* HomeComponent */] },
     { path: 'routes', component: __WEBPACK_IMPORTED_MODULE_2__routes_routes_component__["a" /* RoutesComponent */] },
     { path: 'route/:id', component: __WEBPACK_IMPORTED_MODULE_2__routes_routes_component__["a" /* RoutesComponent */] },
-    { path: 'live-locations', component: __WEBPACK_IMPORTED_MODULE_3__live_location_live_location_component__["a" /* LiveLocationComponent */] },
+    { path: 'live-locations', component: __WEBPACK_IMPORTED_MODULE_4__live_location_live_location_component__["a" /* LiveLocationComponent */] },
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
@@ -75,7 +78,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<main class=\"container\">\n    <app-navbar></app-navbar>\n    <router-outlet></router-outlet>\n</main>\n<br /><br />"
+module.exports = "<main>\n    <app-navbar></app-navbar>\n    <router-outlet></router-outlet>\n</main>"
 
 /***/ }),
 
@@ -133,12 +136,14 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ng2_datepicker__ = __webpack_require__("../../../../ng2-datepicker/bundles/ng2-datepicker.umd.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ng2_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_ng2_datepicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__home_home_component__ = __webpack_require__("../../../../../src/app/home/home.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -167,7 +172,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_3__navbar_navbar_component__["a" /* NavbarComponent */],
             __WEBPACK_IMPORTED_MODULE_5__routes_routes_component__["a" /* RoutesComponent */],
             __WEBPACK_IMPORTED_MODULE_6__route_map_route_map_component__["a" /* RouteMapComponent */],
-            __WEBPACK_IMPORTED_MODULE_7__live_location_live_location_component__["a" /* LiveLocationComponent */]
+            __WEBPACK_IMPORTED_MODULE_7__live_location_live_location_component__["a" /* LiveLocationComponent */],
+            __WEBPACK_IMPORTED_MODULE_16__home_home_component__["a" /* HomeComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -213,7 +219,7 @@ var DataService = (function () {
     function DataService(http) {
         this.http = http;
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json' });
-        this.heroesUrl = 'http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes?Imei='; // URL to web api
+        this.heroesUrl = 'http://localhost:3000/routes?Imei='; // URL to web api
     }
     DataService.prototype.getRoutes = function (imei_numbers, dates) {
         return this.http.get(this.heroesUrl + imei_numbers + "&Date_time=" + dates, {})
@@ -221,17 +227,17 @@ var DataService = (function () {
             .then(function (response) { return response.json()['json']; });
     };
     DataService.prototype.getLiveLocations = function (imei) {
-        return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/live?Imei=" + imei, {})
+        return this.http.get("http://localhost:3000/routes/live?Imei=" + imei, {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
     DataService.prototype.getDistinctPhoneNumber = function () {
-        return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/getDistinctPhoneNumber", {})
+        return this.http.get("http://localhost:3000/routes/getDistinctPhoneNumber", {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
     DataService.prototype.getCordinates = function (routeId) {
-        return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/codinates/" + routeId, {})
+        return this.http.get("http://localhost:3000/routes/codinates/" + routeId, {})
             .toPromise()
             .then(function (response) { return response.json()['json']; });
     };
@@ -244,6 +250,116 @@ DataService = __decorate([
 
 var _a;
 //# sourceMappingURL=data.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/home/home.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/home/home.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div #map style=\"width:100%;height:564px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
+
+/***/ }),
+
+/***/ "../../../../../src/app/home/home.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var HomeComponent = (function () {
+    function HomeComponent() {
+    }
+    HomeComponent.prototype.renderMap = function () {
+        var options = {
+            zoom: 4,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+        this.map = new google.maps.Map(this.mapDiv.nativeElement, options);
+        this.showIndiaMap();
+    };
+    HomeComponent.prototype.showIndiaMap = function () {
+        var geocoder = new google.maps.Geocoder();
+        var indianMap = this.map;
+        geocoder.geocode({ 'address': "india" }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                indianMap.setCenter(results[0].geometry.location);
+            }
+        });
+    };
+    HomeComponent.prototype.ensureScript = function () {
+        var _this = this;
+        this.loadingScript = true;
+        var document = this.mapDiv.nativeElement.ownerDocument;
+        var script = document.querySelector('script[id="googlemaps"]');
+        if (script) {
+            this.renderMap();
+        }
+        else {
+            var script_1 = document.createElement('script');
+            script_1.id = 'googlemaps';
+            script_1.type = 'text/javascript';
+            script_1.async = true;
+            script_1.defer = true;
+            script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
+            script_1.onload = function () {
+                _this.loadingScript = false;
+                _this.renderMap();
+            };
+            document.body.appendChild(script_1);
+        }
+    };
+    HomeComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.ensureScript();
+        }, 200);
+    };
+    return HomeComponent;
+}());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('map'),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _a || Object)
+], HomeComponent.prototype, "mapDiv", void 0);
+HomeComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'app-home',
+        template: __webpack_require__("../../../../../src/app/home/home.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/home/home.component.css")]
+    }),
+    __metadata("design:paramtypes", [])
+], HomeComponent);
+
+var _a;
+//# sourceMappingURL=home.component.js.map
 
 /***/ }),
 
@@ -268,7 +384,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/live-location/live-location.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\"></angular2-multiselect>\n<br/>\n<button class=\"btn btn-primary btn-md\" *ngIf=\"!showMap\" [disabled]=\"selectedItems.length === 0\" (click)=\"showMarker()\">Submit</button>\n<br/>\n<div>\n\t<button class=\"btn btn-primary btn-md\" *ngIf=\"showMap\" style=\"float: right;margin-bottom:7px\" (click)=\"clearMarker()\">Clear Map</button>\n\t<div #map style=\"width:100%;height:440px;margin-top: 5px;\"></div>\n</div>\t\n\n"
+module.exports = "<div class=\"row header-row\">\n\t<div class=\"col-md-8\">\n\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;\"></angular2-multiselect>\n\t</div>\n</div>\n<div>\n\t<div #map style=\"width:100%;height:512px;\"></div>\n</div>\t\n\n"
 
 /***/ }),
 
@@ -281,6 +397,8 @@ module.exports = "<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_service__ = __webpack_require__("../../../../../src/app/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery__ = __webpack_require__("../../../../jquery/dist/jquery.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -290,6 +408,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -435,7 +554,7 @@ var LiveLocationComponent = (function () {
         this.sub = this.timer.subscribe(function (t) { return _this.onTimeOut(); });
         this.dropdownSettings = {
             singleSelection: false,
-            text: "Select Imei Number",
+            text: "Select User",
             selectAllText: 'Select All',
             unSelectAllText: 'UnSelect All',
             enableSearchFilter: true,
@@ -478,6 +597,24 @@ var LiveLocationComponent = (function () {
                 .then(function (routes) { return _this.routes = routes; });
             this.updateLocation();
         }
+    };
+    LiveLocationComponent.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        var buttonHtml = "<div class='custom-dropdown-button'>";
+        buttonHtml += "<button id='custom-ok-button' class='btn btn-primary btn-md'>OK</button>";
+        buttonHtml += "<button id='custom-cancel-button' class='btn btn-primary btn-md'>Cancel</button>";
+        buttonHtml += "</div>";
+        __WEBPACK_IMPORTED_MODULE_3_jquery__(buttonHtml).insertAfter(".list-filter");
+        __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-cancel-button")
+            .on('click', function () {
+            __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);
+            _this.selectedItems = [];
+        });
+        __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-ok-button")
+            .on('click', function () {
+            __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);
+            _this.showMarker();
+        });
     };
     LiveLocationComponent.prototype.ngOnDestroy = function () {
         this.sub.unsubscribe();
@@ -523,7 +660,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inner navbar-fixed-top\">\n\t<div class=\"container\">\n\t\t<div class=\"navbar-header\" style=\"\">\n\t\t\t<span class=\"navbar-collapse\">\n\t\t\t\t<ul class=\"nav navbar-nav nav-pills navBarPadding\">\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t\t\t\t\t<li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Tracking</a></li>\n\t\t\t\t</ul>\n\t\t\t</span>\n\t\t</div>\n\t\t<div style=\"text-align: center;\">\n\t\t\t<a  routerLink=\"/routes\">\n\t\t\t\t<img src=\"assets/images/logo.png\" class=\"nav-logo\" alt=\"logo\" />\n\t\t\t\t\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</nav>"
+module.exports = "<nav class=\"navbar-inner nav-top\">\n  <div class=\"container-fluid\">\n    <ul class=\"nav navbar-top\" >\n    \t<li>\n    \t\t<a routerLink=\"/routes\" class=\"logo-img\">\n\t\t\t\t<img src=\"assets/images/logo.png\" class=\"nav-logo\" alt=\"logo\" />\n\t\t\t</a>\n      \t</li>\n    </ul>\n  </div>\n</nav>\n<nav class=\"navbar navbar-inner\">\n  <div class=\"container-fluid nav-container\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\"> <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n\n      </button>\n    </div>\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav \">\n      \t<li routerLinkActive=\"active\"><a routerLink=\"/home\">Home</a></li>\n      \t<li routerLinkActive=\"active\" class=\"nav-li\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t    <li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Tracking</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -584,7 +721,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/route-map/route-map.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #map style=\"width:100%;height:440px;margin-top: 5px;\"></div>"
+module.exports = "<div #map style=\"width:100%;height:507px\" [hidden]=\"!tableView\"></div>"
 
 /***/ }),
 
@@ -621,6 +758,11 @@ var RouteMapComponent = (function () {
         this.mapRoute.directions.map(function (direction) {
             stations.push({ lat: parseFloat(direction.Lat), lng: parseFloat(direction.Long) });
         });
+        //console.log(stations);
+        // var stations = [
+        //     {lat: 21.1204204, lng: 79.0540382 , name: "source"},
+        //     {lat: 21.120478333333335, lng: 79.05405, name: "source"}
+        // ]
         stations[0].name = "Source";
         var infowindow = new google.maps.InfoWindow();
         stations[stations.length - 1].name = "Destination";
@@ -633,23 +775,24 @@ var RouteMapComponent = (function () {
             south: Math.max.apply(null, lats),
         });
         // Show stations on the map as markers
-        for (var i = 0; i < stations.length; i++) {
-            if (!stations[i]['name'])
-                continue;
-            var marker = new google.maps.Marker({
-                position: stations[i],
-                map: map
-            });
-            google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                return function () {
-                    infowindow.setContent(stations[i]['name']);
-                    infowindow.open(this.map, marker);
-                };
-            })(marker, i));
-        }
+        // for (var i = 0; i < stations.length; i++) {
+        //     if (!stations[i]['name'])
+        //         continue;
+        //     var marker = new google.maps.Marker({
+        //         position: stations[i],
+        //         map: map
+        //     });
+        //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        //         return function() {
+        //             infowindow.setContent(stations[i]['name']);
+        //             infowindow.open(this.map, marker);
+        //         }
+        //     })(marker, i));
+        // }
         // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
         for (var i = 0, parts = [], max = 25 - 1; i < stations.length; i = i + max)
             parts.push(stations.slice(i, i + max + 1));
+        console.log(parts);
         // Callback function to process service results
         var service_callback = function (response, status) {
             if (status != 'OK') {
@@ -677,12 +820,33 @@ var RouteMapComponent = (function () {
             service.route(service_options, service_callback);
         }
     };
+    RouteMapComponent.prototype.showIndiaMap = function () {
+        var options = {
+            zoom: 4,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+        var geocoder = new google.maps.Geocoder();
+        var indianMap = new google.maps.Map(this.mapDiv.nativeElement, options);
+        geocoder.geocode({ 'address': "india" }, function (results, status) {
+            console.log(status);
+            if (status == google.maps.GeocoderStatus.OK) {
+                indianMap.setCenter(results[0].geometry.location);
+            }
+        });
+    };
     RouteMapComponent.prototype.ensureScript = function () {
         var _this = this;
         var document = this.mapDiv.nativeElement.ownerDocument;
         var script = document.querySelector('script[id="googlemaps"]');
         if (script) {
-            this.initMap();
+            console.log(this.tableView);
+            if (this.mapRoute.directions) {
+                this.initMap();
+            }
+            else if (this.tableView) {
+                this.showIndiaMap();
+            }
         }
         else {
             var script_1 = document.createElement('script');
@@ -692,7 +856,13 @@ var RouteMapComponent = (function () {
             script_1.defer = true;
             script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
             script_1.onload = function () {
-                _this.initMap();
+                console.log(_this.tableView);
+                if (_this.mapRoute.directions) {
+                    _this.initMap();
+                }
+                else if (_this.tableView) {
+                    _this.showIndiaMap();
+                }
             };
             document.body.appendChild(script_1);
         }
@@ -716,6 +886,7 @@ var RouteMapComponent = (function () {
     };
     RouteMapComponent.prototype.ngOnInit = function () {
         var _this = this;
+        console.log(this.mapRoute);
         setTimeout(function () {
             console.log("dsdds");
             _this.ensureScript();
@@ -731,6 +902,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
     __metadata("design:type", Object)
 ], RouteMapComponent.prototype, "routes", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('table-view'),
+    __metadata("design:type", Object)
+], RouteMapComponent.prototype, "tableView", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('map'),
     __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _a || Object)
@@ -770,7 +945,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routes/routes.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" >\n\t<div class=\"row\" style=\"margin-top: 7px\">\n\t\t<div class=\"col-md-2\" [hidden]=\"!showDropdowns\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\"></angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-4\" [hidden]=\"!showDropdowns\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button (click)=\"showRouteTable()\">Add</button>\t\n\t\t</div>\n\t\t<div class=\"col-md-6\" [hidden]=\"showDropdowns\">\n\t\t\t<div class=\"dropdown\">\n\t\t\t  <button class=\"btn btn-primary\">Routes List</button>\n\t\t\t  <div class=\"dropdown-content\">\n\t\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t\t  \t\t{{route.Route_number}}\n\t\t\t  \t</a>\n\t\t\t  </div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"row grid-container\" [hidden]=\"tableView\">\n\t\t<div class=\"col-md-12\">\n\t\t\t<div class=\"table\">\n\t\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\t\n\t\t\t\t            <th>Imei</th>\n\t\t\t\t            <th>Route_number</th>\n\t\t\t\t            <th>Date_Time</th>\n\t\t\t\t     \t\t<th>Source</th>\n\t\t\t\t     \t\t<th>Destination</th>   \n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody>\n\t\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t            <td>{{route.source}}</td>\n\t\t\t\t            <td>{{route.destination}}</td>\n\t\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Map</a></td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr></tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n<div [hidden]=\"mapView\">\n\t<div *ngIf=\"singleRoute\">\n\t  <div class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }} for Imei {{singleRoute.imei}}\n\t      </h4>\n\t    </div>\n\t  </div>    \n\t  <br /><br />\n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" \n\t      [hidden]=\"mapSingleView\" \n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
+module.exports = "\n<div class=\"row header-row\">\n\t<div *ngIf=\"showDropdowns\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" style=\"float: right;\">\n\n\t\t\t</angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button class=\"btn btn-primary btn-md\" (click)=\"showRouteTable()\">Add</button>\t\n\t\t</div>\n\t</div>\t\n\t<div class=\"col-md-12\" *ngIf=\"!showDropdowns\" style=\"text-align: center;\">\n\t\t<div class=\"dropdown\">\n\t\t  <button class=\"btn btn-primary\">Routes List</button>\n\t\t  <div class=\"dropdown-content\">\n\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t  \t\t{{route.Route_number}}\n\t\t  \t</a>\n\t\t  </div>\n\t\t</div>\n\t</div>\n</div>\n<div class=\"row grid-container\" *ngIf=\"!tableView\">\n\t<div class=\"col-md-12\">\n\t\t<div class=\"table\">\n\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\t\n\t\t\t            <th>User Id</th>\n\t\t\t            <th>Route Number</th>\n\t\t\t            <th>Date Time</th>\n\t\t\t            <th>View Route on Map</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Route</a></td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr></tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n<div>\n\t<div>\n\t  <div *ngIf=\"!mapView\" class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }} for Imei {{singleRoute.imei}}\n\t      </h4>\n\t    </div>\n\t  </div>   \n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" [table-view]=\"tableView\"\n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
 
 /***/ }),
 
@@ -782,6 +957,8 @@ module.exports = "<div class=\"container\" >\n\t<div class=\"row\" style=\"margi
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_service__ = __webpack_require__("../../../../../src/app/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery__ = __webpack_require__("../../../../jquery/dist/jquery.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -791,6 +968,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -910,6 +1088,23 @@ var RoutesComponent = (function () {
         });
         this.dropdownList = temp_options;
     };
+    RoutesComponent.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        var buttonHtml = "<div class='custom-dropdown-button'>";
+        buttonHtml += "<button id='custom-ok-button' class='btn btn-primary btn-md'>OK</button>";
+        buttonHtml += "<button id='custom-cancel-button' class='btn btn-primary btn-md'>Cancel</button>";
+        buttonHtml += "</div>";
+        __WEBPACK_IMPORTED_MODULE_3_jquery__(buttonHtml).insertAfter(".list-filter");
+        __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-cancel-button")
+            .on('click', function () {
+            __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);
+            _this.selectedItems = [];
+        });
+        __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-ok-button")
+            .on('click', function () {
+            __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);
+        });
+    };
     RoutesComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.DataService.getDistinctPhoneNumber()
@@ -922,12 +1117,13 @@ var RoutesComponent = (function () {
             }
         });
         this.dropdownSettings = {
-            singleSelection: false,
-            text: "Select Imei Number",
+            singleSelection: true,
+            text: "Select User",
             selectAllText: 'Select All',
             unSelectAllText: 'UnSelect All',
             enableSearchFilter: true,
-            badgeShowLimit: 1
+            badgeShowLimit: 1,
+            classes: "myclass custom-class"
         };
     };
     return RoutesComponent;

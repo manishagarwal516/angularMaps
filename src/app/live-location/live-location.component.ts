@@ -5,6 +5,7 @@ import { DataService }         from '../data.service';
 import {Observable} from 'rxjs/Rx';
 import { TimerObservable } from "rxjs/observable/TimerObservable";
 import {} from '@types/googlemaps';
+import * as $ from 'jquery';
 //import {} from '@types/marker-animate-unobtrusive';
 
 declare var google: any;
@@ -175,7 +176,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 		this.sub = this.timer.subscribe((t) => this.onTimeOut());
 		this.dropdownSettings = { 
 				singleSelection: false, 
-				text:"Select Imei Number",
+				text:"Select User",
 				selectAllText:'Select All',
 				unSelectAllText:'UnSelect All',
 				enableSearchFilter: true,
@@ -225,6 +226,25 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 			this.updateLocation();
 		}  
 	}
+
+	ngAfterViewInit() {
+    	var buttonHtml = "<div class='custom-dropdown-button'>"
+    	buttonHtml += "<button id='custom-ok-button' class='btn btn-primary btn-md'>OK</button>"
+    	buttonHtml += "<button id='custom-cancel-button' class='btn btn-primary btn-md'>Cancel</button>"
+    	buttonHtml += "</div>"
+    	$(buttonHtml).insertAfter( ".list-filter" );
+        $("#custom-cancel-button")
+        	.on('click', () => {
+        	$('.dropdown-list').prop("hidden",true);
+        	this.selectedItems = [];
+        });
+
+         $("#custom-ok-button")
+        	.on('click', () => {
+        	$('.dropdown-list').prop("hidden",true);
+        	this.showMarker();
+        });
+    }
 
 	ngOnDestroy(){
 		this.sub.unsubscribe();

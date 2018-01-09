@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DataService }         from '../data.service';
+import * as $ from 'jquery';
 
 
 declare var google: any;
@@ -10,7 +11,7 @@ declare var google: any;
   templateUrl: './routes.component.html',
   styleUrls: ['./routes.component.css']
 })
-export class RoutesComponent implements OnInit {
+export class RoutesComponent implements OnInit, AfterViewInit {
 	routes = [];
 	singleRoute = {};
 	tableView = true;
@@ -146,6 +147,23 @@ export class RoutesComponent implements OnInit {
 		this.dropdownList = temp_options;
     }
 
+    ngAfterViewInit() {
+    	var buttonHtml = "<div class='custom-dropdown-button'>"
+    	buttonHtml += "<button id='custom-ok-button' class='btn btn-primary btn-md'>OK</button>"
+    	buttonHtml += "<button id='custom-cancel-button' class='btn btn-primary btn-md'>Cancel</button>"
+    	buttonHtml += "</div>"
+    	$(buttonHtml).insertAfter( ".list-filter" );
+        $("#custom-cancel-button")
+        	.on('click', () => {
+        	$('.dropdown-list').prop("hidden",true);
+        	this.selectedItems = [];
+        });
+
+         $("#custom-ok-button")
+        	.on('click', () => {
+        	$('.dropdown-list').prop("hidden",true);
+        });
+    }
 
 	ngOnInit() {
 		this.DataService.getDistinctPhoneNumber()
@@ -160,12 +178,13 @@ export class RoutesComponent implements OnInit {
 		});
 
 		this.dropdownSettings = { 
-			singleSelection: false, 
-			text:"Select Imei Number",
+			singleSelection: true, 
+			text:"Select User",
 			selectAllText:'Select All',
 			unSelectAllText:'UnSelect All',
 			enableSearchFilter: true,
-			badgeShowLimit: 1
+			badgeShowLimit: 1,
+			classes:"myclass custom-class"
 		};  
 	}
 

@@ -12,6 +12,7 @@ declare var google: any;
 export class RouteMapComponent implements OnInit, OnChanges {
     @Input('map-route') mapRoute;
     @Input() routes;
+    @Input('table-view') tableView;
     @ViewChild('map') mapDiv : ElementRef;
     private map: google.maps.Map;
 
@@ -21,13 +22,17 @@ export class RouteMapComponent implements OnInit, OnChanges {
 
     initMap() {
         console.log("initMap");
-        var stations = [];
+         var stations = [];
         var service = new google.maps.DirectionsService;
         var map = new google.maps.Map(this.mapDiv.nativeElement);
         this.mapRoute.directions.map(function(direction) {
             stations.push({lat: parseFloat(direction.Lat), lng: parseFloat(direction.Long)})
         })
-
+        //console.log(stations);
+        // var stations = [
+        //     {lat: 21.1204204, lng: 79.0540382 , name: "source"},
+        //     {lat: 21.120478333333335, lng: 79.05405, name: "source"}
+        // ]
         stations[0].name = "Source";
         var infowindow = new google.maps.InfoWindow();
         stations[stations.length - 1].name = "Destination";
@@ -42,26 +47,27 @@ export class RouteMapComponent implements OnInit, OnChanges {
         });
         
         // Show stations on the map as markers
-        for (var i = 0; i < stations.length; i++) {
-            if (!stations[i]['name'])
-                continue;
-            var marker = new google.maps.Marker({
-                position: stations[i],
-                map: map
-            });
+        // for (var i = 0; i < stations.length; i++) {
+        //     if (!stations[i]['name'])
+        //         continue;
+        //     var marker = new google.maps.Marker({
+        //         position: stations[i],
+        //         map: map
+        //     });
 
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
-                    infowindow.setContent(stations[i]['name']);
-                    infowindow.open(this.map, marker);
-                }
-            })(marker, i));
-        }
+        //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        //         return function() {
+        //             infowindow.setContent(stations[i]['name']);
+        //             infowindow.open(this.map, marker);
+        //         }
+        //     })(marker, i));
+        // }
 
         // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
         for (var i = 0, parts = [], max = 25 - 1; i < stations.length; i = i + max)
             parts.push(stations.slice(i, i + max + 1));
 
+        console.log(parts);
         // Callback function to process service results
         var service_callback = function(response, status) {
             if (status != 'OK') {
@@ -91,11 +97,31 @@ export class RouteMapComponent implements OnInit, OnChanges {
         }
     }
     
+    showIndiaMap(){
+        let options = {
+            zoom : 4,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+        let geocoder = new google.maps.Geocoder();
+        let indianMap = new google.maps.Map(this.mapDiv.nativeElement, options);
+        geocoder.geocode( {'address' : "india"}, function(results, status) {
+                console.log(status)
+                if (status == google.maps.GeocoderStatus.OK) {
+                        indianMap.setCenter(results[0].geometry.location);
+                }
+        });
+    }
     ensureScript(){
         const document = this.mapDiv.nativeElement.ownerDocument;
         const script = <HTMLScriptElement>document.querySelector('script[id="googlemaps"]');
         if (script) {
-            this.initMap();
+            console.log(this.tableView);
+            if(this.mapRoute.directions){
+                this.initMap();
+            }else if(this.tableView){
+                this.showIndiaMap();
+            }
         } else {
             const script = document.createElement('script');
             script.id = 'googlemaps';
@@ -104,7 +130,12 @@ export class RouteMapComponent implements OnInit, OnChanges {
             script.defer = true;
             script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
             script.onload = () => {
-                this.initMap();
+                console.log(this.tableView);
+                if(this.mapRoute.directions){
+                    this.initMap();
+                }else if(this.tableView){
+                    this.showIndiaMap();
+                }
             };      
             document.body.appendChild(script);
      }
@@ -125,6 +156,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        console.log(this.mapRoute)
         setTimeout(() => {
             console.log("dsdds")
             this.ensureScript();

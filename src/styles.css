@@ -9,7 +9,7 @@ body {
 
 main {
     position: relative;
-    padding-top: 60px;
+   /* padding-top: 60px;*/
 }
 
 /* Ensure display:flex and others don't override a [hidden] */
@@ -47,10 +47,6 @@ th {
     margin-left:5px;
 }
 
-.navbar {
-    height: 60px;
-}
-
 .navbar .nav > li.toolbar-item > a {
     color: #9E9E9E;
     font-weight:bold;
@@ -66,7 +62,7 @@ th {
 
 .navbar-collapse {
     float:right;
-    margin-top: 15px;
+    margin-top: 5px;
 }
 
 .nav.navbar-padding {
@@ -102,7 +98,7 @@ a.navbar-brand {
 }
 
 .navbar .nav li.toolbaritem a:hover, .navbar .nav li a:hover {
-    color: #E03930;
+    color: none !important;
 }
 
 .navbar .nav > li  {
@@ -179,4 +175,60 @@ a:hover, a:focus {
     height: 44px;
     margin-top: 5px;
     margin-right: 102px;
+}
+
+.logo-img{
+    text-align: center;
+}
+
+.nav-container{
+    position:relative;
+    left:-50%;
+    text-align:left;
+}
+
+.nav-container ul{
+    list-style:none;
+    position:relative;
+    left:50%;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+     background-color: #5591D9; 
+}
+
+.navbar {
+    border-top: 1px solid #EFEFEF;
+    margin-bottom: 0; 
+    border-bottom: 1px solid #EFEFEF;
+    min-height: 41px
+}
+
+.nav-li{
+    padding-left: 72px;
+    padding-right: 72px;
+}
+
+.c-btn {
+    box-shadow: none !important;
+    padding: 3px !important;
+}
+
+.pull-right{
+    float:right;
+}
+
+.header-row{
+    background-color: #5591D9; 
+    padding-top: 11px;
+    padding-bottom: 9px;
+}
+
+.custom-dropdown-button{
+    text-align: center;
+    margin-top: 5px;
+}
+
+#custom-ok-button{
+    margin-right: 2px;
 }
