@@ -83,8 +83,8 @@ export class RoutesComponent implements OnInit, AfterViewInit {
 		return promises;
 	}
 
-	getRoute(id){
-		this.DataService.getCordinates(id)
+	getRoute(id, imei){
+		this.DataService.getCordinates(id, imei)
             .then((coordinates) => {
             	this.showDropdowns = false;
              	this.coordinates = coordinates;
@@ -93,10 +93,12 @@ export class RoutesComponent implements OnInit, AfterViewInit {
 				console.log(this.routes);
 				let selectedRoute = this.routes.filter(route => route.Route_number === id);
 
+				console.log("selectedRoute");
+				console.log(this.coordinates);
 				this.singleRoute = {
 					"id":id,
 					"imei" : selectedRoute[0].Imei,
-					"directions": this.coordinates[0].Location
+					"directions": this.coordinates[this.coordinates.length - 1].Location
 				}
 				console.log(this.singleRoute);
             })
@@ -173,7 +175,8 @@ export class RoutesComponent implements OnInit, AfterViewInit {
 			this.id = +params['id'];
 			if(this.id){
 				this.routes = JSON.parse(localStorage.getItem('routes'));
-				this.getRoute(this.id);
+				let selectedRoute = this.routes.filter(route => route.Route_number === this.id);
+				this.getRoute(this.id, selectedRoute[0].Imei);
 			}
 		});
 

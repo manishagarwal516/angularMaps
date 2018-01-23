@@ -10,7 +10,7 @@ declare var google: any;
 export class DataService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private heroesUrl = 'http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes?Imei=';  // URL to web api
+  private heroesUrl = 'http://localhost:3000/routes?Imei=';  // URL to web api
 
   constructor(private http: Http) { }
 
@@ -21,19 +21,19 @@ export class DataService {
   }
 
   getLiveLocations(imei): Promise<Data[]> {
-    return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/live?Imei=" + imei, {})
+    return this.http.get("http://localhost:3000/routes/live?Imei=" + imei, {})
                .toPromise()
                .then(response => response.json()['json'] as Data[]);
   }
 
   getDistinctPhoneNumber(): Promise<Data[]> {
-    return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/getDistinctPhoneNumber", {})
+    return this.http.get("http://localhost:3000/routes/getDistinctPhoneNumber", {})
                .toPromise()
                .then(response => response.json()['json'] as Data[]);
   }
 
-  getCordinates(routeId): Promise<Data[]> {
-    return this.http.get("http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com:3000/routes/codinates/" + routeId, {})
+  getCordinates(routeId, imei): Promise<Data[]> {
+    return this.http.get("http://localhost:3000/routes/codinates/" + routeId + "/" + imei , {})
                .toPromise()
                .then(response => response.json()['json'] as Data[]);
   }
