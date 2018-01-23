@@ -274,7 +274,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #map style=\"width:100%;height:564px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
+module.exports = "<div #map style=\"width:100%;height:550px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
 
 /***/ }),
 
