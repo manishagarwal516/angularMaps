@@ -749,8 +749,12 @@ var RouteMapComponent = (function () {
     function RouteMapComponent(DataService, route) {
         this.DataService = DataService;
         this.route = route;
+        this.loadingMap = false;
+        this.directionsResultsReturned = 0;
     }
     RouteMapComponent.prototype.initMap = function () {
+        this.directionsResultsReturned = 0;
+        //this.loadingMap = false;
         var stations = [];
         var waypoints = [];
         this.mapRoute.directions.map(function (direction) {
@@ -758,9 +762,10 @@ var RouteMapComponent = (function () {
         });
         console.log(this.mapRoute.directions);
         console.log(stations);
-        for (var i = 0, parts = [], max = 25 - 1; i < stations.length; i = i + max) {
+        for (var i = 0, parts = [], max = 20 - 1; i < stations.length; i = i + max) {
             parts.push(stations.slice(i, i + max + 1));
         }
+        this.routeLength = parts.length;
         console.log("parts");
         console.log(parts);
         var mapOptions = {
@@ -768,23 +773,27 @@ var RouteMapComponent = (function () {
         }, map = new google.maps.Map(this.mapDiv.nativeElement, mapOptions), directionsService = new google.maps.DirectionsService, directionsDisplay = new google.maps.DirectionsRenderer({
             map: map
         });
-        //for (var i = 0; i < 1; ++i) {
-        this.getRouteStations(stations, directionsService, directionsDisplay);
-        //}
+        for (var i = 0; i < parts.length; ++i) {
+            this.getRouteStations(parts[i], directionsService, directionsDisplay);
+        }
     };
     RouteMapComponent.prototype.getRouteStations = function (stations, directionsService, directionsDisplay) {
-        console.log(stations);
+        console.log("getRouteStations");
         var waypoints = [];
         var source = new google.maps.LatLng(stations[0].lat, stations[0].lng), destination = new google.maps.LatLng(stations[stations.length - 1].lat, stations[stations.length - 1].lng);
         // Instantiate a directions service.
         // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
-        // for (var i = 1; i < 24 ; i++) {
-        //     waypoints.push({location: new google.maps.LatLng(stations[1].lat, stations[1].lng), stopover: false});
-        // }
-        console.log(waypoints.length);
+        for (var i = 1; i < 24; i++) {
+            waypoints.push({ location: new google.maps.LatLng(stations[1].lat, stations[1].lng), stopover: false });
+        }
         this.calculateAndDisplayRoute(directionsService, directionsDisplay, source, destination, waypoints);
     };
     RouteMapComponent.prototype.calculateAndDisplayRoute = function (directionsService, directionsDisplay, source, destionation, waypoints) {
+        var _this = this;
+        console.log(this.routeLength);
+        var combinedLength = this.routeLength;
+        console.log("In display route");
+        console.log(_this);
         directionsService.route({
             origin: source,
             destination: destionation,
@@ -794,7 +803,32 @@ var RouteMapComponent = (function () {
             travelMode: google.maps.TravelMode.DRIVING
         }, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
-                directionsDisplay.setDirections(response);
+                console.log(_this.directionsResultsReturned);
+                if (_this.directionsResultsReturned == 0) {
+                    _this.combinedResults = response;
+                    _this.directionsResultsReturned++;
+                }
+                else {
+                    console.log("combined");
+                    console.log(_this.combinedResults);
+                    _this.combinedResults.routes[0].legs = _this.combinedResults.routes[0].legs.concat(response.routes[0].legs);
+                    _this.combinedResults.routes[0].overview_path = _this.combinedResults.routes[0].overview_path.concat(response.routes[0].overview_path);
+                    _this.combinedResults.routes[0].bounds = _this.combinedResults.routes[0].bounds.extend(response.routes[0].bounds.getNorthEast());
+                    _this.combinedResults.routes[0].bounds = _this.combinedResults.routes[0].bounds.extend(response.routes[0].bounds.getSouthWest());
+                    _this.directionsResultsReturned++;
+                }
+                //this.mapLoop++;
+                console.log("In skjsk");
+                console.log(_this.directionsResultsReturned);
+                console.log(combinedLength);
+                if (_this.directionsResultsReturned == combinedLength) {
+                    //this.loadingMap = false;
+                    console.log("In set directions");
+                    //directionsDisplay.setOptions( { suppressMarkers: true } );
+                    directionsDisplay.setDirections(_this.combinedResults);
+                } // we've received all the results. put to map
+                //directionsDisplay.setDirections(_this.combinedResults);
+                //directionsDisplay.setDirections(response);
             }
             else {
                 window.alert('Directions request failed due to ' + status);
@@ -816,16 +850,16 @@ var RouteMapComponent = (function () {
             }
         });
     };
-    RouteMapComponent.prototype.ensureScript = function () {
+    RouteMapComponent.prototype.ensureScript = function (mapType) {
         var _this = this;
         var document = this.mapDiv.nativeElement.ownerDocument;
         var script = document.querySelector('script[id="googlemaps"]');
+        console.log(script);
         if (script) {
-            console.log(this.tableView);
-            if (this.mapRoute.directions) {
+            if (this.mapRoute.directions && mapType === "route") {
                 this.initMap();
             }
-            else if (this.tableView) {
+            else if (this.tableView && mapType === "india") {
                 this.showIndiaMap();
             }
         }
@@ -838,10 +872,10 @@ var RouteMapComponent = (function () {
             script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
             script_1.onload = function () {
                 console.log(_this.tableView);
-                if (_this.mapRoute.directions) {
+                if (_this.mapRoute.directions && mapType === "route") {
                     _this.initMap();
                 }
-                else if (_this.tableView) {
+                else if (_this.tableView && mapType === "india") {
                     _this.showIndiaMap();
                 }
             };
@@ -855,8 +889,12 @@ var RouteMapComponent = (function () {
             var cur = JSON.stringify(chng.currentValue);
             var prev = JSON.stringify(chng.previousValue);
             setTimeout(function () {
-                if (cur && prev) {
-                    _this.ensureScript();
+                if (cur && prev && propName === "mapRoute") {
+                    console.log(propName);
+                    console.log(cur);
+                    console.log(prev);
+                    console.log("In ngonchanges");
+                    _this.ensureScript("route");
                 }
             }, 200);
             //this.changeLog.push(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
@@ -869,8 +907,8 @@ var RouteMapComponent = (function () {
         var _this = this;
         console.log(this.mapRoute);
         setTimeout(function () {
-            console.log("dsdds");
-            _this.ensureScript();
+            _this.loadingMap = true;
+            _this.ensureScript("india");
         }, 200);
     };
     return RouteMapComponent;
@@ -991,7 +1029,7 @@ var RoutesComponent = (function () {
         Promise.all(destinationPromises);
         this.routes = routes;
         localStorage.setItem('routes', JSON.stringify(this.routes));
-        console.log(this.routes);
+        //console.log(this.routes);
     };
     RoutesComponent.prototype.getAddress = function (routes, key) {
         var promises = [];
@@ -1000,7 +1038,7 @@ var RoutesComponent = (function () {
                 var geocoder, address;
                 geocoder = new google.maps.Geocoder();
                 var latlng = new google.maps.LatLng(route[key].Lat, route[key].Long);
-                console.log(route[key]);
+                //console.log(route[key]);
                 geocoder.geocode({ 'latLng': latlng }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results[0]) {
@@ -1029,22 +1067,22 @@ var RoutesComponent = (function () {
             _this.showDropdowns = false;
             _this.coordinates = coordinates;
             _this.mapView = false;
-            console.log(_this.routes);
+            //console.log(this.routes);
             var selectedRoute = _this.routes.filter(function (route) { return route.Route_number === id; });
-            console.log("selectedRoute");
-            console.log(_this.coordinates);
+            //console.log("selectedRoute");
+            //console.log(this.coordinates);
             _this.singleRoute = {
                 "id": id,
                 "imei": selectedRoute[0].Imei,
                 "directions": _this.coordinates[_this.coordinates.length - 1].Location
             };
-            console.log(_this.singleRoute);
+            //console.log(this.singleRoute);
         });
-        // console.log(this.coordinates[0].Location);
+        // //console.log(this.coordinates[0].Location);
         // });
     };
     RoutesComponent.prototype.onChange = function ($event) {
-        console.log(this.selectedItems);
+        //console.log(this.selectedItems);
     };
     RoutesComponent.prototype.selectedDate = function (value, datepicker) {
         datepicker.start = value.start;

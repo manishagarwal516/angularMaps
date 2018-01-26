@@ -47,7 +47,7 @@ export class RoutesComponent implements OnInit, AfterViewInit {
 		Promise.all(destinationPromises);
 		this.routes = routes;
 		localStorage.setItem('routes', JSON.stringify(this.routes));
-		console.log(this.routes);
+		//console.log(this.routes);
 	}
 
 	getAddress(routes, key){
@@ -57,7 +57,7 @@ export class RoutesComponent implements OnInit, AfterViewInit {
 				var geocoder, address;
 				geocoder = new google.maps.Geocoder();
 				var latlng = new google.maps.LatLng(route[key].Lat, route[key].Long);
-				console.log(route[key]);
+				//console.log(route[key]);
 				geocoder.geocode(
 					{'latLng': latlng}, 
 					function(results, status) {
@@ -90,24 +90,24 @@ export class RoutesComponent implements OnInit, AfterViewInit {
              	this.coordinates = coordinates;
 				this.mapView = false;
 
-				console.log(this.routes);
+				//console.log(this.routes);
 				let selectedRoute = this.routes.filter(route => route.Route_number === id);
 
-				console.log("selectedRoute");
-				console.log(this.coordinates);
+				//console.log("selectedRoute");
+				//console.log(this.coordinates);
 				this.singleRoute = {
 					"id":id,
 					"imei" : selectedRoute[0].Imei,
 					"directions": this.coordinates[this.coordinates.length - 1].Location
 				}
-				console.log(this.singleRoute);
+				//console.log(this.singleRoute);
             })
-				// console.log(this.coordinates[0].Location);
+				// //console.log(this.coordinates[0].Location);
             // });
 	}
 
 	onChange($event) {
-        console.log(this.selectedItems);
+        //console.log(this.selectedItems);
     }
 
     public options: any = {

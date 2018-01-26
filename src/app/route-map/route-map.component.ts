@@ -14,6 +14,10 @@ export class RouteMapComponent implements OnInit, OnChanges {
     @Input() routes;
     @Input('table-view') tableView;
     @ViewChild('map') mapDiv : ElementRef;
+    loadingMap = false;
+    combinedResults;
+    directionsResultsReturned = 0; 
+    routeLength;
     private map: google.maps.Map;
 
     constructor(private DataService: DataService,
@@ -21,6 +25,8 @@ export class RouteMapComponent implements OnInit, OnChanges {
     }
 
     initMap() {
+        this.directionsResultsReturned = 0;
+        //this.loadingMap = false;
         var stations = [];
         var waypoints = [];
         this.mapRoute.directions.map(function(direction) {
@@ -28,9 +34,11 @@ export class RouteMapComponent implements OnInit, OnChanges {
         })
         console.log(this.mapRoute.directions);
         console.log(stations)
-        for (var i = 0, parts = [], max = 25 - 1; i < stations.length; i = i + max){
+        for (var i = 0, parts = [], max = 20 - 1; i < stations.length; i = i + max){
             parts.push(stations.slice(i, i + max + 1));
         }
+
+        this.routeLength = parts.length; 
         console.log("parts")
         console.log(parts);
         var mapOptions = {
@@ -42,13 +50,13 @@ export class RouteMapComponent implements OnInit, OnChanges {
             map: map
         });
 
-        //for (var i = 0; i < 1; ++i) {
-            this.getRouteStations(stations, directionsService, directionsDisplay);
-        //}
+        for (var i = 0; i < parts.length; ++i) {
+            this.getRouteStations(parts[i], directionsService, directionsDisplay);
+        }
     }
 
     getRouteStations(stations, directionsService, directionsDisplay){
-        console.log(stations);
+        console.log("getRouteStations");
         var waypoints = [];
         var source = new google.maps.LatLng(stations[0].lat, stations[0].lng),
         destination = new google.maps.LatLng(stations[stations.length -1].lat, stations[stations.length -1].lng)
@@ -56,15 +64,20 @@ export class RouteMapComponent implements OnInit, OnChanges {
         // Instantiate a directions service.
         
         // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
-        // for (var i = 1; i < 24 ; i++) {
-        //     waypoints.push({location: new google.maps.LatLng(stations[1].lat, stations[1].lng), stopover: false});
-        // }
-        console.log(waypoints.length);
+        for (var i = 1; i < 24 ; i++) {
+            waypoints.push({location: new google.maps.LatLng(stations[1].lat, stations[1].lng), stopover: false});
+        }
+        
         this.calculateAndDisplayRoute(directionsService, directionsDisplay, source, destination, waypoints);
 
     }
 
     calculateAndDisplayRoute(directionsService, directionsDisplay, source, destionation, waypoints) {
+        var _this = this;
+        console.log(this.routeLength);
+        var combinedLength = this.routeLength;
+        console.log("In display route");
+        console.log(_this);
         directionsService.route({
             origin: source,
             destination: destionation,
@@ -74,7 +87,33 @@ export class RouteMapComponent implements OnInit, OnChanges {
             travelMode: google.maps.TravelMode.DRIVING
         }, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
-                directionsDisplay.setDirections(response);
+                console.log(_this.directionsResultsReturned);
+                if (_this.directionsResultsReturned == 0) { // first bunch of results in. new up the combinedResults object
+                    _this.combinedResults = response;
+                    _this.directionsResultsReturned++;
+                }
+                else {
+                    console.log("combined");
+                    console.log(_this.combinedResults);
+                    _this.combinedResults.routes[0].legs = _this.combinedResults.routes[0].legs.concat(response.routes[0].legs);
+                    _this.combinedResults.routes[0].overview_path = _this.combinedResults.routes[0].overview_path.concat(response.routes[0].overview_path);
+ 
+                    _this.combinedResults.routes[0].bounds = _this.combinedResults.routes[0].bounds.extend(response.routes[0].bounds.getNorthEast());
+                    _this.combinedResults.routes[0].bounds = _this.combinedResults.routes[0].bounds.extend(response.routes[0].bounds.getSouthWest());
+                    _this.directionsResultsReturned++;
+                }
+                //this.mapLoop++;
+                console.log("In skjsk")
+                console.log(_this.directionsResultsReturned);
+                console.log(combinedLength);
+                if (_this.directionsResultsReturned == combinedLength){
+                    //this.loadingMap = false;
+                    console.log("In set directions");
+                    //directionsDisplay.setOptions( { suppressMarkers: true } );
+                    directionsDisplay.setDirections(_this.combinedResults);
+                } // we've received all the results. put to map
+                    //directionsDisplay.setDirections(_this.combinedResults);
+                //directionsDisplay.setDirections(response);
             } else {
                 window.alert('Directions request failed due to ' + status);
             }
@@ -96,14 +135,14 @@ export class RouteMapComponent implements OnInit, OnChanges {
                 }
         });
     }
-    ensureScript(){
+    ensureScript(mapType){
         const document = this.mapDiv.nativeElement.ownerDocument;
         const script = <HTMLScriptElement>document.querySelector('script[id="googlemaps"]');
+        console.log(script);
         if (script) {
-            console.log(this.tableView);
-            if(this.mapRoute.directions){
+            if(this.mapRoute.directions && mapType === "route"){
                 this.initMap();
-            }else if(this.tableView){
+            }else if(this.tableView && mapType === "india"){
                 this.showIndiaMap();
             }
         } else {
@@ -115,9 +154,9 @@ export class RouteMapComponent implements OnInit, OnChanges {
             script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
             script.onload = () => {
                 console.log(this.tableView);
-                if(this.mapRoute.directions){
+                if(this.mapRoute.directions && mapType === "route"){
                     this.initMap();
-                }else if(this.tableView){
+                }else if(this.tableView && mapType === "india"){
                     this.showIndiaMap();
                 }
             };      
@@ -131,8 +170,12 @@ export class RouteMapComponent implements OnInit, OnChanges {
         let cur  = JSON.stringify(chng.currentValue);
         let prev = JSON.stringify(chng.previousValue);
         setTimeout(() => {
-            if(cur && prev){
-                 this.ensureScript();
+            if(cur && prev && propName === "mapRoute"){
+                console.log(propName);
+                console.log(cur);
+                console.log(prev)
+                console.log("In ngonchanges");
+                this.ensureScript("route");
             }
         }, 200);
         //this.changeLog.push(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
@@ -142,8 +185,8 @@ export class RouteMapComponent implements OnInit, OnChanges {
     ngOnInit() {
         console.log(this.mapRoute)
         setTimeout(() => {
-            console.log("dsdds")
-            this.ensureScript();
+            this.loadingMap = true;
+            this.ensureScript("india");
         }, 200);
     }
 
