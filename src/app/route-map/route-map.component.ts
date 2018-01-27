@@ -17,6 +17,9 @@ export class RouteMapComponent implements OnInit, OnChanges {
     loadingMap = false;
     combinedResults;
     directionsResultsReturned = 0; 
+    heightStyle = {
+        height : "490px"
+    };    
     routeLength;
     private map: google.maps.Map;
 
@@ -26,6 +29,9 @@ export class RouteMapComponent implements OnInit, OnChanges {
 
     initMap() {
         this.directionsResultsReturned = 0;
+        this.heightStyle = {
+            height : "450px"
+        }; 
         //this.loadingMap = false;
         var stations = [];
         var waypoints = [];
@@ -42,14 +48,24 @@ export class RouteMapComponent implements OnInit, OnChanges {
         console.log("parts")
         console.log(parts);
         var mapOptions = {
-            zoom: 7
+            zoom: 13,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
         },
         map = new google.maps.Map(this.mapDiv.nativeElement, mapOptions),
         directionsService = new google.maps.DirectionsService,
         directionsDisplay = new google.maps.DirectionsRenderer({
-            map: map
+            map: map,
+            polylineOptions: { 
+                strokeColor: "#1a8ff4",
+                strokeOpacity: 1.0,
+                strokeWeight: 4,
+            }
         });
 
+        // this.heightStyle = {
+        //      height : "477px"
+        // }
         for (var i = 0; i < parts.length; ++i) {
             this.getRouteStations(parts[i], directionsService, directionsDisplay);
         }
@@ -109,8 +125,8 @@ export class RouteMapComponent implements OnInit, OnChanges {
                 if (_this.directionsResultsReturned == combinedLength){
                     //this.loadingMap = false;
                     console.log("In set directions");
-                    //directionsDisplay.setOptions( { suppressMarkers: true } );
                     directionsDisplay.setDirections(_this.combinedResults);
+                    //directionsDisplay.setOptions( { preserveViewport: true } );
                 } // we've received all the results. put to map
                     //directionsDisplay.setDirections(_this.combinedResults);
                 //directionsDisplay.setDirections(response);

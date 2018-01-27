@@ -1,5 +1,5 @@
 html {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -177,9 +177,7 @@ a:hover, a:focus {
     margin-right: 102px;
 }
 
-.logo-img{
-    text-align: center;
-}
+
 
 .nav-container{
     position:relative;
@@ -222,6 +220,7 @@ a:hover, a:focus {
     background-color: #5591D9; 
     padding-top: 11px;
     padding-bottom: 9px;
+    max-height: 46px;
 }
 
 .custom-dropdown-button{
@@ -230,5 +229,48 @@ a:hover, a:focus {
 }
 
 #custom-ok-button{
-    margin-right: 2px;
+    margin-right: 7px;
+    box-shadow : 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)
 }
+
+#custom-cancel-button{
+    box-shadow : 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)   
+}
+
+.custom-dropdown-button{
+    margin-bottom: 5px;
+}
+
+.logo-img > img{
+    width: 43%;
+    margin-left: 99px;
+}
+
+.dropdown-content{
+    border-radius: 5px;
+    min-width: 84px !important
+}
+
+.dropdown-content a {
+    color: #337ab7 !important;
+    text-decoration: none !important;
+}
+
+.logo-img{
+    padding:0px !important;
+}
+
+.side-nav{
+    width: 68px;
+    border-radius: 50%;
+}
+
+/*.logo{
+    background-color: transparent; 
+}*/
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #555;
+    background-color: transparent;
+}
+

@@ -274,7 +274,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #map style=\"width:100%;height:550px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
+module.exports = "<div #map style=\"width:100%;height:535px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
 
 /***/ }),
 
@@ -384,7 +384,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/live-location/live-location.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row header-row\">\n\t<div class=\"col-md-8\">\n\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;\"></angular2-multiselect>\n\t</div>\n</div>\n<div>\n\t<div #map style=\"width:100%;height:512px;\"></div>\n</div>\t\n\n"
+module.exports = "<div class=\"row header-row\">\n\t<div class=\"col-md-8\">\n\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;\"></angular2-multiselect>\n\t</div>\n</div>\n<div>\n\t<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"></div>\n</div>\t\n\n"
 
 /***/ }),
 
@@ -421,8 +421,14 @@ var LiveLocationComponent = (function () {
         this.selectedItems = [];
         this.dropdownSettings = {};
         this.markers = [];
+        this.heightStyle = {
+            height: "512px"
+        };
     }
     LiveLocationComponent.prototype.showLiveLocation = function () {
+        this.heightStyle = {
+            height: "512px"
+        };
         var position;
         var locations = [];
         var bounds = new google.maps.LatLngBounds();
@@ -519,6 +525,9 @@ var LiveLocationComponent = (function () {
         }
     };
     LiveLocationComponent.prototype.showIndiaMap = function () {
+        this.heightStyle = {
+            height: "490px"
+        };
         var geocoder = new google.maps.Geocoder();
         var indianMap = this.map;
         geocoder.geocode({ 'address': "india" }, function (results, status) {
@@ -601,10 +610,10 @@ var LiveLocationComponent = (function () {
     LiveLocationComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
         var buttonHtml = "<div class='custom-dropdown-button'>";
-        buttonHtml += "<button id='custom-ok-button' class='btn btn-primary btn-md'>OK</button>";
-        buttonHtml += "<button id='custom-cancel-button' class='btn btn-primary btn-md'>Cancel</button>";
+        buttonHtml += "<button id='custom-ok-button' class='btn btn-outline-secondary btn-sm'>OK</button>";
+        buttonHtml += "<button id='custom-cancel-button' class='btn btn-outline-secondary btn-sm'>Cancel</button>";
         buttonHtml += "</div>";
-        __WEBPACK_IMPORTED_MODULE_3_jquery__(buttonHtml).insertAfter(".list-filter");
+        __WEBPACK_IMPORTED_MODULE_3_jquery__(buttonHtml).insertAfter(".lazyContainer");
         __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-cancel-button")
             .on('click', function () {
             __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);
@@ -660,7 +669,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar-inner nav-top\">\n  <div class=\"container-fluid\">\n    <ul class=\"nav navbar-top\" >\n    \t<li>\n    \t\t<a routerLink=\"/routes\" class=\"logo-img\">\n\t\t\t\t<img src=\"assets/images/logo.png\" class=\"nav-logo\" alt=\"logo\" />\n\t\t\t</a>\n      \t</li>\n    </ul>\n  </div>\n</nav>\n<nav class=\"navbar navbar-inner\">\n  <div class=\"container-fluid nav-container\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\"> <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n\n      </button>\n    </div>\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav \">\n      \t<li routerLinkActive=\"active\"><a routerLink=\"/home\">Home</a></li>\n      \t<li routerLinkActive=\"active\" class=\"nav-li\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t    <li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Tracking</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n"
+module.exports = "\n\n<nav class=\"navbar-inner nav-top\">\n  <div class=\"container-fluid\">\n    <ul class=\"nav navbar-nav \">\n        <li routerLinkActive=\"active\"><a routerLink=\"/home\"><img src=\"assets/images/side-logo.jpeg\" class=\"side-nav\"alt=\"logo\" /></a></li>\n        <li routerLinkActive=\"active\" class=\"nav-li\" style=\"margin-left:238px\"><a routerLink=\"/routes\"><img src=\"assets/images/logo.png\" alt=\"logo\" /></a></li>\n      </ul>\n  </div>\n</nav>\n<nav class=\"navbar navbar-inner\">\n  <div class=\"container-fluid nav-container\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\"> <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n\n      </button>\n    </div>\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav \">\n      \t<li routerLinkActive=\"active\"><a routerLink=\"/home\">Home</a></li>\n      \t<li routerLinkActive=\"active\" class=\"nav-li\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t    <li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Tracking</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -721,7 +730,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/route-map/route-map.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #map style=\"width:100%;height:507px\" [hidden]=\"!tableView\"></div>"
+module.exports = "<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"   [hidden]=\"!tableView\"></div>"
 
 /***/ }),
 
@@ -751,9 +760,15 @@ var RouteMapComponent = (function () {
         this.route = route;
         this.loadingMap = false;
         this.directionsResultsReturned = 0;
+        this.heightStyle = {
+            height: "490px"
+        };
     }
     RouteMapComponent.prototype.initMap = function () {
         this.directionsResultsReturned = 0;
+        this.heightStyle = {
+            height: "450px"
+        };
         //this.loadingMap = false;
         var stations = [];
         var waypoints = [];
@@ -769,10 +784,20 @@ var RouteMapComponent = (function () {
         console.log("parts");
         console.log(parts);
         var mapOptions = {
-            zoom: 7
+            zoom: 13,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
         }, map = new google.maps.Map(this.mapDiv.nativeElement, mapOptions), directionsService = new google.maps.DirectionsService, directionsDisplay = new google.maps.DirectionsRenderer({
-            map: map
+            map: map,
+            polylineOptions: {
+                strokeColor: "#1a8ff4",
+                strokeOpacity: 1.0,
+                strokeWeight: 4,
+            }
         });
+        // this.heightStyle = {
+        //      height : "477px"
+        // }
         for (var i = 0; i < parts.length; ++i) {
             this.getRouteStations(parts[i], directionsService, directionsDisplay);
         }
@@ -824,8 +849,8 @@ var RouteMapComponent = (function () {
                 if (_this.directionsResultsReturned == combinedLength) {
                     //this.loadingMap = false;
                     console.log("In set directions");
-                    //directionsDisplay.setOptions( { suppressMarkers: true } );
                     directionsDisplay.setDirections(_this.combinedResults);
+                    //directionsDisplay.setOptions( { preserveViewport: true } );
                 } // we've received all the results. put to map
                 //directionsDisplay.setDirections(_this.combinedResults);
                 //directionsDisplay.setDirections(response);
@@ -964,7 +989,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routes/routes.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"row header-row\">\n\t<div *ngIf=\"showDropdowns\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" style=\"float: right;\">\n\n\t\t\t</angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button class=\"btn btn-primary btn-md\" (click)=\"showRouteTable()\">Add</button>\t\n\t\t</div>\n\t</div>\t\n\t<div class=\"col-md-12\" *ngIf=\"!showDropdowns\" style=\"text-align: center;\">\n\t\t<div class=\"dropdown\">\n\t\t  <button class=\"btn btn-primary\">Routes List</button>\n\t\t  <div class=\"dropdown-content\">\n\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t  \t\t{{route.Route_number}}\n\t\t  \t</a>\n\t\t  </div>\n\t\t</div>\n\t</div>\n</div>\n<div class=\"row grid-container\" *ngIf=\"!tableView\">\n\t<div class=\"col-md-12\">\n\t\t<div class=\"table\">\n\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\t\n\t\t\t            <th>User Id</th>\n\t\t\t            <th>Route Number</th>\n\t\t\t            <th>Date Time</th>\n\t\t\t            <th>View Route on Map</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Route</a></td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr></tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n<div>\n\t<div>\n\t  <div *ngIf=\"!mapView\" class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }} for Imei {{singleRoute.imei}}\n\t      </h4>\n\t    </div>\n\t  </div>   \n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" [table-view]=\"tableView\"\n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
+module.exports = "\n<div class=\"row header-row\">\n\t<div *ngIf=\"showDropdowns\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" style=\"float: right;\">\n\n\t\t\t</angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"showRouteTable()\">Add</button>\t\n\t\t</div>\n\t</div>\t\n\t<div class=\"col-md-12\" *ngIf=\"!showDropdowns\" style=\"text-align: center;\">\n\t\t<div class=\"dropdown\">\n\t\t  <button class=\"btn btn-primary btn-sm\">Routes List</button>\n\t\t  <div class=\"dropdown-content\">\n\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t  \t\t{{route.Route_number}}\n\t\t  \t</a>\n\t\t  </div>\n\t\t</div>\n\t</div>\n</div>\n<div class=\"row grid-container\" *ngIf=\"!tableView\">\n\t<div class=\"col-md-12\">\n\t\t<div class=\"table\">\n\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\t\n\t\t\t            <th>User Id</th>\n\t\t\t            <th>Route Number</th>\n\t\t\t            <th>Date Time</th>\n\t\t\t            <th>View Route on Map</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Route</a></td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr></tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n<div>\n\t<div>\n\t  <div *ngIf=\"!mapView\" class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }} for Imei {{singleRoute.imei}}\n\t      </h4>\n\t    </div>\n\t  </div>   \n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" [table-view]=\"tableView\"\n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
 
 /***/ }),
 
@@ -1112,10 +1137,10 @@ var RoutesComponent = (function () {
     RoutesComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
         var buttonHtml = "<div class='custom-dropdown-button'>";
-        buttonHtml += "<button id='custom-ok-button' class='btn btn-primary btn-md'>OK</button>";
-        buttonHtml += "<button id='custom-cancel-button' class='btn btn-primary btn-md'>Cancel</button>";
+        buttonHtml += "<button id='custom-ok-button' class='btn btn-outline-secondary btn-sm'>OK</button>";
+        buttonHtml += "<button id='custom-cancel-button' class='btn btn-outline-secondary btn-sm'>Cancel</button>";
         buttonHtml += "</div>";
-        __WEBPACK_IMPORTED_MODULE_3_jquery__(buttonHtml).insertAfter(".list-filter");
+        __WEBPACK_IMPORTED_MODULE_3_jquery__(buttonHtml).insertAfter(".lazyContainer");
         __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-cancel-button")
             .on('click', function () {
             __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);

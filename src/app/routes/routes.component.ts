@@ -151,10 +151,10 @@ export class RoutesComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
     	var buttonHtml = "<div class='custom-dropdown-button'>"
-    	buttonHtml += "<button id='custom-ok-button' class='btn btn-primary btn-md'>OK</button>"
-    	buttonHtml += "<button id='custom-cancel-button' class='btn btn-primary btn-md'>Cancel</button>"
+    	buttonHtml += "<button id='custom-ok-button' class='btn btn-outline-secondary btn-sm'>OK</button>"
+    	buttonHtml += "<button id='custom-cancel-button' class='btn btn-outline-secondary btn-sm'>Cancel</button>"
     	buttonHtml += "</div>"
-    	$(buttonHtml).insertAfter( ".list-filter" );
+    	$(buttonHtml).insertAfter( ".lazyContainer" );
         $("#custom-cancel-button")
         	.on('click', () => {
         	$('.dropdown-list').prop("hidden",true);

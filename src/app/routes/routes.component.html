@@ -8,12 +8,12 @@
 		</div>
 		<div class="col-md-6">	
 			<input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)" />
-			<button class="btn btn-primary btn-md" (click)="showRouteTable()">Add</button>	
+			<button class="btn btn-primary btn-sm" (click)="showRouteTable()">Add</button>	
 		</div>
 	</div>	
 	<div class="col-md-12" *ngIf="!showDropdowns" style="text-align: center;">
 		<div class="dropdown">
-		  <button class="btn btn-primary">Routes List</button>
+		  <button class="btn btn-primary btn-sm">Routes List</button>
 		  <div class="dropdown-content">
 		  	<a [routerLink]="['/route',route.Route_number]" *ngFor="let route of routes" href="#">
 		  		{{route.Route_number}}
