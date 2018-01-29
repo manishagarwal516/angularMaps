@@ -274,7 +274,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #map style=\"width:100%;height:535px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
+module.exports = "<div #map style=\"width:100%;height:524px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
 
 /***/ }),
 
@@ -422,12 +422,12 @@ var LiveLocationComponent = (function () {
         this.dropdownSettings = {};
         this.markers = [];
         this.heightStyle = {
-            height: "512px"
+            height: "500px"
         };
     }
     LiveLocationComponent.prototype.showLiveLocation = function () {
         this.heightStyle = {
-            height: "512px"
+            height: "500px"
         };
         var position;
         var locations = [];
@@ -526,7 +526,7 @@ var LiveLocationComponent = (function () {
     };
     LiveLocationComponent.prototype.showIndiaMap = function () {
         this.heightStyle = {
-            height: "490px"
+            height: "478px"
         };
         var geocoder = new google.maps.Geocoder();
         var indianMap = this.map;
@@ -761,13 +761,13 @@ var RouteMapComponent = (function () {
         this.loadingMap = false;
         this.directionsResultsReturned = 0;
         this.heightStyle = {
-            height: "490px"
+            height: "478px"
         };
     }
     RouteMapComponent.prototype.initMap = function () {
         this.directionsResultsReturned = 0;
         this.heightStyle = {
-            height: "450px"
+            height: "438px"
         };
         //this.loadingMap = false;
         var stations = [];

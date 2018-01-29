@@ -18,7 +18,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
     combinedResults;
     directionsResultsReturned = 0; 
     heightStyle = {
-        height : "490px"
+        height : "478px"
     };    
     routeLength;
     private map: google.maps.Map;
@@ -30,7 +30,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
     initMap() {
         this.directionsResultsReturned = 0;
         this.heightStyle = {
-            height : "450px"
+            height : "438px"
         }; 
         //this.loadingMap = false;
         var stations = [];

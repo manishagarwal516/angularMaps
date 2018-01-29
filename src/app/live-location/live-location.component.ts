@@ -32,7 +32,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 	showMap : boolean
 
 	heightStyle = {
-        height : "512px"
+        height : "500px"
     };
 	@ViewChild('map') mapDiv : ElementRef;
 
@@ -41,7 +41,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 
 	showLiveLocation(){
 		this.heightStyle = {
-        	height : "512px"
+        	height : "500px"
     	};
 		var position;
 		var locations = [];
@@ -148,7 +148,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 
 	showIndiaMap(){
 		this.heightStyle = {
-        	height : "490px"
+        	height : "478px"
     	};
 		let geocoder = new google.maps.Geocoder();
 		let indianMap = this.map;
