@@ -274,7 +274,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #map style=\"width:100%;height:574px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
+module.exports = "<div #map style=\"width:100%;height:553px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
 
 /***/ }),
 
@@ -422,12 +422,12 @@ var LiveLocationComponent = (function () {
         this.dropdownSettings = {};
         this.markers = [];
         this.heightStyle = {
-            height: "572px"
+            height: "556px"
         };
     }
     LiveLocationComponent.prototype.showLiveLocation = function () {
         this.heightStyle = {
-            height: "572px"
+            height: "556px"
         };
         var position;
         var locations = [];
@@ -526,7 +526,7 @@ var LiveLocationComponent = (function () {
     };
     LiveLocationComponent.prototype.showIndiaMap = function () {
         this.heightStyle = {
-            height: "528px"
+            height: "512px"
         };
         var geocoder = new google.maps.Geocoder();
         var indianMap = this.map;
@@ -761,14 +761,14 @@ var RouteMapComponent = (function () {
         this.loadingMap = false;
         this.directionsResultsReturned = 0;
         this.heightStyle = {
-            height: "528px"
+            height: "512px"
         };
     }
     RouteMapComponent.prototype.initMap = function () {
         var infowindow = new google.maps.InfoWindow();
         this.directionsResultsReturned = 0;
         this.heightStyle = {
-            height: "490px"
+            height: "472px"
         };
         //this.loadingMap = false;
         var stations = [];
@@ -852,17 +852,6 @@ var RouteMapComponent = (function () {
             else {
                 window.alert('Directions request failed due to ' + status);
             }
-        });
-    };
-    RouteMapComponent.prototype.createMarker = function (latlng, title, map, infowindow) {
-        var marker = new google.maps.Marker({
-            position: latlng,
-            title: title,
-            map: map
-        });
-        google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(title);
-            infowindow.open(map, marker);
         });
     };
     RouteMapComponent.prototype.showIndiaMap = function () {

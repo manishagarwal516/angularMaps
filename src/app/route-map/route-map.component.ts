@@ -18,7 +18,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
     combinedResults;
     directionsResultsReturned = 0; 
     heightStyle = {
-        height : "528px"
+        height : "512px"
     };    
     routeLength;
     private map: google.maps.Map;
@@ -31,7 +31,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
         var infowindow = new google.maps.InfoWindow();
         this.directionsResultsReturned = 0;
         this.heightStyle = {
-            height : "490px"
+            height : "472px"
         }; 
         //this.loadingMap = false;
         var stations = [];
@@ -133,18 +133,6 @@ export class RouteMapComponent implements OnInit, OnChanges {
         });
     }
     
-    createMarker(latlng, title, map, infowindow) {
-        var marker = new google.maps.Marker({
-            position: latlng,
-            title: title,
-            map: map
-        });
-
-        google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(title);
-            infowindow.open(map, marker);
-        });
-    }
 
     showIndiaMap(){
         let options = {
