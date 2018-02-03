@@ -18,7 +18,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
     combinedResults;
     directionsResultsReturned = 0; 
     heightStyle = {
-        height : "478px"
+        height : "528px"
     };    
     routeLength;
     private map: google.maps.Map;
@@ -28,9 +28,10 @@ export class RouteMapComponent implements OnInit, OnChanges {
     }
 
     initMap() {
+        var infowindow = new google.maps.InfoWindow();
         this.directionsResultsReturned = 0;
         this.heightStyle = {
-            height : "438px"
+            height : "490px"
         }; 
         //this.loadingMap = false;
         var stations = [];
@@ -67,11 +68,11 @@ export class RouteMapComponent implements OnInit, OnChanges {
         //      height : "477px"
         // }
         for (var i = 0; i < parts.length; ++i) {
-            this.getRouteStations(parts[i], directionsService, directionsDisplay);
+            this.getRouteStations(parts[i], directionsService, directionsDisplay, map, infowindow);
         }
     }
 
-    getRouteStations(stations, directionsService, directionsDisplay){
+    getRouteStations(stations, directionsService, directionsDisplay, map, infowindow){
         console.log("getRouteStations");
         var waypoints = [];
         var source = new google.maps.LatLng(stations[0].lat, stations[0].lng),
@@ -84,26 +85,24 @@ export class RouteMapComponent implements OnInit, OnChanges {
             waypoints.push({location: new google.maps.LatLng(stations[1].lat, stations[1].lng), stopover: false});
         }
         
-        this.calculateAndDisplayRoute(directionsService, directionsDisplay, source, destination, waypoints);
+        this.calculateAndDisplayRoute(directionsService, directionsDisplay, source, destination, waypoints, map, infowindow);
 
     }
 
-    calculateAndDisplayRoute(directionsService, directionsDisplay, source, destionation, waypoints) {
+    calculateAndDisplayRoute(directionsService, directionsDisplay, source, destionation, waypoints, map, infowindow) {
         var _this = this;
-        console.log(this.routeLength);
         var combinedLength = this.routeLength;
-        console.log("In display route");
-        console.log(_this);
+
         directionsService.route({
             origin: source,
             destination: destionation,
            // waypoints: waypoints,
+            optimizeWaypoints: true,
             avoidTolls: true,
             avoidHighways: false,
             travelMode: google.maps.TravelMode.DRIVING
         }, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
-                console.log(_this.directionsResultsReturned);
                 if (_this.directionsResultsReturned == 0) { // first bunch of results in. new up the combinedResults object
                     _this.combinedResults = response;
                     _this.directionsResultsReturned++;
@@ -119,23 +118,34 @@ export class RouteMapComponent implements OnInit, OnChanges {
                     _this.directionsResultsReturned++;
                 }
                 //this.mapLoop++;
-                console.log("In skjsk")
-                console.log(_this.directionsResultsReturned);
-                console.log(combinedLength);
+                
                 if (_this.directionsResultsReturned == combinedLength){
-                    //this.loadingMap = false;
-                    console.log("In set directions");
                     directionsDisplay.setDirections(_this.combinedResults);
-                    //directionsDisplay.setOptions( { preserveViewport: true } );
-                } // we've received all the results. put to map
-                    //directionsDisplay.setDirections(_this.combinedResults);
-                //directionsDisplay.setDirections(response);
+                    //var start = new google.maps.LatLng(43.786161, 11.250510);
+                    //var end = new google.maps.LatLng(43.776030, 11.274929);
+
+                    //this.createMarker(start, 'start',map, infowindow);
+                    //this.createMarker(end, 'end',map, infowindow);
+                } 
             } else {
                 window.alert('Directions request failed due to ' + status);
             }
         });
     }
     
+    createMarker(latlng, title, map, infowindow) {
+        var marker = new google.maps.Marker({
+            position: latlng,
+            title: title,
+            map: map
+        });
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(title);
+            infowindow.open(map, marker);
+        });
+    }
+
     showIndiaMap(){
         let options = {
             zoom : 4,

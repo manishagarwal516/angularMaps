@@ -261,7 +261,7 @@ a:hover, a:focus {
 }
 
 .side-nav{
-    width: 68px;
+    width: 48px;
     border-radius: 50%;
 }
 
@@ -274,3 +274,18 @@ a:hover, a:focus {
     background-color: transparent;
 }
 
+.navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus{
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}    
+
+.app-logo{
+    height: 38px;
+    width: 300px;
+}
+
+.navbar-nav>li>a {
+    padding-top: 7px;
+    padding-bottom: 7px
+}

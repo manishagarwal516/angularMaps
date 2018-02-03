@@ -274,7 +274,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #map style=\"width:100%;height:524px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
+module.exports = "<div #map style=\"width:100%;height:574px;\"></div>\n\n<!-- <div class=\"map-wrapper\">\n      <ui-gmap-google-map> ...</ui-gmap-google-map>\n</div> -->"
 
 /***/ }),
 
@@ -384,7 +384,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/live-location/live-location.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row header-row\">\n\t<div class=\"col-md-8\">\n\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;\"></angular2-multiselect>\n\t</div>\n</div>\n<div>\n\t<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"></div>\n</div>\t\n\n"
+module.exports = "<div class=\"row header-row\"  *ngIf=\"!showMap\">\n\t<div class=\"col-md-8\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;\"></angular2-multiselect>\n\t</div>\n</div>\n<div>\n\t<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"></div>\n</div>\t\n\n"
 
 /***/ }),
 
@@ -422,12 +422,12 @@ var LiveLocationComponent = (function () {
         this.dropdownSettings = {};
         this.markers = [];
         this.heightStyle = {
-            height: "500px"
+            height: "572px"
         };
     }
     LiveLocationComponent.prototype.showLiveLocation = function () {
         this.heightStyle = {
-            height: "500px"
+            height: "572px"
         };
         var position;
         var locations = [];
@@ -526,7 +526,7 @@ var LiveLocationComponent = (function () {
     };
     LiveLocationComponent.prototype.showIndiaMap = function () {
         this.heightStyle = {
-            height: "478px"
+            height: "528px"
         };
         var geocoder = new google.maps.Geocoder();
         var indianMap = this.map;
@@ -669,7 +669,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<nav class=\"navbar-inner nav-top\">\n  <div class=\"container-fluid\">\n    <ul class=\"nav navbar-nav \">\n        <li routerLinkActive=\"active\"><a routerLink=\"/home\"><img src=\"assets/images/side-logo.jpeg\" class=\"side-nav\"alt=\"logo\" /></a></li>\n        <li routerLinkActive=\"active\" class=\"nav-li\" style=\"margin-left:238px\"><a routerLink=\"/routes\"><img src=\"assets/images/logo.png\" alt=\"logo\" /></a></li>\n      </ul>\n  </div>\n</nav>\n<nav class=\"navbar navbar-inner\">\n  <div class=\"container-fluid nav-container\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\"> <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n\n      </button>\n    </div>\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav \">\n      \t<li routerLinkActive=\"active\"><a routerLink=\"/home\">Home</a></li>\n      \t<li routerLinkActive=\"active\" class=\"nav-li\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t    <li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Tracking</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n"
+module.exports = "\n\n<nav class=\"navbar-inner nav-top\">\n  <div class=\"container-fluid\">\n    <ul class=\"nav navbar-nav \">\n        <li routerLinkActive=\"active\"><a routerLink=\"/home\"><img src=\"assets/images/side-logo.jpeg\" class=\"side-nav\"alt=\"logo\" /></a></li>\n        <li routerLinkActive=\"active\" class=\"nav-li\" style=\"margin-left:310px\"><a routerLink=\"/routes\"><img src=\"assets/images/logo.png\" class=\"app-logo\" alt=\"logo\" /></a></li>\n      </ul>\n  </div>\n</nav>\n<nav class=\"navbar navbar-inner\">\n  <div class=\"container-fluid nav-container\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\"> <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n\n      </button>\n    </div>\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav \">\n      \t<li routerLinkActive=\"active\"><a routerLink=\"/home\">Home</a></li>\n      \t<li routerLinkActive=\"active\" class=\"nav-li\"><a routerLink=\"/routes\">Routes</a></li>\n\t\t    <li routerLinkActive=\"active\"><a routerLink=\"/live-locations\">Live Tracking</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -761,13 +761,14 @@ var RouteMapComponent = (function () {
         this.loadingMap = false;
         this.directionsResultsReturned = 0;
         this.heightStyle = {
-            height: "478px"
+            height: "528px"
         };
     }
     RouteMapComponent.prototype.initMap = function () {
+        var infowindow = new google.maps.InfoWindow();
         this.directionsResultsReturned = 0;
         this.heightStyle = {
-            height: "438px"
+            height: "490px"
         };
         //this.loadingMap = false;
         var stations = [];
@@ -799,10 +800,10 @@ var RouteMapComponent = (function () {
         //      height : "477px"
         // }
         for (var i = 0; i < parts.length; ++i) {
-            this.getRouteStations(parts[i], directionsService, directionsDisplay);
+            this.getRouteStations(parts[i], directionsService, directionsDisplay, map, infowindow);
         }
     };
-    RouteMapComponent.prototype.getRouteStations = function (stations, directionsService, directionsDisplay) {
+    RouteMapComponent.prototype.getRouteStations = function (stations, directionsService, directionsDisplay, map, infowindow) {
         console.log("getRouteStations");
         var waypoints = [];
         var source = new google.maps.LatLng(stations[0].lat, stations[0].lng), destination = new google.maps.LatLng(stations[stations.length - 1].lat, stations[stations.length - 1].lng);
@@ -811,24 +812,21 @@ var RouteMapComponent = (function () {
         for (var i = 1; i < 24; i++) {
             waypoints.push({ location: new google.maps.LatLng(stations[1].lat, stations[1].lng), stopover: false });
         }
-        this.calculateAndDisplayRoute(directionsService, directionsDisplay, source, destination, waypoints);
+        this.calculateAndDisplayRoute(directionsService, directionsDisplay, source, destination, waypoints, map, infowindow);
     };
-    RouteMapComponent.prototype.calculateAndDisplayRoute = function (directionsService, directionsDisplay, source, destionation, waypoints) {
+    RouteMapComponent.prototype.calculateAndDisplayRoute = function (directionsService, directionsDisplay, source, destionation, waypoints, map, infowindow) {
         var _this = this;
-        console.log(this.routeLength);
         var combinedLength = this.routeLength;
-        console.log("In display route");
-        console.log(_this);
         directionsService.route({
             origin: source,
             destination: destionation,
             // waypoints: waypoints,
+            optimizeWaypoints: true,
             avoidTolls: true,
             avoidHighways: false,
             travelMode: google.maps.TravelMode.DRIVING
         }, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
-                console.log(_this.directionsResultsReturned);
                 if (_this.directionsResultsReturned == 0) {
                     _this.combinedResults = response;
                     _this.directionsResultsReturned++;
@@ -843,21 +841,28 @@ var RouteMapComponent = (function () {
                     _this.directionsResultsReturned++;
                 }
                 //this.mapLoop++;
-                console.log("In skjsk");
-                console.log(_this.directionsResultsReturned);
-                console.log(combinedLength);
                 if (_this.directionsResultsReturned == combinedLength) {
-                    //this.loadingMap = false;
-                    console.log("In set directions");
                     directionsDisplay.setDirections(_this.combinedResults);
-                    //directionsDisplay.setOptions( { preserveViewport: true } );
-                } // we've received all the results. put to map
-                //directionsDisplay.setDirections(_this.combinedResults);
-                //directionsDisplay.setDirections(response);
+                    //var start = new google.maps.LatLng(43.786161, 11.250510);
+                    //var end = new google.maps.LatLng(43.776030, 11.274929);
+                    //this.createMarker(start, 'start',map, infowindow);
+                    //this.createMarker(end, 'end',map, infowindow);
+                }
             }
             else {
                 window.alert('Directions request failed due to ' + status);
             }
+        });
+    };
+    RouteMapComponent.prototype.createMarker = function (latlng, title, map, infowindow) {
+        var marker = new google.maps.Marker({
+            position: latlng,
+            title: title,
+            map: map
+        });
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(title);
+            infowindow.open(map, marker);
         });
     };
     RouteMapComponent.prototype.showIndiaMap = function () {
@@ -989,7 +994,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routes/routes.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"row header-row\">\n\t<div *ngIf=\"showDropdowns\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" style=\"float: right;\">\n\n\t\t\t</angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"showRouteTable()\">Add</button>\t\n\t\t</div>\n\t</div>\t\n\t<div class=\"col-md-12\" *ngIf=\"!showDropdowns\" style=\"text-align: center;\">\n\t\t<div class=\"dropdown\">\n\t\t  <button class=\"btn btn-primary btn-sm\">Routes List</button>\n\t\t  <div class=\"dropdown-content\">\n\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t  \t\t{{route.Route_number}}\n\t\t  \t</a>\n\t\t  </div>\n\t\t</div>\n\t</div>\n</div>\n<div class=\"row grid-container\" *ngIf=\"!tableView\">\n\t<div class=\"col-md-12\">\n\t\t<div class=\"table\">\n\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\t\n\t\t\t            <th>User Id</th>\n\t\t\t            <th>Route Number</th>\n\t\t\t            <th>Date Time</th>\n\t\t\t            <th>View Route on Map</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Route</a></td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr></tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n<div>\n\t<div>\n\t  <div *ngIf=\"!mapView\" class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }} for Imei {{singleRoute.imei}}\n\t      </h4>\n\t    </div>\n\t  </div>   \n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" [table-view]=\"tableView\"\n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
+module.exports = "\n<div class=\"row header-row\">\n\t<div *ngIf=\"showDropdowns\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" style=\"float: right;\">\n\n\t\t\t</angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"showRouteTable()\">Submit</button>\t\n\t\t</div>\n\t</div>\t\n\t<div class=\"col-md-12\" *ngIf=\"!showDropdowns\" style=\"text-align: center;\">\n\t\t<div class=\"dropdown\">\n\t\t  <button class=\"btn btn-primary btn-sm\">Routes List</button>\n\t\t  <div class=\"dropdown-content\">\n\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t  \t\t{{route.Route_number}}\n\t\t  \t</a>\n\t\t  </div>\n\t\t</div>\n\t</div>\n</div>\n<div class=\"row grid-container\" *ngIf=\"!tableView\">\n\t<div class=\"col-md-12\">\n\t\t<div class=\"table\">\n\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\t\n\t\t\t            <th>User Id</th>\n\t\t\t            <th>Route Number</th>\n\t\t\t            <th>Date Time</th>\n\t\t\t            <th>View Route on Map</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t            <td>{{route.Date_time}}</td>\n\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Route</a></td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr></tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n<div>\n\t<div>\n\t  <div *ngIf=\"!mapView\" class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <h4>    \n\t        Route Number  {{ singleRoute.id  }} for Imei {{singleRoute.imei}}\n\t      </h4>\n\t    </div>\n\t  </div>   \n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" [table-view]=\"tableView\"\n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
 
 /***/ }),
 
