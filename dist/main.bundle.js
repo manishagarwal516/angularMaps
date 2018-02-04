@@ -811,7 +811,7 @@ var RouteMapComponent = (function () {
         console.log("getRouteStations");
         console.log(stations);
         var waypoints = [];
-        var source = new google.maps.LatLng(stations[7].lat, stations[7].lng), destination = new google.maps.LatLng(stations[11].lat, stations[11].lng);
+        var source = new google.maps.LatLng(stations[0].lat, stations[0].lng), destination = new google.maps.LatLng(stations[stations.length - 1].lat, stations[stations.length - 1].lng);
         for (var i = 1; i < 24; i++) {
             waypoints.push({ location: new google.maps.LatLng(stations[1].lat, stations[1].lng), stopover: false });
         }
