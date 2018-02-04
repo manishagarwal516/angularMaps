@@ -60,7 +60,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
             polylineOptions: { 
                 strokeColor: "#1a8ff4",
                 strokeOpacity: 1.0,
-                strokeWeight: 4,
+                strokeWeight: 7,
             }
         });
 
@@ -74,13 +74,11 @@ export class RouteMapComponent implements OnInit, OnChanges {
 
     getRouteStations(stations, directionsService, directionsDisplay, map, infowindow){
         console.log("getRouteStations");
+        console.log(stations);
         var waypoints = [];
-        var source = new google.maps.LatLng(stations[0].lat, stations[0].lng),
-        destination = new google.maps.LatLng(stations[stations.length -1].lat, stations[stations.length -1].lng)
-        
-        // Instantiate a directions service.
-        
-        // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
+        var source = new google.maps.LatLng(stations[7].lat, stations[7].lng),
+        destination = new google.maps.LatLng(stations[11].lat, stations[11].lng)
+       
         for (var i = 1; i < 24 ; i++) {
             waypoints.push({location: new google.maps.LatLng(stations[1].lat, stations[1].lng), stopover: false});
         }
@@ -92,7 +90,8 @@ export class RouteMapComponent implements OnInit, OnChanges {
     calculateAndDisplayRoute(directionsService, directionsDisplay, source, destionation, waypoints, map, infowindow) {
         var _this = this;
         var combinedLength = this.routeLength;
-
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(source, destionation);           
+        console.log(distance);
         directionsService.route({
             origin: source,
             destination: destionation,
@@ -109,7 +108,6 @@ export class RouteMapComponent implements OnInit, OnChanges {
                 }
                 else {
                     console.log("combined");
-                    console.log(_this.combinedResults);
                     _this.combinedResults.routes[0].legs = _this.combinedResults.routes[0].legs.concat(response.routes[0].legs);
                     _this.combinedResults.routes[0].overview_path = _this.combinedResults.routes[0].overview_path.concat(response.routes[0].overview_path);
  
@@ -120,12 +118,10 @@ export class RouteMapComponent implements OnInit, OnChanges {
                 //this.mapLoop++;
                 
                 if (_this.directionsResultsReturned == combinedLength){
-                    directionsDisplay.setDirections(_this.combinedResults);
-                    //var start = new google.maps.LatLng(43.786161, 11.250510);
-                    //var end = new google.maps.LatLng(43.776030, 11.274929);
-
-                    //this.createMarker(start, 'start',map, infowindow);
-                    //this.createMarker(end, 'end',map, infowindow);
+                    setTimeout(() => {
+                        directionsDisplay.setDirections(_this.combinedResults);
+                    }, 2);
+           
                 } 
             } else {
                 window.alert('Directions request failed due to ' + status);
@@ -165,7 +161,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
             script.type = 'text/javascript';
             script.async = true;
             script.defer = true;
-            script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN&libraries=geometry';
             script.onload = () => {
                 console.log(this.tableView);
                 if(this.mapRoute.directions && mapType === "route"){

@@ -32,7 +32,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 	showMap : boolean
 
 	heightStyle = {
-        height : "556px"
+        height : "512px"
     };
 	@ViewChild('map') mapDiv : ElementRef;
 
@@ -41,7 +41,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 
 	showLiveLocation(){
 		this.heightStyle = {
-        	height : "556px"
+        	height : "512px"
     	};
 		var position;
 		var locations = [];
@@ -97,6 +97,11 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 		this.showMap = false;
 		this.markers = [];
 		this.selectedItems = [];
+
+		var buttonHtml = "<div class='custom-dropdown-button'>"
+    	buttonHtml += "<button id='custom-ok-button' class='btn btn-outline-secondary btn-sm'>OK</button>"
+    	buttonHtml += "<button id='custom-cancel-button' class='btn btn-outline-secondary btn-sm'>Cancel</button>"
+    	buttonHtml += "</div>"
 		this.renderMap();
 	}
 

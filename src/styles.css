@@ -282,10 +282,14 @@ a:hover, a:focus {
 
 .app-logo{
     height: 38px;
-    width: 300px;
+    width: 382px;
 }
 
 .navbar-nav>li>a {
     padding-top: 7px;
     padding-bottom: 7px
+}
+
+.dropdown-content a:hover {
+    color: black !important;
 }
