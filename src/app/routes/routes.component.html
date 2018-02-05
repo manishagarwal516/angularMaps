@@ -28,7 +28,7 @@
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>	
-			            <th>User Id</th>
+			            <th>User ID</th>
 			            <th>Route Number</th>
 			            <th>Date  Time</th>
 			            <th>View Route on Map</th>
@@ -38,7 +38,7 @@
 					<tr *ngFor="let route of routes">
 			            <td>{{route.Imei}}</td>
 			            <td>{{route.Route_number}}</td>
-			            <td>{{route.Date_time}}</td>
+			            <td style="white-space:pre">{{route.Date_time}}</td>
 						<td><a [routerLink]="['/route',route.Route_number]">View Route</a></td>
 					</tr>
 					<tr *ngIf="!routes.length">

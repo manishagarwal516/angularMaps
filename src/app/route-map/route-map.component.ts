@@ -61,15 +61,50 @@ export class RouteMapComponent implements OnInit, OnChanges {
                 strokeColor: "#1a8ff4",
                 strokeOpacity: 1.0,
                 strokeWeight: 7,
-            }
+            },
+            suppressMarkers : true
         });
 
         // this.heightStyle = {
         //      height : "477px"
         // }
+        var start = new google.maps.LatLng(stations[0].lat, stations[0].lng);
+        var end  = new google.maps.LatLng(stations[stations.length -1].lat, stations[stations.length -1].lng);
+
+        this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
+        this.createMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
+        
         for (var i = 0; i < parts.length; ++i) {
             this.getRouteStations(parts[i], directionsService, directionsDisplay, map, infowindow);
         }
+    }
+
+    createMarker(latlng, title, map, infowindow, iconImgUrl) {
+
+        var marker = new google.maps.Marker({
+            position: latlng,
+            title: title,
+            map: map,
+            icon: iconImgUrl,
+        });
+
+
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(title);
+            infowindow.open(map, marker);
+        });
+    }
+
+    pinSymbol(color) {
+        return {
+            path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+            fillColor: color,
+            fillOpacity: 2,
+            strokeColor: '#000',
+            strokeWeight: 0.5,
+            scale: 1,
+       };
     }
 
     getRouteStations(stations, directionsService, directionsDisplay, map, infowindow){
@@ -77,7 +112,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
         console.log(stations);
         var waypoints = [];
         var source = new google.maps.LatLng(stations[0].lat, stations[0].lng),
-        destination = new google.maps.LatLng(stations[stations.length - 1].lat, stations[stations.length -1].lng)
+        destination = new google.maps.LatLng(stations[stations.length -1].lat, stations[stations.length -1].lng)
        
         for (var i = 1; i < 24 ; i++) {
             waypoints.push({location: new google.maps.LatLng(stations[1].lat, stations[1].lng), stopover: false});

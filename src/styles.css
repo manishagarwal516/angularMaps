@@ -229,7 +229,7 @@ a:hover, a:focus {
 }
 
 #custom-ok-button{
-    margin-right: 7px;
+    margin-right: 21px;
     box-shadow : 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)
 }
 
@@ -281,13 +281,13 @@ a:hover, a:focus {
 }    
 
 .app-logo{
-    height: 38px;
-    width: 382px;
+    height: 55px;
+    width: 431px;
 }
 
 .navbar-nav>li>a {
-    padding-top: 7px;
-    padding-bottom: 7px
+    padding-top: 3px;
+    padding-bottom: 3px
 }
 
 .dropdown-content a:hover {
