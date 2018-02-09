@@ -71,8 +71,8 @@ export class RouteMapComponent implements OnInit, OnChanges {
         var start = new google.maps.LatLng(stations[0].lat, stations[0].lng);
         var end  = new google.maps.LatLng(stations[stations.length -1].lat, stations[stations.length -1].lng);
 
-        this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
-        this.createMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
+        //this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
+        //this.createMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
         
         for (var i = 0; i < parts.length; ++i) {
             this.getRouteStations(parts[i], directionsService, directionsDisplay, map, infowindow);
@@ -96,16 +96,16 @@ export class RouteMapComponent implements OnInit, OnChanges {
         });
     }
 
-    pinSymbol(color) {
-        return {
-            path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
-            fillColor: color,
-            fillOpacity: 2,
-            strokeColor: '#000',
-            strokeWeight: 0.5,
-            scale: 1,
-       };
-    }
+    // pinSymbol(color) {
+    //     return {
+    //         path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+    //         fillColor: color,
+    //         fillOpacity: 2,
+    //         strokeColor: '#000',
+    //         strokeWeight: 0.5,
+    //         scale: 1,
+    //    };
+    // }
 
     getRouteStations(stations, directionsService, directionsDisplay, map, infowindow){
         console.log("getRouteStations");
@@ -137,12 +137,24 @@ export class RouteMapComponent implements OnInit, OnChanges {
             travelMode: google.maps.TravelMode.DRIVING
         }, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
+                var lat = response.routes[0].legs[0].start_location.lat();
+                var lng = response.routes[0].legs[0].start_location.lng();
+
+                if(_this.directionsResultsReturned === 0){
+                    var lat = response.routes[0].legs[0].start_location.lat();
+                    var lng = response.routes[0].legs[0].start_location.lng();
+
+                    var start = new google.maps.LatLng(lat, lng);
+                    _this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
+                }
+
+                
+
                 if (_this.directionsResultsReturned == 0) { // first bunch of results in. new up the combinedResults object
                     _this.combinedResults = response;
                     _this.directionsResultsReturned++;
                 }
                 else {
-                    console.log("combined");
                     _this.combinedResults.routes[0].legs = _this.combinedResults.routes[0].legs.concat(response.routes[0].legs);
                     _this.combinedResults.routes[0].overview_path = _this.combinedResults.routes[0].overview_path.concat(response.routes[0].overview_path);
  
@@ -150,8 +162,17 @@ export class RouteMapComponent implements OnInit, OnChanges {
                     _this.combinedResults.routes[0].bounds = _this.combinedResults.routes[0].bounds.extend(response.routes[0].bounds.getSouthWest());
                     _this.directionsResultsReturned++;
                 }
+                
+                if(_this.directionsResultsReturned == combinedLength){
+                    var lat = response.routes[0].legs[0].end_location.lat();
+                    var lng = response.routes[0].legs[0].end_location.lng();
+
+                    var end = new google.maps.LatLng(lat, lng);
+                    _this.createMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
+                }
                 //this.mapLoop++;
                 
+                //console.log(_this.combinedResults);
                 if (_this.directionsResultsReturned == combinedLength){
                     setTimeout(() => {
                         directionsDisplay.setDirections(_this.combinedResults);
