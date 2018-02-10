@@ -125,8 +125,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
     calculateAndDisplayRoute(directionsService, directionsDisplay, source, destionation, waypoints, map, infowindow) {
         var _this = this;
         var combinedLength = this.routeLength;
-        var distance = google.maps.geometry.spherical.computeDistanceBetween(source, destionation);           
-        console.log(distance);
+        
         directionsService.route({
             origin: source,
             destination: destionation,
