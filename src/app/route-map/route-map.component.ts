@@ -162,17 +162,17 @@ export class RouteMapComponent implements OnInit, OnChanges {
                     _this.directionsResultsReturned++;
                 }
                 
-                if(_this.directionsResultsReturned == combinedLength){
+                
+                //this.mapLoop++;
+                
+                console.log(_this.directionsResultsReturned, combinedLength);
+                if (_this.directionsResultsReturned == combinedLength){
                     var lat = response.routes[0].legs[0].end_location.lat();
                     var lng = response.routes[0].legs[0].end_location.lng();
 
                     var end = new google.maps.LatLng(lat, lng);
                     _this.createMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
-                }
-                //this.mapLoop++;
-                
-                //console.log(_this.combinedResults);
-                if (_this.directionsResultsReturned == combinedLength){
+
                     setTimeout(() => {
                         directionsDisplay.setDirections(_this.combinedResults);
                     }, 2);
