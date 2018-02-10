@@ -293,3 +293,13 @@ a:hover, a:focus {
 .dropdown-content a:hover {
     color: black !important;
 }
+
+.route-div {
+    font-size: 17px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.1;
+    color: inherit;
+}
