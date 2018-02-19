@@ -11,11 +11,15 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { FormsModule } from '@angular/forms';
 import { DataService } from './data.service';
+import { AuthService } from './auth.service';
 import { HttpModule } from "@angular/http";
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgDatepickerModule } from 'ng2-datepicker';
 import { HomeComponent } from './home/home.component';
+import { UserModule } from './user/user.module';
+import {NotificationsModule, NotificationsService} from 'angular4-notify';
+
 
 
 
@@ -37,9 +41,11 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     HttpModule,
     Daterangepicker,
-    NgDatepickerModule
+    NgDatepickerModule,
+    UserModule,
+    NotificationsModule
   ],
-  providers: [DataService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [DataService, AuthService, NotificationsService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

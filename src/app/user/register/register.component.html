@@ -1,0 +1,50 @@
+<div class="container">
+    <h1>Add New User</h1>
+    <form #userRegistionForm="ngForm" (ngSubmit)="saveUser()">
+      <div class="form-group">
+        <label for="username">User Name</label>
+        <input type="text" class="form-control" id="username" name="username" [(ngModel)]="user.username" required #username="ngModel">
+        <div [hidden]="username.valid || username.pristine"
+             class="alert alert-danger">
+          UserName is invalid
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" required #password="ngModel">
+        <div [hidden]="password.valid || password.pristine"
+             class="alert alert-danger">
+          Password is invalid
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Id</label>
+        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email_id" required #email="ngModel">
+       <div [hidden]="email.valid || email.pristine"
+             class="alert alert-danger">
+          Email is invalid
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" class="form-control" id="address" name="address" [(ngModel)]="user.address" required #address="ngModel">
+        <div [hidden]="address.valid || address.pristine"
+             class="alert alert-danger">
+          Address is invalid
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone_number">Phone Number</label>
+        <input type="text" pattern="\d*" maxlength="10" minlength="10" class="form-control" id="phone_number" name="phone_number" [(ngModel)]="user.phone_number" required #phone_number="ngModel">
+        <div [hidden]="phone_number.valid || phone_number.pristine"
+             class="alert alert-danger">
+          Phone Number is invalid
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success" [disabled]="!userRegistionForm.form.valid">Submit</button>
+    </form>
+</div>
