@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav ">
         <li routerLinkActive="active" style="padding-top:5px"><a routerLink="/home"><img src="assets/images/side-logo.jpeg" class="side-nav"alt="logo" /></a></li>
-        <li routerLinkActive="active" class="nav-li" style="margin-left:270px;"><a routerLink="/routes"><img src="assets/images/logo.png" class="app-logo" alt="logo" /></a></li>
+        <li routerLinkActive="active" class="nav-li" style="margin-left:317px;"><a routerLink="/routes"><img src="assets/images/logo.png" class="app-logo" alt="logo" /></a></li>
       </ul>
   </div>
 </nav>
@@ -23,7 +23,7 @@
       	<li *ngIf= "showNavLinks" routerLinkActive="active" class="nav-li"><a routerLink="/home">Home</a></li>
       	<li *ngIf= "showNavLinks" routerLinkActive="active" class="nav-li"><a routerLink="/routes">Routes</a></li>
 		    <li *ngIf= "showNavLinks" routerLinkActive="active" class="nav-li"><a routerLink="/live-locations">Live Tracking</a></li>
-        <li *ngIf= "showNavLinks && (userType === 'admin' || userType === 'superadmin')" routerLinkActive="active" class="nav-li"><a routerLink="/register">Add User</a></li>
+        <li *ngIf= "showNavLinks && (userType === 'admin' || userType === 'superadmin')" routerLinkActive="active" class="nav-li"><a routerLink="/register">{{userTypeText}}</a></li>
         <li routerLinkActive="active" (click)="loginOrOut()" class="nav-li"><a>{{ loginLogoutText }}</a></li>
       </ul>
     </div>

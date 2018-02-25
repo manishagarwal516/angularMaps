@@ -1,50 +1,61 @@
-<div class="container">
-    <h1>Add New User</h1>
-    <form #userRegistionForm="ngForm" (ngSubmit)="saveUser()">
-      <div class="form-group">
-        <label for="username">User Name</label>
-        <input type="text" class="form-control" id="username" name="username" [(ngModel)]="user.username" required #username="ngModel">
-        <div [hidden]="username.valid || username.pristine"
-             class="alert alert-danger">
-          UserName is invalid
-        </div>
+<div class="login-box">
+  <div class="login-box-body">
+      <p class="login-box-msg">{{userTypeText}}</p>
+      <div [hidden]="!invalidLogin" class="alert alert-danger">
+        Username or password is invalid
       </div>
+      <form #userRegistionForm="ngForm" (ngSubmit)="saveUser(userRegistionForm)">
+        <div class="form-group has-feedback">
+           <input type="text" class="form-control" id="username" placeholder="Username" name="username" [(ngModel)]="user.username" required #username="ngModel" maxlength="80" size="30">     
+          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+          <div [hidden]="username.valid || username.pristine"
+           class="alert alert-danger">
+            UserName is invalid
+          </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" required #password="ngModel">
-        <div [hidden]="password.valid || password.pristine"
-             class="alert alert-danger">
-          Password is invalid
+          <div [hidden]="!userExistsError" class="alert alert-danger">
+            User is already exists
+          </div>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email Id</label>
-        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email_id" required #email="ngModel">
-       <div [hidden]="email.valid || email.pristine"
-             class="alert alert-danger">
-          Email is invalid
+        <div class="form-group has-feedback">
+            <input type="password" class="form-control" placeholder="Password" id="password" name="password" [(ngModel)]="user.password" required #password="ngModel">
+            <div [hidden]="password.valid || password.pristine"
+                 class="alert alert-danger">
+              Password is invalid
+            </div>
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="address">Address</label>
-        <input type="text" class="form-control" id="address" name="address" [(ngModel)]="user.address" required #address="ngModel">
-        <div [hidden]="address.valid || address.pristine"
-             class="alert alert-danger">
-          Address is invalid
+        <div class="form-group has-feedback">
+          <input type="email" class="form-control" placeholder="Email" id="email" name="email" [(ngModel)]="user.email_id" required #email="ngModel">
+          <div [hidden]="email.valid || email.pristine"
+                 class="alert alert-danger">
+            Email is invalid
+          </div>
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="phone_number">Phone Number</label>
-        <input type="text" pattern="\d*" maxlength="10" minlength="10" class="form-control" id="phone_number" name="phone_number" [(ngModel)]="user.phone_number" required #phone_number="ngModel">
-        <div [hidden]="phone_number.valid || phone_number.pristine"
-             class="alert alert-danger">
-          Phone Number is invalid
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="Address" id="address" name="address" [(ngModel)]="user.address" required #address="ngModel">
+            <div [hidden]="address.valid || address.pristine"
+                 class="alert alert-danger">
+              Address is invalid
+            </div>
+            <span class="glyphicon glyphicon-duplicate form-control-feedback"></span>
         </div>
-      </div>
-      <button type="submit" class="btn btn-success" [disabled]="!userRegistionForm.form.valid">Submit</button>
-    </form>
+        <div class="form-group has-feedback">
+            <input type="text" pattern="\d*" maxlength="10" minlength="10" class="form-control"  placeholder="Phone Number" id="phone_number" name="phone_number" [(ngModel)]="user.phone_number" required #phone_number="ngModel">
+            <div [hidden]="phone_number.valid || phone_number.pristine"
+                 class="alert alert-danger">
+              Phone Number is invalid
+            </div>
+            <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+        </div>
+        <div class="row">
+          <div class="col-xs-8">
+          </div><!-- /.col -->
+          <div class="col-xs-4">
+              <button type="submit" class="btn btn-success" [disabled]="!userRegistionForm.form.valid">Submit</button>          
+          </div><!-- /.col -->
+        </div>
+      </form>        
+  </div><!-- /.login-box-body -->
 </div>

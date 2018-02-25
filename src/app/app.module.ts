@@ -1,4 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -18,7 +20,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgDatepickerModule } from 'ng2-datepicker';
 import { HomeComponent } from './home/home.component';
 import { UserModule } from './user/user.module';
-import {NotificationsModule, NotificationsService} from 'angular4-notify';
+import {ToastModule, ToastOptions} from 'ng2-toastr/ng2-toastr';
+import { CustomOption } from './custom-option';
 
 
 
@@ -35,6 +38,8 @@ import {NotificationsModule, NotificationsService} from 'angular4-notify';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ToastModule.forRoot(),
     AppRoutingModule,
     MultiselectDropdownModule,
     AngularMultiSelectModule,
@@ -42,10 +47,10 @@ import {NotificationsModule, NotificationsService} from 'angular4-notify';
     HttpModule,
     Daterangepicker,
     NgDatepickerModule,
-    UserModule,
-    NotificationsModule
+    UserModule
   ],
-  providers: [DataService, AuthService, NotificationsService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [DataService, AuthService, {provide: LocationStrategy, useClass: HashLocationStrategy}, 
+              {provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

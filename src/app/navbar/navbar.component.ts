@@ -12,7 +12,8 @@ export class NavbarComponent implements OnInit {
 	loginLogoutText: string = 'Login';
   	showNavLinks : boolean = false;
   	userType : string = "user";
-	sub: Subscription;
+    userTypeText : string = "Create User";
+	  sub: Subscription;
 
   constructor(private authservice: AuthService, private router: Router) { }
 	loginOrOut() {
@@ -41,6 +42,12 @@ export class NavbarComponent implements OnInit {
     console.log("ssss");
     this.loginLogoutText = (this.authservice.checkforAuthentication()) ? 'Logout' : 'Login';
     this.showNavLinks = (this.authservice.checkforAuthentication()) ? true : false;
-  	this.userType = this.authservice.checkforUserType()
+  	this.userType = this.authservice.checkforUserType();
+
+    if(this.userType === "superadmin"){
+      this.userTypeText = "Create Admin";
+    }else{
+      this.userTypeText = "Create User";
+    }
   }
 }

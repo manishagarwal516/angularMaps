@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { User }    from '../user';
 import { DataService } from '../../data.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import {NotificationsService} from 'angular4-notify';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
 
 
 @Component({
@@ -17,7 +18,7 @@ export class SuperadminComponent implements OnInit {
 
   	 constructor(private DataService : DataService, private authservice: AuthService, 
               private router: Router, private routeParams: ActivatedRoute, 
-              protected notificationsService: NotificationsService) { }
+              public toastr: ToastsManager, vcr: ViewContainerRef) { }
 
   	ngOnInit() {
       this.routeParams.params.subscribe((params: Params) => {
@@ -36,12 +37,12 @@ export class SuperadminComponent implements OnInit {
 		this.DataService.createSuperAdmin(superAdminData)
       	.subscribe((customerResponse: any) => {
           if(customerResponse.status === "error"){
-            this.notificationsService.addError(customerResponse.err);
+            this.toastr.error(customerResponse.err, 'Error!');
           }else{
             if(accept)
-               this.notificationsService.addInfo("SuperAdmin added successfully"); 
+               this.toastr.success("User Added Succesfully", 'Success!'); 
             else
-              this.notificationsService.addInfo("Request is declined"); 
+              this.toastr.info("Request is declined"); 
           }
     	});
 	}
