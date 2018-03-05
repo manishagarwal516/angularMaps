@@ -148,8 +148,7 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ng2_daterangepicker__ = __webpack_require__("../../../../ng2-daterangepicker/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ng2_daterangepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_ng2_daterangepicker__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_ng2_datepicker__ = __webpack_require__("../../../../ng2-datepicker/bundles/ng2-datepicker.umd.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_ng2_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17_ng2_datepicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_ng2_datepicker__ = __webpack_require__("../../../../ng2-datepicker/dist/ng2-datepicker.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__home_home_component__ = __webpack_require__("../../../../../src/app/home/home.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_user_module__ = __webpack_require__("../../../../../src/app/user/user.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_ng2_toastr_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
@@ -205,10 +204,10 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_5__app_routing_module__["a" /* AppRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_9_angular_2_dropdown_multiselect__["a" /* MultiselectDropdownModule */],
             __WEBPACK_IMPORTED_MODULE_10_angular2_multiselect_dropdown_angular2_multiselect_dropdown__["a" /* AngularMultiSelectModule */],
-            __WEBPACK_IMPORTED_MODULE_11__angular_forms__["FormsModule"],
+            __WEBPACK_IMPORTED_MODULE_11__angular_forms__["b" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_14__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_15_ng2_daterangepicker__["Daterangepicker"],
-            __WEBPACK_IMPORTED_MODULE_17_ng2_datepicker__["NgDatepickerModule"],
+            __WEBPACK_IMPORTED_MODULE_17_ng2_datepicker__["a" /* NgDatepickerModule */],
             __WEBPACK_IMPORTED_MODULE_19__user_user_module__["a" /* UserModule */]
         ],
         providers: [__WEBPACK_IMPORTED_MODULE_12__data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_13__auth_service__["a" /* AuthService */], { provide: __WEBPACK_IMPORTED_MODULE_16__angular_common__["LocationStrategy"], useClass: __WEBPACK_IMPORTED_MODULE_16__angular_common__["HashLocationStrategy"] },
@@ -399,6 +398,7 @@ var CustomOption = (function (_super) {
         _this.animate = 'flyRight'; // you can pass any options to override defaults
         _this.newestOnTop = false;
         _this.showCloseButton = true;
+        _this.positionClass = 'toast-top-center';
         _this.dismiss = 'auto';
         return _this;
     }
@@ -618,7 +618,7 @@ var HomeComponent = (function () {
             script_1.type = 'text/javascript';
             script_1.async = true;
             script_1.defer = true;
-            script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
+            script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBqtrF1DwnhnJ3sZKGvVixC0ItY6LC778E&region=IN';
             script_1.onload = function () {
                 _this.loadingScript = false;
                 _this.renderMap();
@@ -809,7 +809,7 @@ var LiveLocationComponent = (function () {
             script_1.type = 'text/javascript';
             script_1.async = true;
             script_1.defer = true;
-            script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
+            script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBqtrF1DwnhnJ3sZKGvVixC0ItY6LC778E&region=IN';
             script_1.onload = function () {
                 _this.loadingScript = false;
                 _this.renderMap();
@@ -1255,7 +1255,7 @@ var RouteMapComponent = (function () {
             script_1.type = 'text/javascript';
             script_1.async = true;
             script_1.defer = true;
-            script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN&libraries=geometry';
+            script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBqtrF1DwnhnJ3sZKGvVixC0ItY6LC778E&region=IN&libraries=geometry';
             script_1.onload = function () {
                 console.log(_this.tableView);
                 if (_this.mapRoute.directions && mapType === "route") {
@@ -1571,7 +1571,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/user/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">Sign In</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"validateUser()\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div [hidden]=\"username.valid || username.pristine\"\n           class=\"alert alert-danger\">\n            UserName is invalid\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" required #password=\"ngModel\">\n            <div [hidden]=\"password.valid || password.pristine\"\n                 class=\"alert alert-danger\">\n              Password is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n            <a href=\"/#/register/true/superadmin\" class=\"text-center\">Register a superadmin</a>\n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>           \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>"
+module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">Sign In</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"validateUser()\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div [hidden]=\"username.valid || username.pristine\"\n           class=\"alert alert-danger\">\n            UserName is invalid\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" required #password=\"ngModel\">\n            <div [hidden]=\"password.valid || password.pristine\"\n                 class=\"alert alert-danger\">\n              Password is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n            \n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>           \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>"
 
 /***/ }),
 
@@ -1607,7 +1607,7 @@ var LoginComponent = (function () {
         this.invalidLogin = false;
     }
     LoginComponent.prototype.ngOnInit = function () {
-        this.user = new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */]('', '', '', '', null, '');
+        this.user = new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */]('', '', '', '', '', null, '');
     };
     LoginComponent.prototype.validateUser = function () {
         var _this = this;
@@ -1656,7 +1656,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/user/register/register.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">{{userTypeText}}</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"saveUser(userRegistionForm)\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div [hidden]=\"username.valid || username.pristine\"\n           class=\"alert alert-danger\">\n            UserName is invalid\n          </div>\n\n          <div [hidden]=\"!userExistsError\" class=\"alert alert-danger\">\n            User is already exists\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" required #password=\"ngModel\">\n            <div [hidden]=\"password.valid || password.pristine\"\n                 class=\"alert alert-danger\">\n              Password is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n          <input type=\"email\" class=\"form-control\" placeholder=\"Email\" id=\"email\" name=\"email\" [(ngModel)]=\"user.email_id\" required #email=\"ngModel\">\n          <div [hidden]=\"email.valid || email.pristine\"\n                 class=\"alert alert-danger\">\n            Email is invalid\n          </div>\n          <span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Address\" id=\"address\" name=\"address\" [(ngModel)]=\"user.address\" required #address=\"ngModel\">\n            <div [hidden]=\"address.valid || address.pristine\"\n                 class=\"alert alert-danger\">\n              Address is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-duplicate form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"text\" pattern=\"\\d*\" maxlength=\"10\" minlength=\"10\" class=\"form-control\"  placeholder=\"Phone Number\" id=\"phone_number\" name=\"phone_number\" [(ngModel)]=\"user.phone_number\" required #phone_number=\"ngModel\">\n            <div [hidden]=\"phone_number.valid || phone_number.pristine\"\n                 class=\"alert alert-danger\">\n              Phone Number is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-phone form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>          \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>"
+module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">{{userTypeText}}</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"saveUser(userRegistionForm)\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"Name\" placeholder=\"Name\" name=\"Name\" [(ngModel)]=\"user.Name\" required #Name=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div [hidden]=\"Name.valid || Name.pristine\"\n           class=\"alert alert-danger\">\n            Name is invalid\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" minlength=\"6\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div [hidden]=\"username.valid || username.pristine\"\n           class=\"alert alert-danger\">\n            UserName is invalid\n          </div>\n\n          <div [hidden]=\"!userExistsError\" class=\"alert alert-danger\">\n            User already exists\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" minlength=\"6\" required #password=\"ngModel\">\n            <div [hidden]=\"password.valid || password.pristine\"\n                 class=\"alert alert-danger\">\n              Password is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n          <input type=\"email\" [disabled]=\"userType === 'superadmin' ? 'disabled' : null\" class=\"form-control\" placeholder=\"Email\" id=\"email\" name=\"email\" [(ngModel)]=\"user.email_id\" required #email=\"ngModel\">\n          <div [hidden]=\"email.valid || email.pristine\"\n                 class=\"alert alert-danger\">\n            Email is invalid\n          </div>\n          <span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Address\" id=\"address\" name=\"address\" [(ngModel)]=\"user.address\" required #address=\"ngModel\">\n            <div [hidden]=\"address.valid || address.pristine\"\n                 class=\"alert alert-danger\">\n              Address is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-duplicate form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"text\" pattern=\"\\d*\" maxlength=\"10\" minlength=\"10\" class=\"form-control\"  placeholder=\"Phone Number\" id=\"phone_number\" name=\"phone_number\" [(ngModel)]=\"user.phone_number\" required #phone_number=\"ngModel\">\n            <div [hidden]=\"phone_number.valid || phone_number.pristine\"\n                 class=\"alert alert-danger\">\n              Phone Number is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-phone form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>          \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>"
 
 /***/ }),
 
@@ -1703,6 +1703,7 @@ var RegisterComponent = (function () {
     };
     RegisterComponent.prototype.saveUser = function (userRegistionForm) {
         var _this = this;
+        this.userExistsError = false;
         this.DataService.createUser(this.user)
             .subscribe(function (customerResponse) {
             if (customerResponse.status === "error") {
@@ -1716,6 +1717,9 @@ var RegisterComponent = (function () {
             else {
                 userRegistionForm.resetForm();
                 _this.toastr.success("User Added Succesfully", 'Success!');
+                setTimeout(function () {
+                    window.location.reload(true);
+                }, 1000);
             }
         });
     };
@@ -1732,12 +1736,13 @@ var RegisterComponent = (function () {
         else {
             this.userTypeText = "Enter User Details";
         }
-        var userType = this.authservice.checkforUserType();
-        this.user = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]('', '', '', '', null, this.user_types[userType]);
+        this.userType = this.user_types[this.userType];
+        this.user = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]('', '', '', '', '', null, this.user_types[this.userType]);
         this.routeParams.params.subscribe(function (params) {
             if (params["superadmin"] === "true") {
+                _this.userType = "superadmin";
                 _this.userTypeText = "Enter Super Admin Details";
-                _this.user = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]('', '', '', '', null, "superadmin");
+                _this.user = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]('', '', 'jairamadmn@gmail.com', '', '', null, "superadmin");
             }
         });
     };
@@ -1941,7 +1946,7 @@ UserModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_2__user_routing_module__["a" /* UserRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"],
+            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["b" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_6__angular_http__["c" /* HttpModule */]
         ],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__login_login_component__["a" /* LoginComponent */], __WEBPACK_IMPORTED_MODULE_4__register_register_component__["a" /* RegisterComponent */], __WEBPACK_IMPORTED_MODULE_8__superadmin_superadmin_component__["a" /* SuperadminComponent */]],
@@ -1959,7 +1964,8 @@ UserModule = __decorate([
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return User; });
 var User = (function () {
-    function User(username, email_id, password, address, phone_number, user_type) {
+    function User(name, username, email_id, password, address, phone_number, user_type) {
+        this.name = name;
         this.username = username;
         this.email_id = email_id;
         this.password = password;
@@ -2076,6 +2082,8 @@ var map = {
 	"./en-gb.js": "../../../../moment/locale/en-gb.js",
 	"./en-ie": "../../../../moment/locale/en-ie.js",
 	"./en-ie.js": "../../../../moment/locale/en-ie.js",
+	"./en-il": "../../../../moment/locale/en-il.js",
+	"./en-il.js": "../../../../moment/locale/en-il.js",
 	"./en-nz": "../../../../moment/locale/en-nz.js",
 	"./en-nz.js": "../../../../moment/locale/en-nz.js",
 	"./eo": "../../../../moment/locale/eo.js",
@@ -2220,6 +2228,8 @@ var map = {
 	"./te.js": "../../../../moment/locale/te.js",
 	"./tet": "../../../../moment/locale/tet.js",
 	"./tet.js": "../../../../moment/locale/tet.js",
+	"./tg": "../../../../moment/locale/tg.js",
+	"./tg.js": "../../../../moment/locale/tg.js",
 	"./th": "../../../../moment/locale/th.js",
 	"./th.js": "../../../../moment/locale/th.js",
 	"./tl-ph": "../../../../moment/locale/tl-ph.js",
@@ -2234,6 +2244,8 @@ var map = {
 	"./tzm-latn": "../../../../moment/locale/tzm-latn.js",
 	"./tzm-latn.js": "../../../../moment/locale/tzm-latn.js",
 	"./tzm.js": "../../../../moment/locale/tzm.js",
+	"./ug-cn": "../../../../moment/locale/ug-cn.js",
+	"./ug-cn.js": "../../../../moment/locale/ug-cn.js",
 	"./uk": "../../../../moment/locale/uk.js",
 	"./uk.js": "../../../../moment/locale/uk.js",
 	"./ur": "../../../../moment/locale/ur.js",

@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
           private router: Router) { }
 
   	ngOnInit() {
-  		this.user = new User('','', '','',null,'');
+  		this.user = new User('', '','', '','',null,'');
   	}
 
   	validateUser(){

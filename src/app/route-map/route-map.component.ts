@@ -216,7 +216,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
             script.type = 'text/javascript';
             script.async = true;
             script.defer = true;
-            script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN&libraries=geometry';
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBqtrF1DwnhnJ3sZKGvVixC0ItY6LC778E&region=IN&libraries=geometry';
             script.onload = () => {
                 console.log(this.tableView);
                 if(this.mapRoute.directions && mapType === "route"){

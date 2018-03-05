@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
   user_types : any	
   userTypeText : string = "Add New Super Admin";
   userExistsError: boolean = false;
+  userType: string;
   constructor(private DataService : DataService, private authservice: AuthService, 
               private router: Router, private routeParams: ActivatedRoute,
               public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -27,18 +28,23 @@ export class RegisterComponent implements OnInit {
   }
 
   saveUser(userRegistionForm: any){
+    this.userExistsError = false;
 		this.DataService.createUser(this.user)
       .subscribe((customerResponse: any) => {
         if(customerResponse.status === "error"){
-            if(customerResponse.err === "User Already exists"){
-              this.userExistsError = true;
-            }else{
-              this.toastr.error(customerResponse.err, 'Error!');
-            }
+          if(customerResponse.err === "User Already exists"){
+            this.userExistsError = true;
           }else{
-            userRegistionForm.resetForm();
-            this.toastr.success("User Added Succesfully", 'Success!'); 
+            this.toastr.error(customerResponse.err, 'Error!');
           }
+        }else{
+          userRegistionForm.resetForm();
+          this.toastr.success("User Added Succesfully", 'Success!'); 
+          setTimeout(() => {
+            window.location.reload(true);
+          }, 1000);
+          
+        }
     	});
 	}
 
@@ -55,14 +61,15 @@ export class RegisterComponent implements OnInit {
       this.userTypeText = "Enter User Details";
     }
 
-    var userType = this.authservice.checkforUserType();
-    this.user = new User('','', '', '', null, this.user_types[userType]);
+    this.userType = this.user_types[this.userType];
+    this.user = new User('', '','', '', '', null, this.user_types[this.userType]);
 
 
     this.routeParams.params.subscribe((params: Params) => {
       if(params["superadmin"] === "true"){
+        this.userType = "superadmin";
         this.userTypeText = "Enter Super Admin Details";
-        this.user = new User('','', '', '', null, "superadmin");
+        this.user = new User('','','jairamadmn@gmail.com', '', '', null, "superadmin");
       }
     });
   }

@@ -142,7 +142,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 			script.type = 'text/javascript';
 			script.async = true;
 			script.defer = true;
-			script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMevS2XHJBA7Rf8T-Or9KjzG_2QCCwp0w&region=IN';
+			script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBqtrF1DwnhnJ3sZKGvVixC0ItY6LC778E&region=IN';
 			script.onload = () => {
 				this.loadingScript = false;
 				this.renderMap();
