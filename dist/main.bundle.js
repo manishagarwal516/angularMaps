@@ -673,7 +673,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/live-location/live-location.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row header-row\" [hidden]=\"showMap\">\n\t<div class=\"col-md-8\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;\"></angular2-multiselect>\n\t</div>\n</div>\n<div class=\"row header-row\" *ngIf=\"showMap\">\n\t<div class=\"col-md-8\">\n\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"clearMarker()\" style=\"float: right;margin-right: 59px;\">Clear Map</button>\n\t</div>\n</div>\n<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"></div>\n\n"
+module.exports = "<div class=\"row header-row\" [hidden]=\"showMap\">\n\t<div class=\"col-md-7\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;margin-right: 54px;\"></angular2-multiselect>\n\t</div>\n</div>\n<div class=\"row header-row\" *ngIf=\"showMap\">\n\t<div class=\"col-md-7\">\n\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"clearMarker()\" style=\"float: right;margin-right: 126px;\">Clear Map</button>\n\t</div>\n</div>\n<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"></div>\n\n"
 
 /***/ }),
 
@@ -974,6 +974,8 @@ module.exports = "<nav class=\"navbar-inner nav-top\">\n  <div class=\"container
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__auth_service__ = __webpack_require__("../../../../../src/app/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -986,10 +988,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var NavbarComponent = (function () {
-    function NavbarComponent(authservice, router) {
+    function NavbarComponent(authservice, router, toastr, vcr) {
         this.authservice = authservice;
         this.router = router;
+        this.toastr = toastr;
         this.loginLogoutText = 'Login';
         this.showNavLinks = false;
         this.userType = "user";
@@ -998,9 +1002,11 @@ var NavbarComponent = (function () {
     NavbarComponent.prototype.loginOrOut = function () {
         var isAuthenticated = this.authservice.isAuthenticated;
         if (this.authservice.checkforAuthentication()) {
-            this.authservice.logout();
+            if (window.confirm('Are sure you want to logout ?')) {
+                this.authservice.logout();
+                this.router.navigate(['/login']);
+            }
         }
-        this.router.navigate(['/login']);
     };
     NavbarComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1033,10 +1039,10 @@ NavbarComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/navbar/navbar.component.html"),
         styles: [__webpack_require__("../../../../../src/app/navbar/navbar.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]) === "function" && _d || Object])
 ], NavbarComponent);
 
-var _a, _b;
+var _a, _b, _c, _d;
 //# sourceMappingURL=navbar.component.js.map
 
 /***/ }),
@@ -1108,14 +1114,10 @@ var RouteMapComponent = (function () {
         this.mapRoute.directions.map(function (direction) {
             stations.push({ lat: parseFloat(direction.Lat), lng: parseFloat(direction.Long) });
         });
-        console.log(this.mapRoute.directions);
-        console.log(stations);
         for (var i = 0, parts = [], max = 20 - 1; i < stations.length; i = i + max) {
             parts.push(stations.slice(i, i + max + 1));
         }
         this.routeLength = parts.length;
-        console.log("parts");
-        console.log(parts);
         var mapOptions = {
             zoom: 13,
             mapTypeControl: true,
@@ -1129,18 +1131,12 @@ var RouteMapComponent = (function () {
             },
             suppressMarkers: true
         });
-        // this.heightStyle = {
-        //      height : "477px"
-        // }
-        var start = new google.maps.LatLng(stations[0].lat, stations[0].lng);
-        var end = new google.maps.LatLng(stations[stations.length - 1].lat, stations[stations.length - 1].lng);
-        //this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
-        //this.createMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
         for (var i = 0; i < parts.length; ++i) {
             this.getRouteStations(parts[i], directionsService, directionsDisplay, map, infowindow);
         }
     };
     RouteMapComponent.prototype.createMarker = function (latlng, title, map, infowindow, iconImgUrl) {
+        console.log("In marker0");
         var marker = new google.maps.Marker({
             position: latlng,
             title: title,
@@ -1152,19 +1148,19 @@ var RouteMapComponent = (function () {
             infowindow.open(map, marker);
         });
     };
-    // pinSymbol(color) {
-    //     return {
-    //         path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
-    //         fillColor: color,
-    //         fillOpacity: 2,
-    //         strokeColor: '#000',
-    //         strokeWeight: 0.5,
-    //         scale: 1,
-    //    };
-    // }
+    RouteMapComponent.prototype.createEndMarker = function (latlng, title, map, infowindow, iconImgUrl) {
+        var marker = new google.maps.Marker({
+            position: latlng,
+            title: title,
+            map: map,
+            icon: iconImgUrl,
+        });
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(title);
+            infowindow.open(map, marker);
+        });
+    };
     RouteMapComponent.prototype.getRouteStations = function (stations, directionsService, directionsDisplay, map, infowindow) {
-        console.log("getRouteStations");
-        console.log(stations);
         var waypoints = [];
         var source = new google.maps.LatLng(stations[0].lat, stations[0].lng), destination = new google.maps.LatLng(stations[stations.length - 1].lat, stations[stations.length - 1].lng);
         for (var i = 1; i < 24; i++) {
@@ -1175,6 +1171,7 @@ var RouteMapComponent = (function () {
     RouteMapComponent.prototype.calculateAndDisplayRoute = function (directionsService, directionsDisplay, source, destionation, waypoints, map, infowindow) {
         var _this = this;
         var combinedLength = this.routeLength;
+        console.log("IN calculateAndDisplayRoute");
         directionsService.route({
             origin: source,
             destination: destionation,
@@ -1184,16 +1181,11 @@ var RouteMapComponent = (function () {
             avoidHighways: false,
             travelMode: google.maps.TravelMode.DRIVING
         }, function (response, status) {
+            console.log(_this.directionsResultsReturned);
             if (status == google.maps.DirectionsStatus.OK) {
-                var lat = response.routes[0].legs[0].start_location.lat();
-                var lng = response.routes[0].legs[0].start_location.lng();
-                if (_this.directionsResultsReturned === 0) {
-                    var lat = response.routes[0].legs[0].start_location.lat();
-                    var lng = response.routes[0].legs[0].start_location.lng();
-                    var start = new google.maps.LatLng(lat, lng);
-                    _this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
-                }
                 if (_this.directionsResultsReturned == 0) {
+                    var start = new google.maps.LatLng(response.routes[0].legs[0].start_location.lat(), response.routes[0].legs[0].start_location.lng());
+                    _this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
                     _this.combinedResults = response;
                     _this.directionsResultsReturned++;
                 }
@@ -1207,10 +1199,8 @@ var RouteMapComponent = (function () {
                 //this.mapLoop++;
                 console.log(_this.directionsResultsReturned, combinedLength);
                 if (_this.directionsResultsReturned == combinedLength) {
-                    var lat = response.routes[0].legs[0].end_location.lat();
-                    var lng = response.routes[0].legs[0].end_location.lng();
-                    var end = new google.maps.LatLng(lat, lng);
-                    _this.createMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
+                    var end = new google.maps.LatLng(response.routes[0].legs[0].end_location.lat(), response.routes[0].legs[0].end_location.lng());
+                    _this.createEndMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
                     setTimeout(function () {
                         directionsDisplay.setDirections(_this.combinedResults);
                     }, 2);
@@ -1230,7 +1220,6 @@ var RouteMapComponent = (function () {
         var geocoder = new google.maps.Geocoder();
         var indianMap = new google.maps.Map(this.mapDiv.nativeElement, options);
         geocoder.geocode({ 'address': "india" }, function (results, status) {
-            console.log(status);
             if (status == google.maps.GeocoderStatus.OK) {
                 indianMap.setCenter(results[0].geometry.location);
             }
@@ -1240,7 +1229,6 @@ var RouteMapComponent = (function () {
         var _this = this;
         var document = this.mapDiv.nativeElement.ownerDocument;
         var script = document.querySelector('script[id="googlemaps"]');
-        console.log(script);
         if (script) {
             if (this.mapRoute.directions && mapType === "route") {
                 this.initMap();
@@ -1257,7 +1245,6 @@ var RouteMapComponent = (function () {
             script_1.defer = true;
             script_1.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBqtrF1DwnhnJ3sZKGvVixC0ItY6LC778E&region=IN&libraries=geometry';
             script_1.onload = function () {
-                console.log(_this.tableView);
                 if (_this.mapRoute.directions && mapType === "route") {
                     _this.initMap();
                 }
@@ -1276,10 +1263,6 @@ var RouteMapComponent = (function () {
             var prev = JSON.stringify(chng.previousValue);
             setTimeout(function () {
                 if (cur && prev && propName === "mapRoute") {
-                    console.log(propName);
-                    console.log(cur);
-                    console.log(prev);
-                    console.log("In ngonchanges");
                     _this.ensureScript("route");
                 }
             }, 200);
@@ -1291,7 +1274,6 @@ var RouteMapComponent = (function () {
     };
     RouteMapComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log(this.mapRoute);
         setTimeout(function () {
             _this.loadingMap = true;
             _this.ensureScript("india");
@@ -1571,7 +1553,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/user/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">Sign In</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"validateUser()\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div [hidden]=\"username.valid || username.pristine\"\n           class=\"alert alert-danger\">\n            UserName is invalid\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" required #password=\"ngModel\">\n            <div [hidden]=\"password.valid || password.pristine\"\n                 class=\"alert alert-danger\">\n              Password is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n            \n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>           \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>"
+module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">Sign In</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"validateUser()\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div [hidden]=\"username.valid || username.pristine\"\n           class=\"alert alert-danger\">\n            UserName is invalid\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" required #password=\"ngModel\">\n            <div [hidden]=\"password.valid || password.pristine\"\n                 class=\"alert alert-danger\">\n              Password is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n            \n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>           \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>"
 
 /***/ }),
 
@@ -1656,7 +1638,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/user/register/register.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">{{userTypeText}}</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"saveUser(userRegistionForm)\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"Name\" placeholder=\"Name\" name=\"Name\" [(ngModel)]=\"user.Name\" required #Name=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div [hidden]=\"Name.valid || Name.pristine\"\n           class=\"alert alert-danger\">\n            Name is invalid\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" minlength=\"6\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div [hidden]=\"username.valid || username.pristine\"\n           class=\"alert alert-danger\">\n            UserName is invalid\n          </div>\n\n          <div [hidden]=\"!userExistsError\" class=\"alert alert-danger\">\n            User already exists\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" minlength=\"6\" required #password=\"ngModel\">\n            <div [hidden]=\"password.valid || password.pristine\"\n                 class=\"alert alert-danger\">\n              Password is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n          <input type=\"email\" [disabled]=\"userType === 'superadmin' ? 'disabled' : null\" class=\"form-control\" placeholder=\"Email\" id=\"email\" name=\"email\" [(ngModel)]=\"user.email_id\" required #email=\"ngModel\">\n          <div [hidden]=\"email.valid || email.pristine\"\n                 class=\"alert alert-danger\">\n            Email is invalid\n          </div>\n          <span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Address\" id=\"address\" name=\"address\" [(ngModel)]=\"user.address\" required #address=\"ngModel\">\n            <div [hidden]=\"address.valid || address.pristine\"\n                 class=\"alert alert-danger\">\n              Address is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-duplicate form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"text\" pattern=\"\\d*\" maxlength=\"10\" minlength=\"10\" class=\"form-control\"  placeholder=\"Phone Number\" id=\"phone_number\" name=\"phone_number\" [(ngModel)]=\"user.phone_number\" required #phone_number=\"ngModel\">\n            <div [hidden]=\"phone_number.valid || phone_number.pristine\"\n                 class=\"alert alert-danger\">\n              Phone Number is invalid\n            </div>\n            <span class=\"glyphicon glyphicon-phone form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>          \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>"
+module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">{{userTypeText}}</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"saveUser(userRegistionForm)\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"name\" placeholder=\"Name\" name=\"name\" [(ngModel)]=\"user.name\" required #name=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div *ngIf=\"userErrors[1] !== undefined && userErrors[1].length > 0\"\n           class=\"alert alert-danger\">\n            {{userErrors[1]}}\n          </div>\n\n          <div [hidden]=\"!userExistsError\" class=\"alert alert-danger\">\n            User already exists\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" required #password=\"ngModel\">\n             <div *ngIf=\"userErrors[2] !== undefined && userErrors[2].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[2]}}\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n          <input type=\"email\" [disabled]=\"userType === 'superadmin' ? 'disabled' : null\" class=\"form-control\" placeholder=\"Email\" id=\"email\" name=\"email\" [(ngModel)]=\"user.email_id\" required #email=\"ngModel\">\n           <div *ngIf=\"userErrors[3] !== undefined && userErrors[3].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[3]}}\n            </div>\n          <span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Address\" id=\"address\" name=\"address\" [(ngModel)]=\"user.address\" required #address=\"ngModel\">\n            <div *ngIf=\"userErrors[4] !== undefined && userErrors[4].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[4]}}\n            </div>\n            <span class=\"glyphicon glyphicon-duplicate form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"number\" class=\"form-control\"  placeholder=\"Phone Number\" id=\"phone_number\" name=\"phone_number\" [(ngModel)]=\"user.phone_number\" required #phone_number=\"ngModel\">\n            <div *ngIf=\"userErrors[5] !== undefined && userErrors[5].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[5]}}\n            </div>\n            <span class=\"glyphicon glyphicon-phone form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>          \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>"
 
 /***/ }),
 
@@ -1697,31 +1679,71 @@ var RegisterComponent = (function () {
         this.toastr = toastr;
         this.userTypeText = "Add New Super Admin";
         this.userExistsError = false;
+        this.userErrors = [];
     }
     RegisterComponent.prototype.ngOnInit = function () {
         this.setUser();
     };
     RegisterComponent.prototype.saveUser = function (userRegistionForm) {
         var _this = this;
-        this.userExistsError = false;
-        this.DataService.createUser(this.user)
-            .subscribe(function (customerResponse) {
-            if (customerResponse.status === "error") {
-                if (customerResponse.err === "User Already exists") {
-                    _this.userExistsError = true;
+        if (this.checkValidation()) {
+            this.userExistsError = false;
+            this.DataService.createUser(this.user)
+                .subscribe(function (customerResponse) {
+                if (customerResponse.status === "error") {
+                    if (customerResponse.err === "User Already exists") {
+                        _this.userExistsError = true;
+                    }
+                    else {
+                        _this.toastr.error(customerResponse.err, 'Error!');
+                    }
                 }
                 else {
-                    _this.toastr.error(customerResponse.err, 'Error!');
+                    userRegistionForm.resetForm();
+                    _this.toastr.success("User Added Succesfully", 'Success!');
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 1000);
                 }
-            }
-            else {
-                userRegistionForm.resetForm();
-                _this.toastr.success("User Added Succesfully", 'Success!');
-                setTimeout(function () {
-                    window.location.reload(true);
-                }, 1000);
-            }
-        });
+            });
+        }
+    };
+    RegisterComponent.prototype.checkValidation = function () {
+        var tempHash = {};
+        var isValid = true;
+        this.userErrors = [];
+        this.userErrors.push("");
+        var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (this.user.username.length < 6) {
+            this.userErrors.push("Username should be of minimum 6 digits, the username is less than 6 digits.");
+            isValid = false;
+        }
+        else {
+            this.userErrors.push("");
+        }
+        if (this.user.password.length < 6) {
+            this.userErrors.push("Password should be of minimum 6 digits");
+            isValid = false;
+        }
+        else {
+            this.userErrors.push("");
+        }
+        if (!emailRegex.test(this.user.email_id)) {
+            this.userErrors.push("Email is invalid");
+            isValid = false;
+        }
+        else {
+            this.userErrors.push("");
+        }
+        this.userErrors.push("");
+        if (this.user.phone_number.toString().length !== 10) {
+            this.userErrors.push("Phone number must be of 10 digits");
+            isValid = false;
+        }
+        else {
+            this.userErrors.push("");
+        }
+        return isValid;
     };
     RegisterComponent.prototype.setUser = function () {
         var _this = this;
@@ -1783,7 +1805,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/user/superadmin/superadmin.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <h1>Accept Super Admin Request</h1>\n    <button type=\"submit\" class=\"btn btn-success\" (click)=\"acceptRequest(true)\">Yes</button>\n    <button type=\"submit\" class=\"btn btn-success\" (click)=\"acceptRequest(false)\">No</button>\n</div>"
+module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\" style=\"text-align: center;\">\n      <div class=\"login-box-msg\">Accept super admin request</div>\n      <button type=\"submit\" class=\"btn btn-success\" (click)=\"acceptRequest(true)\">Yes</button>\n    \t<button type=\"submit\" class=\"btn btn-success\" (click)=\"acceptRequest(false)\">No</button>\n    </div>\n</div>    \n    \t"
 
 /***/ }),
 

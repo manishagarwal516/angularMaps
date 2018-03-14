@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   userTypeText : string = "Add New Super Admin";
   userExistsError: boolean = false;
   userType: string;
+  userErrors: string[] = [];
   constructor(private DataService : DataService, private authservice: AuthService, 
               private router: Router, private routeParams: ActivatedRoute,
               public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -28,25 +29,68 @@ export class RegisterComponent implements OnInit {
   }
 
   saveUser(userRegistionForm: any){
-    this.userExistsError = false;
-		this.DataService.createUser(this.user)
-      .subscribe((customerResponse: any) => {
-        if(customerResponse.status === "error"){
-          if(customerResponse.err === "User Already exists"){
-            this.userExistsError = true;
+    if(this.checkValidation()){
+      this.userExistsError = false;
+  		this.DataService.createUser(this.user)
+        .subscribe((customerResponse: any) => {
+          if(customerResponse.status === "error"){
+            if(customerResponse.err === "User Already exists"){
+              this.userExistsError = true;
+            }else{
+              this.toastr.error(customerResponse.err, 'Error!');
+            }
           }else{
-            this.toastr.error(customerResponse.err, 'Error!');
+            userRegistionForm.resetForm();
+            this.toastr.success("User Added Succesfully", 'Success!'); 
+            setTimeout(() => {
+              window.location.reload(true);
+            }, 1000);
+            
           }
-        }else{
-          userRegistionForm.resetForm();
-          this.toastr.success("User Added Succesfully", 'Success!'); 
-          setTimeout(() => {
-            window.location.reload(true);
-          }, 1000);
-          
-        }
-    	});
+      	});
+    }
 	}
+
+  checkValidation(){
+    let tempHash = {};
+    let isValid = true;
+    this.userErrors = [];
+    this.userErrors.push("");
+    let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+
+    if(this.user.username.length < 6){
+       this.userErrors.push("Username should be of minimum 6 digits, the username is less than 6 digits.")
+       isValid = false;
+    }else{
+      this.userErrors.push("");
+    }
+
+    if(this.user.password.length < 6){
+       this.userErrors.push("Password should be of minimum 6 digits")
+       isValid = false;
+    }else{
+      this.userErrors.push("");
+    }
+
+    if(!emailRegex.test(this.user.email_id)){
+       this.userErrors.push("Email is invalid");
+       isValid = false;
+    }else{
+      this.userErrors.push("");
+    }
+
+    this.userErrors.push("")
+
+    if(this.user.phone_number.toString().length !== 10){
+       this.userErrors.push("Phone number must be of 10 digits");
+       isValid = false;
+    }else{
+      this.userErrors.push("");
+    }
+    return isValid;
+  }
+
 
   setUser(){
     this.user_types = {

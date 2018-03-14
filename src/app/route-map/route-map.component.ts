@@ -39,15 +39,11 @@ export class RouteMapComponent implements OnInit, OnChanges {
         this.mapRoute.directions.map(function(direction) {
             stations.push({lat: parseFloat(direction.Lat), lng: parseFloat(direction.Long)})
         })
-        console.log(this.mapRoute.directions);
-        console.log(stations)
         for (var i = 0, parts = [], max = 20 - 1; i < stations.length; i = i + max){
             parts.push(stations.slice(i, i + max + 1));
         }
 
         this.routeLength = parts.length; 
-        console.log("parts")
-        console.log(parts);
         var mapOptions = {
             zoom: 13,
             mapTypeControl: true,
@@ -65,14 +61,6 @@ export class RouteMapComponent implements OnInit, OnChanges {
             suppressMarkers : true
         });
 
-        // this.heightStyle = {
-        //      height : "477px"
-        // }
-        var start = new google.maps.LatLng(stations[0].lat, stations[0].lng);
-        var end  = new google.maps.LatLng(stations[stations.length -1].lat, stations[stations.length -1].lng);
-
-        //this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
-        //this.createMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
         
         for (var i = 0; i < parts.length; ++i) {
             this.getRouteStations(parts[i], directionsService, directionsDisplay, map, infowindow);
@@ -80,7 +68,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
     }
 
     createMarker(latlng, title, map, infowindow, iconImgUrl) {
-
+        console.log("In marker0");
         var marker = new google.maps.Marker({
             position: latlng,
             title: title,
@@ -88,7 +76,19 @@ export class RouteMapComponent implements OnInit, OnChanges {
             icon: iconImgUrl,
         });
 
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(title);
+            infowindow.open(map, marker);
+        });
+    }
 
+    createEndMarker(latlng, title, map, infowindow, iconImgUrl) {
+        var marker = new google.maps.Marker({
+            position: latlng,
+            title: title,
+            map: map,
+            icon: iconImgUrl,
+        });
 
         google.maps.event.addListener(marker, 'click', function () {
             infowindow.setContent(title);
@@ -96,20 +96,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
         });
     }
 
-    // pinSymbol(color) {
-    //     return {
-    //         path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
-    //         fillColor: color,
-    //         fillOpacity: 2,
-    //         strokeColor: '#000',
-    //         strokeWeight: 0.5,
-    //         scale: 1,
-    //    };
-    // }
-
     getRouteStations(stations, directionsService, directionsDisplay, map, infowindow){
-        console.log("getRouteStations");
-        console.log(stations);
         var waypoints = [];
         var source = new google.maps.LatLng(stations[0].lat, stations[0].lng),
         destination = new google.maps.LatLng(stations[stations.length -1].lat, stations[stations.length -1].lng)
@@ -125,7 +112,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
     calculateAndDisplayRoute(directionsService, directionsDisplay, source, destionation, waypoints, map, infowindow) {
         var _this = this;
         var combinedLength = this.routeLength;
-        
+        console.log("IN calculateAndDisplayRoute");
         directionsService.route({
             origin: source,
             destination: destionation,
@@ -135,21 +122,11 @@ export class RouteMapComponent implements OnInit, OnChanges {
             avoidHighways: false,
             travelMode: google.maps.TravelMode.DRIVING
         }, function (response, status) {
+            console.log(_this.directionsResultsReturned);
             if (status == google.maps.DirectionsStatus.OK) {
-                var lat = response.routes[0].legs[0].start_location.lat();
-                var lng = response.routes[0].legs[0].start_location.lng();
-
-                if(_this.directionsResultsReturned === 0){
-                    var lat = response.routes[0].legs[0].start_location.lat();
-                    var lng = response.routes[0].legs[0].start_location.lng();
-
-                    var start = new google.maps.LatLng(lat, lng);
-                    _this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
-                }
-
-                
-
                 if (_this.directionsResultsReturned == 0) { // first bunch of results in. new up the combinedResults object
+                    var start = new google.maps.LatLng(response.routes[0].legs[0].start_location.lat(), response.routes[0].legs[0].start_location.lng());
+                    _this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
                     _this.combinedResults = response;
                     _this.directionsResultsReturned++;
                 }
@@ -167,11 +144,8 @@ export class RouteMapComponent implements OnInit, OnChanges {
                 
                 console.log(_this.directionsResultsReturned, combinedLength);
                 if (_this.directionsResultsReturned == combinedLength){
-                    var lat = response.routes[0].legs[0].end_location.lat();
-                    var lng = response.routes[0].legs[0].end_location.lng();
-
-                    var end = new google.maps.LatLng(lat, lng);
-                    _this.createMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
+                    var end = new google.maps.LatLng(response.routes[0].legs[0].end_location.lat(), response.routes[0].legs[0].end_location.lng());
+                    _this.createEndMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
 
                     setTimeout(() => {
                         directionsDisplay.setDirections(_this.combinedResults);
@@ -194,7 +168,6 @@ export class RouteMapComponent implements OnInit, OnChanges {
         let geocoder = new google.maps.Geocoder();
         let indianMap = new google.maps.Map(this.mapDiv.nativeElement, options);
         geocoder.geocode( {'address' : "india"}, function(results, status) {
-                console.log(status)
                 if (status == google.maps.GeocoderStatus.OK) {
                         indianMap.setCenter(results[0].geometry.location);
                 }
@@ -203,7 +176,6 @@ export class RouteMapComponent implements OnInit, OnChanges {
     ensureScript(mapType){
         const document = this.mapDiv.nativeElement.ownerDocument;
         const script = <HTMLScriptElement>document.querySelector('script[id="googlemaps"]');
-        console.log(script);
         if (script) {
             if(this.mapRoute.directions && mapType === "route"){
                 this.initMap();
@@ -218,7 +190,6 @@ export class RouteMapComponent implements OnInit, OnChanges {
             script.defer = true;
             script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBqtrF1DwnhnJ3sZKGvVixC0ItY6LC778E&region=IN&libraries=geometry';
             script.onload = () => {
-                console.log(this.tableView);
                 if(this.mapRoute.directions && mapType === "route"){
                     this.initMap();
                 }else if(this.tableView && mapType === "india"){
@@ -236,10 +207,6 @@ export class RouteMapComponent implements OnInit, OnChanges {
         let prev = JSON.stringify(chng.previousValue);
         setTimeout(() => {
             if(cur && prev && propName === "mapRoute"){
-                console.log(propName);
-                console.log(cur);
-                console.log(prev)
-                console.log("In ngonchanges");
                 this.ensureScript("route");
             }
         }, 200);
@@ -248,7 +215,6 @@ export class RouteMapComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-        console.log(this.mapRoute)
         setTimeout(() => {
             this.loadingMap = true;
             this.ensureScript("india");

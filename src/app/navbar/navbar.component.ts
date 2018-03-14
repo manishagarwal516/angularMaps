@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-navbar',
@@ -15,13 +16,18 @@ export class NavbarComponent implements OnInit {
     userTypeText : string = "Create User";
 	  sub: Subscription;
 
-  constructor(private authservice: AuthService, private router: Router) { }
+  constructor(private authservice: AuthService, private router: Router,
+              public toastr: ToastsManager, vcr: ViewContainerRef) { }
 	loginOrOut() {
+
     const isAuthenticated = this.authservice.isAuthenticated;
     if (this.authservice.checkforAuthentication()) {
-      this.authservice.logout();
+      if(window.confirm('Are sure you want to logout ?')){
+          this.authservice.logout();
+          this.router.navigate(['/login']);
+      }
     }
-    this.router.navigate(['/login']);
+    
   }
 
 
