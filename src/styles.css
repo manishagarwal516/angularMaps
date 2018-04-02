@@ -328,3 +328,7 @@ a:hover, a:focus {
     border-top: 0;
     color: #666;
 }
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn{
+    opacity: 1;
+}

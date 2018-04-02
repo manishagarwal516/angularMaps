@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ModalModule } from 'ngx-modialog';
+import { BootstrapModalModule, Modal, bootstrap4Mode } from 'ngx-modialog/plugins/bootstrap';
+
 
 import { NgModule } from '@angular/core';
 
@@ -22,15 +25,18 @@ import { HomeComponent } from './home/home.component';
 import { UserModule } from './user/user.module';
 import {ToastModule, ToastOptions} from 'ng2-toastr/ng2-toastr';
 import { CustomOption } from './custom-option';
+import {AlertComponent} from './alert.component'
+import {AlertService} from './alert.service'
 
 
 
 
-
+bootstrap4Mode();
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    AlertComponent,
     RoutesComponent,
     RouteMapComponent,
     LiveLocationComponent,
@@ -47,10 +53,12 @@ import { CustomOption } from './custom-option';
     HttpModule,
     Daterangepicker,
     NgDatepickerModule,
-    UserModule
+    UserModule,
+    ModalModule.forRoot(),
+    BootstrapModalModule
   ],
   providers: [DataService, AuthService, {provide: LocationStrategy, useClass: HashLocationStrategy}, 
-              {provide: ToastOptions, useClass: CustomOption}],
+              {provide: ToastOptions, useClass: CustomOption},AlertService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -58,7 +58,7 @@ export class RouteMapComponent implements OnInit, OnChanges {
                 strokeOpacity: 1.0,
                 strokeWeight: 7,
             },
-            suppressMarkers : true
+            suppressMarkers : false
         });
 
         
@@ -124,9 +124,11 @@ export class RouteMapComponent implements OnInit, OnChanges {
         }, function (response, status) {
             console.log(_this.directionsResultsReturned);
             if (status == google.maps.DirectionsStatus.OK) {
+                console.log(response);
                 if (_this.directionsResultsReturned == 0) { // first bunch of results in. new up the combinedResults object
                     var start = new google.maps.LatLng(response.routes[0].legs[0].start_location.lat(), response.routes[0].legs[0].start_location.lng());
-                    _this.createMarker(start, 'start', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/source.png");
+                    
+                    
                     _this.combinedResults = response;
                     _this.directionsResultsReturned++;
                 }
@@ -145,7 +147,9 @@ export class RouteMapComponent implements OnInit, OnChanges {
                 console.log(_this.directionsResultsReturned, combinedLength);
                 if (_this.directionsResultsReturned == combinedLength){
                     var end = new google.maps.LatLng(response.routes[0].legs[0].end_location.lat(), response.routes[0].legs[0].end_location.lng());
-                    _this.createEndMarker(end, 'end', map, infowindow, "http://ec2-13-126-65-82.ap-south-1.compute.amazonaws.com/assets/images/destination.png");
+
+                   
+                    
 
                     setTimeout(() => {
                         directionsDisplay.setDirections(_this.combinedResults);
