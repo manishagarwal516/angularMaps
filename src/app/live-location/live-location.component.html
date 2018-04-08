@@ -1,6 +1,9 @@
 <div class="row header-row" [hidden]="showMap">
-	<div class="col-md-7">
+	<div *ngIf="(userType === 'admin' || userType === 'superadmin')" class="col-md-7">
 		<angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" style="float: right;margin-right: 54px;"></angular2-multiselect>
+	</div>
+	<div *ngIf="userType === 'user'" class="col-md-8">
+		<angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" style="float: right;margin-right: 75px;"></angular2-multiselect>
 	</div>
 </div>
 <div class="row header-row" *ngIf="showMap">

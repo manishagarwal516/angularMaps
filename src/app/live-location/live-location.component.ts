@@ -3,9 +3,12 @@ import { Component, OnInit, AfterContentInit, Input, ViewChild,
 
 import { DataService }         from '../data.service';
 import {Observable} from 'rxjs/Rx';
+import { AuthService } from '../auth.service';
+
 import { TimerObservable } from "rxjs/observable/TimerObservable";
 import {} from '@types/googlemaps';
 import * as $ from 'jquery';
+
 //import {} from '@types/marker-animate-unobtrusive';
 
 declare var google: any;
@@ -16,6 +19,7 @@ declare var google: any;
 	styleUrls: ['./live-location.component.css']
 })
 export class LiveLocationComponent implements OnInit, OnDestroy  {
+	userType : string = "user";
 	routes = [];
 	locations = [];
 
@@ -36,7 +40,8 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
     };
 	@ViewChild('map') mapDiv : ElementRef;
 
-	constructor(private DataService: DataService) { 
+	constructor(private DataService: DataService,
+				private authservice: AuthService) { 
 	}
 
 	showLiveLocation(){
@@ -179,6 +184,7 @@ export class LiveLocationComponent implements OnInit, OnDestroy  {
 
 
 	ngOnInit() {
+		this.userType = this.authservice.checkforUserType();
 //		SlidingMarker.initializeGlobally();
 		setTimeout(() => {
 			this.ensureScript();

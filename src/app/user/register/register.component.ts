@@ -12,18 +12,19 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-	user : any
-  user_types : any	
+  user : any
+  user_types : any  
   userTypeText : string = "Add New Super Admin";
   userExistsError: boolean = false;
   userType: string;
   userErrors: string[] = [];
+  showSuccess: boolean = false;
   constructor(private DataService : DataService, private authservice: AuthService, 
               private router: Router, private routeParams: ActivatedRoute,
               public toastr: ToastsManager, vcr: ViewContainerRef) {
   }
-	
-	ngOnInit() {
+  
+  ngOnInit() {
     this.setUser();
 
   }
@@ -31,7 +32,7 @@ export class RegisterComponent implements OnInit {
   saveUser(userRegistionForm: any){
     if(this.checkValidation()){
       this.userExistsError = false;
-  		this.DataService.createUser(this.user)
+      this.DataService.createUser(this.user)
         .subscribe((customerResponse: any) => {
           if(customerResponse.status === "error"){
             if(customerResponse.err === "User Already exists"){
@@ -40,16 +41,16 @@ export class RegisterComponent implements OnInit {
               this.toastr.error(customerResponse.err, 'Error!');
             }
           }else{
-            userRegistionForm.resetForm();
-            this.toastr.success("User Added Succesfully", 'Success!'); 
+            userRegistionForm.resetForm(); 
+            this.showSuccess = true;
             setTimeout(() => {
-              window.location.reload(true);
-            }, 1000);
+               window.location.reload(true);
+            }, 3000);
             
           }
-      	});
+        });
     }
-	}
+  }
 
   checkValidation(){
     let tempHash = {};
@@ -105,9 +106,9 @@ export class RegisterComponent implements OnInit {
       this.userTypeText = "Enter User Details";
     }
 
-    this.userType = this.user_types[this.userType];
+    this.userType = this.authservice.checkforUserType();
     this.user = new User('', '','', '', '', null, this.user_types[this.userType]);
-
+    this.userType = this.user_types[this.userType];
 
     this.routeParams.params.subscribe((params: Params) => {
       if(params["superadmin"] === "true"){

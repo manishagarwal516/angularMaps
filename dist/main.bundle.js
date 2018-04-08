@@ -16,7 +16,7 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
 /***/ "../../../../../src/app/alert.component.html":
 /***/ (function(module, exports) {
 
-module.exports = " <div *ngIf=\"message\" class=\"modal\" tabindex=\"-1\" role=\"dialog\" style=\"display:block!important\">\n        <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n \n <div *ngIf=\"message?.type == 'confirm'\"  class=\"modal-body\">\n            <div class=\"row\">\n                <div class=\"col-md-12\">\n                    <h3 class=\"text-center\">{{message.text}}</h3>\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-12\">\n                    <p class=\"text-center\">\n                        <a (click)=\"message.siFn()\">\n                            <button  class=\"btn btn-primary btn-sm\" >Ok</button>\n                        </a>\n                        <a (click)=\"message.noFn()\">\n                            <button class=\"btn btn-primary btn-sm\">Cancel</button>\n                        </a>\n                    </p>\n                </div>\n                </div></div></div>\n            </div>\n         </div>"
+module.exports = " <div *ngIf=\"message\" class=\"modal\" tabindex=\"-1\" role=\"dialog\" style=\"display:block!important\">\n        <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n \n <div *ngIf=\"message?.type == 'confirm'\"  class=\"modal-body\">\n            <div class=\"row\">\n                <div class=\"col-md-12\">\n                    <h3 class=\"text-center\">{{message.text}}</h3>\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-12\">\n                    <p class=\"text-center\">\n                        <a (click)=\"message.siFn()\">\n                            <button  style='margin-right: 40px' class=\"btn btn-primary btn-sm\" >Ok</button>\n                        </a>\n                        <a (click)=\"message.noFn()\">\n                            <button class=\"btn btn-primary btn-sm\">Cancel</button>\n                        </a>\n                    </p>\n                </div>\n                </div></div></div>\n            </div>\n         </div>"
 
 /***/ }),
 
@@ -792,7 +792,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/live-location/live-location.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row header-row\" [hidden]=\"showMap\">\n\t<div class=\"col-md-7\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;margin-right: 54px;\"></angular2-multiselect>\n\t</div>\n</div>\n<div class=\"row header-row\" *ngIf=\"showMap\">\n\t<div class=\"col-md-7\">\n\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"clearMarker()\" style=\"float: right;margin-right: 126px;\">Clear Map</button>\n\t</div>\n</div>\n<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"></div>\n\n"
+module.exports = "<div class=\"row header-row\" [hidden]=\"showMap\">\n\t<div *ngIf=\"(userType === 'admin' || userType === 'superadmin')\" class=\"col-md-7\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;margin-right: 54px;\"></angular2-multiselect>\n\t</div>\n\t<div *ngIf=\"userType === 'user'\" class=\"col-md-8\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;margin-right: 75px;\"></angular2-multiselect>\n\t</div>\n</div>\n<div class=\"row header-row\" *ngIf=\"showMap\">\n\t<div class=\"col-md-7\">\n\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"clearMarker()\" style=\"float: right;margin-right: 126px;\">Clear Map</button>\n\t</div>\n</div>\n<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"></div>\n\n"
 
 /***/ }),
 
@@ -805,8 +805,9 @@ module.exports = "<div class=\"row header-row\" [hidden]=\"showMap\">\n\t<div cl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_service__ = __webpack_require__("../../../../../src/app/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery__ = __webpack_require__("../../../../jquery/dist/jquery.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_service__ = __webpack_require__("../../../../../src/app/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery__ = __webpack_require__("../../../../jquery/dist/jquery.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_jquery__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -820,9 +821,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var LiveLocationComponent = (function () {
-    function LiveLocationComponent(DataService) {
+    function LiveLocationComponent(DataService, authservice) {
         this.DataService = DataService;
+        this.authservice = authservice;
+        this.userType = "user";
         this.routes = [];
         this.locations = [];
         this.dropdownList = [];
@@ -964,6 +968,7 @@ var LiveLocationComponent = (function () {
     };
     LiveLocationComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.userType = this.authservice.checkforUserType();
         //		SlidingMarker.initializeGlobally();
         setTimeout(function () {
             _this.ensureScript();
@@ -1025,15 +1030,15 @@ var LiveLocationComponent = (function () {
         buttonHtml += "<button id='custom-ok-button' class='btn btn-outline-secondary btn-sm'>OK</button>";
         buttonHtml += "<button id='custom-cancel-button' class='btn btn-outline-secondary btn-sm'>Cancel</button>";
         buttonHtml += "</div>";
-        __WEBPACK_IMPORTED_MODULE_3_jquery__(buttonHtml).insertAfter(".lazyContainer");
-        __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-cancel-button")
+        __WEBPACK_IMPORTED_MODULE_4_jquery__(buttonHtml).insertAfter(".lazyContainer");
+        __WEBPACK_IMPORTED_MODULE_4_jquery__("#custom-cancel-button")
             .on('click', function () {
-            __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);
+            __WEBPACK_IMPORTED_MODULE_4_jquery__('.dropdown-list').prop("hidden", true);
             _this.selectedItems = [];
         });
-        __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-ok-button")
+        __WEBPACK_IMPORTED_MODULE_4_jquery__("#custom-ok-button")
             .on('click', function () {
-            __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);
+            __WEBPACK_IMPORTED_MODULE_4_jquery__('.dropdown-list').prop("hidden", true);
             _this.showMarker();
         });
     };
@@ -1052,10 +1057,10 @@ LiveLocationComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/live-location/live-location.component.html"),
         styles: [__webpack_require__("../../../../../src/app/live-location/live-location.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__data_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__data_service__["a" /* DataService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__data_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__data_service__["a" /* DataService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */]) === "function" && _c || Object])
 ], LiveLocationComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=live-location.component.js.map
 
 /***/ }),
@@ -1457,7 +1462,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routes/routes.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"row header-row\">\n\t<div *ngIf=\"showDropdowns\">\n\t\t<div class=\"col-md-5\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" style=\"float: right;\">\n\n\t\t\t</angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-7\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"showRouteTable()\">Submit</button>\t\n\t\t</div>\n\t</div>\t\n\t<div class=\"col-md-12\" *ngIf=\"!showDropdowns\" style=\"text-align: center;\">\n\t\t<div class=\"dropdown\">\n\t\t  <button class=\"btn btn-primary btn-sm\">Routes List</button>\n\t\t  <div class=\"dropdown-content\">\n\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t  \t\t{{route.Route_number}}\n\t\t  \t</a>\n\t\t  </div>\n\t\t</div>\n\t</div>\n</div>\n<div class=\"row grid-container\" *ngIf=\"!tableView\">\n\t<div class=\"col-md-12\">\n\t\t<div class=\"table\">\n\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\t\n\t\t\t            <th>User ID</th>\n\t\t\t            <th>Route Number</th>\n\t\t\t            <th>Date  Time</th>\n\t\t\t            <th>View Route on Map</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t            <td style=\"white-space:pre\">{{route.Date_time}}</td>\n\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Route</a></td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr></tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n<div>\n\t<div>\n\t  <div *ngIf=\"!mapView\" class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <div class=\"route-div\">    \n\t        Route Number  {{ singleRoute.id  }} for User {{singleRoute.imei}}\n\t      </div>\n\t    </div>\n\t  </div>   \n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" [table-view]=\"tableView\"\n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
+module.exports = "\n<div class=\"row header-row\">\n\t<div *ngIf=\"showDropdowns && (userType === 'admin' || userType === 'superadmin')\">\n\t\t<div class=\"col-md-5\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" style=\"float: right;\">\n\n\t\t\t</angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-7\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"showRouteTable()\">Submit</button>\t\n\t\t</div>\n\t</div>\t\n\t<div *ngIf=\"showDropdowns && (userType === 'user')\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<angular2-multiselect *ngIf=\"!showMap\" [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" style=\"float: right;\">\n\n\t\t\t</angular2-multiselect>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\t\n\t\t\t<input type=\"text\" name=\"daterangeInput\" daterangepicker [options]=\"options\" (selected)=\"selectedDate($event, daterange)\" />\n\t\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"showRouteTable()\">Submit</button>\t\n\t\t</div>\n\t</div>\t\n\t<div class=\"col-md-12\" *ngIf=\"!showDropdowns\" style=\"text-align: center;\">\n\t\t<div class=\"dropdown\">\n\t\t  <button class=\"btn btn-primary btn-sm\">Routes List</button>\n\t\t  <div class=\"dropdown-content\">\n\t\t  \t<a [routerLink]=\"['/route',route.Route_number]\" *ngFor=\"let route of routes\" href=\"#\">\n\t\t  \t\t{{route.Route_number}}\n\t\t  \t</a>\n\t\t  </div>\n\t\t</div>\n\t</div>\n</div>\n<div class=\"row grid-container\" *ngIf=\"!tableView\">\n\t<div class=\"col-md-12\">\n\t\t<div class=\"table\">\n\t\t\t<table class=\"table table-striped table-hover\">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\t\n\t\t\t            <th>User ID</th>\n\t\t\t            <th>Route Number</th>\n\t\t\t            <th>Date  Time</th>\n\t\t\t            <th>View Route on Map</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr *ngFor=\"let route of routes\">\n\t\t\t            <td>{{route.Imei}}</td>\n\t\t\t            <td>{{route.Route_number}}</td>\n\t\t\t            <td style=\"white-space:pre\">{{route.Date_time}}</td>\n\t\t\t\t\t\t<td><a [routerLink]=\"['/route',route.Route_number]\">View Route</a></td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr *ngIf=\"!routes.length\">\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td>&nbsp;</td>\n\t\t\t\t\t\t\t<td colspan=\"7\">No Records Found</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr></tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n<div>\n\t<div>\n\t  <div *ngIf=\"!mapView\" class=\"row\">\n\t    <div class=\"col-md-10\">\n\t      <div class=\"route-div\">    \n\t        Route Number  {{ singleRoute.id  }} for User {{singleRoute.imei}}\n\t      </div>\n\t    </div>\n\t  </div>   \n\t  <div class=\"row\">\n\t    <div class=\"col-md-12\">\n\t      <app-route-map  [routes]=\"routes\" [map-route]=\"singleRoute\" [table-view]=\"tableView\"\n\t           ></app-route-map>\n\t    </div>\n\t  </div>\n\t</div>     \n</div>\n"
 
 /***/ }),
 
@@ -1468,9 +1473,8 @@ module.exports = "\n<div class=\"row header-row\">\n\t<div *ngIf=\"showDropdowns
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RoutesComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_service__ = __webpack_require__("../../../../../src/app/data.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery__ = __webpack_require__("../../../../jquery/dist/jquery.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_service__ = __webpack_require__("../../../../../src/app/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_service__ = __webpack_require__("../../../../../src/app/data.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1485,9 +1489,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var RoutesComponent = (function () {
-    function RoutesComponent(routeParams, DataService) {
+    function RoutesComponent(routeParams, DataService, authservice) {
         this.routeParams = routeParams;
         this.DataService = DataService;
+        this.authservice = authservice;
+        this.userType = "user";
         this.routes = [];
         this.singleRoute = {};
         this.tableView = true;
@@ -1603,24 +1609,10 @@ var RoutesComponent = (function () {
         this.dropdownList = temp_options;
     };
     RoutesComponent.prototype.ngAfterViewInit = function () {
-        var _this = this;
-        var buttonHtml = "<div class='custom-dropdown-button'>";
-        buttonHtml += "<button id='custom-ok-button' class='btn btn-outline-secondary btn-sm'>OK</button>";
-        buttonHtml += "<button id='custom-cancel-button' class='btn btn-outline-secondary btn-sm'>Cancel</button>";
-        buttonHtml += "</div>";
-        __WEBPACK_IMPORTED_MODULE_3_jquery__(buttonHtml).insertAfter(".lazyContainer");
-        __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-cancel-button")
-            .on('click', function () {
-            __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);
-            _this.selectedItems = [];
-        });
-        __WEBPACK_IMPORTED_MODULE_3_jquery__("#custom-ok-button")
-            .on('click', function () {
-            __WEBPACK_IMPORTED_MODULE_3_jquery__('.dropdown-list').prop("hidden", true);
-        });
     };
     RoutesComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.userType = this.authservice.checkforUserType();
         this.DataService.getDistinctPhoneNumber()
             .then(function (options) { return _this.setMyOptions(options); });
         this.routeParams.params.subscribe(function (params) {
@@ -1649,10 +1641,10 @@ RoutesComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/routes/routes.component.html"),
         styles: [__webpack_require__("../../../../../src/app/routes/routes.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__data_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__data_service__["a" /* DataService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__data_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__data_service__["a" /* DataService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */]) === "function" && _c || Object])
 ], RoutesComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=routes.component.js.map
 
 /***/ }),
@@ -1763,7 +1755,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/user/register/register.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">{{userTypeText}}</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"saveUser(userRegistionForm)\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"name\" placeholder=\"Name\" name=\"name\" [(ngModel)]=\"user.name\" required #name=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div *ngIf=\"userErrors[1] !== undefined && userErrors[1].length > 0\"\n           class=\"alert alert-danger\">\n            {{userErrors[1]}}\n          </div>\n\n          <div [hidden]=\"!userExistsError\" class=\"alert alert-danger\">\n            User already exists\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" required #password=\"ngModel\">\n             <div *ngIf=\"userErrors[2] !== undefined && userErrors[2].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[2]}}\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n          <input type=\"email\" [disabled]=\"userType === 'superadmin' ? 'disabled' : null\" class=\"form-control\" placeholder=\"Email\" id=\"email\" name=\"email\" [(ngModel)]=\"user.email_id\" required #email=\"ngModel\">\n           <div *ngIf=\"userErrors[3] !== undefined && userErrors[3].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[3]}}\n            </div>\n          <span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Address\" id=\"address\" name=\"address\" [(ngModel)]=\"user.address\" required #address=\"ngModel\">\n            <div *ngIf=\"userErrors[4] !== undefined && userErrors[4].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[4]}}\n            </div>\n            <span class=\"glyphicon glyphicon-duplicate form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"number\" class=\"form-control\"  placeholder=\"Phone Number\" id=\"phone_number\" name=\"phone_number\" [(ngModel)]=\"user.phone_number\" required #phone_number=\"ngModel\">\n            <div *ngIf=\"userErrors[5] !== undefined && userErrors[5].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[5]}}\n            </div>\n            <span class=\"glyphicon glyphicon-phone form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>          \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>"
+module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\">\n      <p class=\"login-box-msg\">{{userTypeText}}</p>\n      <div [hidden]=\"!invalidLogin\" class=\"alert alert-danger\">\n        Username or password is invalid\n      </div>\n      <form #userRegistionForm=\"ngForm\" (ngSubmit)=\"saveUser(userRegistionForm)\">\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"name\" placeholder=\"Name\" name=\"name\" [(ngModel)]=\"user.name\" required #name=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n           <input type=\"text\" class=\"form-control\" id=\"username\" placeholder=\"Username\" name=\"username\" [(ngModel)]=\"user.username\" required #username=\"ngModel\" maxlength=\"80\" size=\"30\">     \n          <span class=\"glyphicon glyphicon-user form-control-feedback\"></span>\n          <div *ngIf=\"userErrors[1] !== undefined && userErrors[1].length > 0\"\n           class=\"alert alert-danger\">\n            {{userErrors[1]}}\n          </div>\n\n          <div [hidden]=\"!userExistsError\" class=\"alert alert-danger\">\n            User already exists\n          </div>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\" name=\"password\" [(ngModel)]=\"user.password\" required #password=\"ngModel\">\n             <div *ngIf=\"userErrors[2] !== undefined && userErrors[2].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[2]}}\n            </div>\n            <span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n          <input type=\"email\" [disabled]=\"userType === 'superadmin' ? 'disabled' : null\" class=\"form-control\" placeholder=\"Email\" id=\"email\" name=\"email\" [(ngModel)]=\"user.email_id\" required #email=\"ngModel\">\n           <div *ngIf=\"userErrors[3] !== undefined && userErrors[3].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[3]}}\n            </div>\n          <span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Address\" id=\"address\" name=\"address\" [(ngModel)]=\"user.address\" required #address=\"ngModel\">\n            <div *ngIf=\"userErrors[4] !== undefined && userErrors[4].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[4]}}\n            </div>\n            <span class=\"glyphicon glyphicon-duplicate form-control-feedback\"></span>\n        </div>\n        <div class=\"form-group has-feedback\">\n            <input type=\"number\" class=\"form-control\"  placeholder=\"Phone Number\" id=\"phone_number\" name=\"phone_number\" [(ngModel)]=\"user.phone_number\" required #phone_number=\"ngModel\">\n            <div *ngIf=\"userErrors[5] !== undefined && userErrors[5].length > 0\"\n             class=\"alert alert-danger\">\n              {{userErrors[5]}}\n            </div>\n            <span class=\"glyphicon glyphicon-phone form-control-feedback\"></span>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-8\">\n          </div><!-- /.col -->\n          <div class=\"col-xs-4\">\n              <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!userRegistionForm.form.valid\">Submit</button>          \n          </div><!-- /.col -->\n        </div>\n      </form>        \n  </div><!-- /.login-box-body -->\n</div>\n<div *ngIf=\"showSuccess\" class=\"success-msg\">\n  User Added Succesfully\n</div>"
 
 /***/ }),
 
@@ -1805,6 +1797,7 @@ var RegisterComponent = (function () {
         this.userTypeText = "Add New Super Admin";
         this.userExistsError = false;
         this.userErrors = [];
+        this.showSuccess = false;
     }
     RegisterComponent.prototype.ngOnInit = function () {
         this.setUser();
@@ -1825,10 +1818,10 @@ var RegisterComponent = (function () {
                 }
                 else {
                     userRegistionForm.resetForm();
-                    _this.toastr.success("User Added Succesfully", 'Success!');
+                    _this.showSuccess = true;
                     setTimeout(function () {
                         window.location.reload(true);
-                    }, 1000);
+                    }, 3000);
                 }
             });
         }
@@ -1883,8 +1876,9 @@ var RegisterComponent = (function () {
         else {
             this.userTypeText = "Enter User Details";
         }
-        this.userType = this.user_types[this.userType];
+        this.userType = this.authservice.checkforUserType();
         this.user = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]('', '', '', '', '', null, this.user_types[this.userType]);
+        this.userType = this.user_types[this.userType];
         this.routeParams.params.subscribe(function (params) {
             if (params["superadmin"] === "true") {
                 _this.userType = "superadmin";

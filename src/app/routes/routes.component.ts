@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { AuthService } from '../auth.service';
 import { DataService }         from '../data.service';
 import * as $ from 'jquery';
 
@@ -12,6 +13,7 @@ declare var google: any;
   styleUrls: ['./routes.component.css']
 })
 export class RoutesComponent implements OnInit, AfterViewInit {
+	userType : string = "user";
 	routes = [];
 	singleRoute = {};
 	tableView = true;
@@ -28,7 +30,8 @@ export class RoutesComponent implements OnInit, AfterViewInit {
 	
 
 	constructor(private routeParams: ActivatedRoute, 
-				private DataService: DataService) { 
+				private DataService: DataService,
+				private authservice: AuthService) { 
 				
 	}
 
@@ -150,24 +153,11 @@ export class RoutesComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-    	var buttonHtml = "<div class='custom-dropdown-button'>"
-    	buttonHtml += "<button id='custom-ok-button' class='btn btn-outline-secondary btn-sm'>OK</button>"
-    	buttonHtml += "<button id='custom-cancel-button' class='btn btn-outline-secondary btn-sm'>Cancel</button>"
-    	buttonHtml += "</div>"
-    	$(buttonHtml).insertAfter( ".lazyContainer" );
-        $("#custom-cancel-button")
-        	.on('click', () => {
-        	$('.dropdown-list').prop("hidden",true);
-        	this.selectedItems = [];
-        });
-
-         $("#custom-ok-button")
-        	.on('click', () => {
-        	$('.dropdown-list').prop("hidden",true);
-        });
+    	
     }
 
 	ngOnInit() {
+		this.userType = this.authservice.checkforUserType();
 		this.DataService.getDistinctPhoneNumber()
 		.then(options => this.setMyOptions(options));
 
