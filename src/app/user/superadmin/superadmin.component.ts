@@ -30,12 +30,13 @@ export class SuperadminComponent implements OnInit {
   	}
 
   	acceptRequest(accept){
-  		var superAdminData = {
-  			accept: accept,
+      let that = this;
+      var superAdminData = {
+        accept: accept,
         verificationUUID : this.verficationId
-  		}
-		this.DataService.createSuperAdmin(superAdminData)
-      	.subscribe((customerResponse: any) => {
+      }
+      this.DataService.createSuperAdmin(superAdminData)
+        .subscribe((customerResponse: any) => {
           if(customerResponse.status === "error"){
             this.toastr.error(customerResponse.err, 'Error!');
           }else{
@@ -44,6 +45,9 @@ export class SuperadminComponent implements OnInit {
             else
               this.toastr.info("Request is declined"); 
           }
+          setTimeout(() => {
+             that.router.navigate(['/home']);
+          }, 3000);
     	});
 	}
 

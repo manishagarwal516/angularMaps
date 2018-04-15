@@ -33,6 +33,8 @@ export class NavbarComponent implements OnInit {
           })
            
          },2)
+    }else{
+      this.router.navigate(['/login']);
     }
   }
 

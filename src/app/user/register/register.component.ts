@@ -61,21 +61,21 @@ export class RegisterComponent implements OnInit {
 
 
     if(this.user.username.length < 6){
-       this.userErrors.push("Username should be of minimum 6 digits, the username is less than 6 digits.")
+       this.userErrors.push("Username must be atleast 6 characters long.")
        isValid = false;
     }else{
       this.userErrors.push("");
     }
 
     if(this.user.password.length < 6){
-       this.userErrors.push("Password should be of minimum 6 digits")
+       this.userErrors.push("Password must be atleast 6 characters long.")
        isValid = false;
     }else{
       this.userErrors.push("");
     }
 
     if(!emailRegex.test(this.user.email_id)){
-       this.userErrors.push("Email is invalid");
+       this.userErrors.push("Email is invalid.");
        isValid = false;
     }else{
       this.userErrors.push("");
@@ -84,7 +84,7 @@ export class RegisterComponent implements OnInit {
     this.userErrors.push("")
 
     if(this.user.phone_number.toString().length !== 10){
-       this.userErrors.push("Phone number must be of 10 digits");
+       this.userErrors.push("Phone number must be of 10 digits.");
        isValid = false;
     }else{
       this.userErrors.push("");

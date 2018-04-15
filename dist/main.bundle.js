@@ -792,7 +792,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/live-location/live-location.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row header-row\" [hidden]=\"showMap\">\n\t<div *ngIf=\"(userType === 'admin' || userType === 'superadmin')\" class=\"col-md-7\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;margin-right: 54px;\"></angular2-multiselect>\n\t</div>\n\t<div *ngIf=\"userType === 'user'\" class=\"col-md-8\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;margin-right: 75px;\"></angular2-multiselect>\n\t</div>\n</div>\n<div class=\"row header-row\" *ngIf=\"showMap\">\n\t<div class=\"col-md-7\">\n\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"clearMarker()\" style=\"float: right;margin-right: 126px;\">Clear Map</button>\n\t</div>\n</div>\n<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"></div>\n\n"
+module.exports = "<div class=\"row header-row\" [hidden]=\"showMap\">\n\t<div *ngIf=\"(userType === 'admin' || userType === 'superadmin')\" class=\"col-md-7\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;margin-right: 54px;\"></angular2-multiselect>\n\t</div>\n\t<div *ngIf=\"userType === 'user'\" class=\"col-md-8\">\n\t\t<angular2-multiselect [data]=\"dropdownList\" [(ngModel)]=\"selectedItems\" [settings]=\"dropdownSettings\" (onSelect)=\"onItemSelect($event)\" style=\"float: right;margin-right: 75px;\"></angular2-multiselect>\n\t</div>\n</div>\n<div class=\"row header-row\" *ngIf=\"showMap\">\n\t<div *ngIf=\"(userType === 'admin' || userType === 'superadmin')\" class=\"col-md-7\">\n\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"clearMarker()\" style=\"float: right;margin-right: 126px;\">Clear Map</button>\n\t</div>\n\t<div *ngIf=\"userType === 'user'\" class=\"col-md-8\">\n\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"clearMarker()\" style=\"float: right;margin-right: 145px;\">Clear Map</button>\n\t</div>\n</div>\n<div #map style=\"width:100%;\" [ngStyle] = \"heightStyle\"></div>\n\n"
 
 /***/ }),
 
@@ -1137,6 +1137,9 @@ var NavbarComponent = (function () {
                 }, function () {
                 });
             }, 2);
+        }
+        else {
+            this.router.navigate(['/login']);
         }
     };
     NavbarComponent.prototype.ngOnInit = function () {
@@ -1833,21 +1836,21 @@ var RegisterComponent = (function () {
         this.userErrors.push("");
         var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (this.user.username.length < 6) {
-            this.userErrors.push("Username should be of minimum 6 digits, the username is less than 6 digits.");
+            this.userErrors.push("Username must be atleast 6 characters long.");
             isValid = false;
         }
         else {
             this.userErrors.push("");
         }
         if (this.user.password.length < 6) {
-            this.userErrors.push("Password should be of minimum 6 digits");
+            this.userErrors.push("Password must be atleast 6 characters long.");
             isValid = false;
         }
         else {
             this.userErrors.push("");
         }
         if (!emailRegex.test(this.user.email_id)) {
-            this.userErrors.push("Email is invalid");
+            this.userErrors.push("Email is invalid.");
             isValid = false;
         }
         else {
@@ -1855,7 +1858,7 @@ var RegisterComponent = (function () {
         }
         this.userErrors.push("");
         if (this.user.phone_number.toString().length !== 10) {
-            this.userErrors.push("Phone number must be of 10 digits");
+            this.userErrors.push("Phone number must be of 10 digits.");
             isValid = false;
         }
         else {
@@ -1924,7 +1927,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/user/superadmin/superadmin.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\" style=\"text-align: center;\">\n      <div class=\"login-box-msg\">Accept super admin request</div>\n      <button type=\"submit\" class=\"btn btn-success\" (click)=\"acceptRequest(true)\">Yes</button>\n    \t<button type=\"submit\" class=\"btn btn-success\" (click)=\"acceptRequest(false)\">No</button>\n    </div>\n</div>    \n    \t"
+module.exports = "<div class=\"login-box\">\n  <div class=\"login-box-body\" style=\"text-align: center;\">\n      <div class=\"login-box-msg\">Accept super admin request</div>\n      <button type=\"submit\" class=\"btn btn-primary\" (click)=\"acceptRequest(true)\">Yes</button>\n    \t<button type=\"submit\" class=\"btn btn-primary\" (click)=\"acceptRequest(false)\">No</button>\n    </div>\n</div>    \n    \t"
 
 /***/ }),
 
@@ -1972,6 +1975,7 @@ var SuperadminComponent = (function () {
     };
     SuperadminComponent.prototype.acceptRequest = function (accept) {
         var _this = this;
+        var that = this;
         var superAdminData = {
             accept: accept,
             verificationUUID: this.verficationId
@@ -1987,6 +1991,9 @@ var SuperadminComponent = (function () {
                 else
                     _this.toastr.info("Request is declined");
             }
+            setTimeout(function () {
+                that.router.navigate(['/home']);
+            }, 3000);
         });
     };
     return SuperadminComponent;

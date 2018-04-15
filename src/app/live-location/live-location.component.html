@@ -7,8 +7,11 @@
 	</div>
 </div>
 <div class="row header-row" *ngIf="showMap">
-	<div class="col-md-7">
+	<div *ngIf="(userType === 'admin' || userType === 'superadmin')" class="col-md-7">
 		<button class="btn btn-primary btn-sm" (click)="clearMarker()" style="float: right;margin-right: 126px;">Clear Map</button>
+	</div>
+	<div *ngIf="userType === 'user'" class="col-md-8">
+		<button class="btn btn-primary btn-sm" (click)="clearMarker()" style="float: right;margin-right: 145px;">Clear Map</button>
 	</div>
 </div>
 <div #map style="width:100%;" [ngStyle] = "heightStyle"></div>
