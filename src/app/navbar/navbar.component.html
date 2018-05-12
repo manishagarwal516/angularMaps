@@ -25,7 +25,7 @@
       	<li *ngIf= "showNavLinks" routerLinkActive="active" class="nav-li"><a routerLink="/routes">Routes</a></li>
 		    <li *ngIf= "showNavLinks" routerLinkActive="active" class="nav-li"><a routerLink="/live-locations">Live Tracking</a></li>
         <li *ngIf= "showNavLinks && (userType === 'admin' || userType === 'superadmin')" routerLinkActive="active" class="nav-li"><a routerLink="/register">{{userTypeText}}</a></li>
-        <li routerLinkActive="active" (click)="loginOrOut()" class="nav-li"><a>{{ loginLogoutText }}</a></li>
+        <li routerLinkActive="active" (click)="loginOrOut()" class="nav-li"><a [ngStyle]="loginLogoutText == 'Login' && {'font-size': '16px'}">{{ loginLogoutText }}</a></li>
       </ul>
     </div>
   </div>
